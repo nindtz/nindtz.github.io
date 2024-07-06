@@ -6,6 +6,9 @@ playerInstance.setup({
       file: "https://melon-live-cdn.mncnow.id/live/eds/MNCSports3-HD/sa_dash_vmx/MNCSports3-HD.mpd",
       image: "images/video.jpg",
       type: "dash",
+      onXhrOpen: function(xhr, url) {
+            xhr.setRequestHeader('http-referrer', 'https://www.visionplus.id/');
+            }
       "drm": {
             "widevine": {
             "url": "https://mrpw.ptmnc01.verspective.net/?deviceId=NzEwNGYwNjEtNzBjNC0zNmJjLTkwZGMtMGQ1Yjg3ZWJhZTBi"
