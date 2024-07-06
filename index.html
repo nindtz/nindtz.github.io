@@ -1,117 +1,29 @@
-<script type="text/javascript"
-        src="https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js"></script>
-<script type="text/javascript"
-        src="https://cdn.bitmovin.com/analytics/web/beta/2/bitmovinanalytics.min.js"></script>
+<html>
+<head>
+  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PLAYER</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="MR.NITROX">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<script type='text/javascript' src='https://content.jwplatform.com/libraries/IDzF9Zmk.js'></script>
+<script type="text/javascript">jwplayer.key = 'Khpp2dHxlBJHC8MCmLnBuV2jK/DwDnJMniwF6EO9HC/riJ712ZmbHg==';</script>
+<link rel="stylesheet" href="https://cdn.plyr.io/3.6.2/plyr.css" />
+<script src="https://cdn.plyr.io/3.6.3/plyr.js"></script>
+<script type='text/javascript' src='https://content.jwplatform.com/libraries/IDzF9Zmk.js'></script>
+<script type="text/javascript">jwplayer.key = 'Khpp2dHxlBJHC8MCmLnBuV2jK/DwDnJMniwF6EO9HC/riJ712ZmbHg==';</script>
+<link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<script src="jwplayer.js"></script>
+  
+    <div class="header">
+      CRICKET WEB TV
+  </div>
+<script src="https://content.jwplatform.com/libraries/SAHhwvZq.js"></script>
 
-<div class="demo_form">
-    <div class="row">
-        <div class="col-md-4 adjust-pad-right mt-2">
-            <select id="available-manifest-type" class="form-control">
-                <option value='dash'>DASH</option>
-                <option value='hls'>HLS</option>
-                <option value='smooth'>Smooth</option>
-            </select>
-        </div>
-        <div class="col-md-4 adjust-pad-left adjust-pad-right mt-2">
-            <input id="manifest-in" type="text" class="form-control" placeholder="Manifest URL">
-        </div>
-        <div class="col-md-4 adjust-pad-left adjust-pad-right mt-2">
-            <input id="licence-in" type="text" class="form-control" placeholder="License Server URL">
-        </div>
-    </div>
-    <div class="row mt-3 mb-3">
-        <div class="col-md-8 mt-2">
-            <form class="detection" role="search">
-                <span>Detected <span id="detected-browser"></span>, using</span>
-                <select id="available-drm-systems" disabled>
-                    <option value=''>No DRM</option>
-                </select>
-            </form>
-        </div>
-        <div class="col-md-4 adjust-pad-left adjust-pad-right">
-            <input class="btn btn-success form-control" id="load-btn" value="Load" type="button">
-        </div>
-    </div>
-    <div class="clear"></div>
-</div>
+<div id="jwplayerDiv"></div>
 
-<div class="row">
-    <div class="col-lg-6 player-col">
-        <div id="player" class="tv-frame">
-            <div id="player-container"></div>
-        </div>
-    </div>
-    <div class="col-lg-6 code-col">
-        ${code:demo.js}
-    </div>
-</div>
-
-<hr class="mt-5">
-
-<!--<div class="row">-->
-<!--<div class="col-12">-->
-<!--<h3>Compatibility</h3>-->
-<!--</div>-->
-<!--</div>-->
-
-<div class="row mt-5">
-    <div class="col-lg-6">
-        <h4>Media Source Extension – MSE</h4>
-        <p>MSE is <span id="mse-supported"></span> by your current browser.</p>
-        <div class="code">
-            <ul id="mse-list">
-
-            </ul>
-        </div>
-    </div>
-    <div class="col-lg-6">
-        <h4>Encrypted Media Extension – EME</h4>
-        <p>EME is <span id="eme-supported"></span> by your current browser.</p>
-        <div class="code">
-            <ul id="eme-list">
-
-            </ul>
-        </div>
-    </div>
-</div>
-
-<hr class="mt-5">
-
-<div class="sdk-wrapper">
-    <div class="sdk-wrapper-header">
-        <h4 class="sdk-wrapper-title">Try our SDKs</h4>
-        <p class="sdk-wrapper-description">Bitmovin iOS SDK | Bitmovin Android SDK</p>
-    </div>
-    <div class="sdk-wrapper-body">
-        <div class="sdk-item">
-                <img src="https://bitmovin-a.akamaihd.net/webpages/demo-fw/stream-test/Apple.svg" />
-            <div class="sdk-item-content">
-                <div style="padding-bottom: 6px;">iOS/tvOS SDK</div>
-                <a target="_blank" onclick="amp.logSDKSourceCodeClicked('drm', 'ios')" href="https://github.com/bitmovin/bitmovin-player-ios-samples">
-                    <div style="height: 28px;" class="btn btn-sm btn-outline-dark">
-                        <i class="fa-brands fa-github"></i>
-                        <span class="pl-1">Check out the SDK</span>
-                    </div>
-                </a>
-            </div>
-            <a target="_blank" class="sdk-item-url" href="https://itunes.apple.com/us/app/bitmovin-player/id1245174386">
-                <img src="https://bitmovin-a.akamaihd.net/webpages/demo-fw/stream-test/Appstore.svg" />
-            </a>
-        </div>
-        <div class="sdk-item">
-            <img src="https://bitmovin-a.akamaihd.net/webpages/demo-fw/stream-test/Android.svg" />
-            <div class="sdk-item-content">
-                <div style="padding-bottom: 6px;">Android SDK</div>
-                <a target="_blank" onclick="amp.logSDKSourceCodeClicked('drm', 'android')" href="https://github.com/bitmovin/bitmovin-player-android-samples">
-                    <div style="height: 28px;" class="btn btn-sm btn-outline-dark">
-                        <i class="fa-brands fa-github"></i>
-                        <span class="pl-1">Check out the SDK</span>
-                    </div>
-                </a>
-            </div>
-            <a target="_blank" class="sdk-item-url" href="https://play.google.com/store/apps/details?id=com.bitmovin.demo.player">
-                <img src="https://bitmovin-a.akamaihd.net/webpages/demo-fw/stream-test/GooglePlay.svg" />
-            </a>
-        </div>
-    </div>
-</div>
+  
+    <!-- Your HTML content here -->
+    <script src="script.js"></script>
