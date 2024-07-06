@@ -10,7 +10,7 @@ playerInstance.setup({
       "widevine": {
             "headers": [
             {
-            "name": "referer",
+            "name": "http-referer",
             "value": "https://www.visionplus.id/"
             }],
             "url": "https://mrpw.ptmnc01.verspective.net/?deviceId=NzEwNGYwNjEtNzBjNC0zNmJjLTkwZGMtMGQ1Yjg3ZWJhZTBi"
