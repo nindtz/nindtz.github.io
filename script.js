@@ -8,7 +8,7 @@ playerInstance.setup({
       type: "dash",
       onXhrOpen: function(xhr, url) {
             xhr.setRequestHeader('http-referrer', 'https://www.visionplus.id/');
-            }
+            },
       "drm": {
             "widevine": {
             "url": "https://mrpw.ptmnc01.verspective.net/?deviceId=NzEwNGYwNjEtNzBjNC0zNmJjLTkwZGMtMGQ1Yjg3ZWJhZTBi"
