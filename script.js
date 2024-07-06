@@ -11,5 +11,5 @@ playerInstance.setup({
           "key": "b5dcf721ab522af92a9d3bf0bd55b596"
         }
       }
-      image: "https://getwallpapers.com/wallpaper/full/5/1/a/777858-1080p-resolution-wallpaper-3840x2160-for-meizu.jpg"
+      image: "https://getwallpapers.com/wallpaper/full/5/1/a/777858-1080p-resolution-wallpaper-3840x2160-for-meizu.jpg",
     });
