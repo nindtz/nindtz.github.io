@@ -19,7 +19,7 @@ playerInstance.setup({
     });
 
 */
-
+/*
 playerInstance.setup({
       file: "https://cdnjkt4.transvision.co.id:1000/live/master/4/4028c6856b8d2390016b9c3ee6c21d7c/manifest.mpd",
       image: "images/video.jpg",
@@ -30,8 +30,8 @@ playerInstance.setup({
             }
           }
     });
+*/
 
-/*
 playerInstance.setup({
       file: "https://ssc2-ak.akamaized.net/out/v1/a16db2ec338a445a82d9c541cc9293f9/index.mpd",
       image: "images/video.jpg",
@@ -43,4 +43,4 @@ playerInstance.setup({
         }
       }
     });
-*/
+
