@@ -86,7 +86,7 @@ a:focus{
 
 .site-info h2{
 	text-transform: uppercase;
-	color: #f52424;
+	color: #191970;
 	font-size: 54px;
 	font-weight: 900;
 	line-height: 1em;
@@ -101,7 +101,7 @@ a:focus{
 
 .intro-video{
 	max-width: 320px;
-	border: 4px solid #f52424;
+	border: 4px solid #191970;
 	position: relative;
 	margin-top: 30px;
 }
