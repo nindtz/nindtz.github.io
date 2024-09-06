@@ -1,13 +1,13 @@
 var playerInstance = jwplayer("jwplayerDiv");
 
 playerInstance.setup({
-      file: "https://ssc2-ak.akamaized.net/out/v1/a16db2ec338a445a82d9c541cc9293f9/index.mpd",
+      file: "https://d1abp075u76pbq.cloudfront.net/live/eds/MNCSports3-HD/sa_dash_vmx/MNCSports3-HD.mpd",
       image: "images/video.jpg",
       type: "dash",
       drm: {
         "clearkey": {
-          "keyId": "8bcfc55359e24bd7ad1c5560a96ddd3c",
-          "key": "b5dcf721ab522af92a9d3bf0bd55b596"
+          "keyId": "fadd2720deff5925ab86df0819cd7775",
+          "key": "f67ff08c7ebc779f6a6fcfc83835f65b"
         }
       }
     });
