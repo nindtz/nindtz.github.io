@@ -1,13 +1,13 @@
 var playerInstance = jwplayer("jwplayerDiv");
 
 playerInstance.setup({
-      file: "https://d1abp075u76pbq.cloudfront.net/live/eds/MNCSports3-HD/sa_dash_vmx/MNCSports3-HD.mpd",
+      file: "https://d1abp075u76pbq.cloudfront.net/live/eds/GTV-HD/sa_dash_vmx/GTV-HD.mpd|Referer=https://www.visionplus.id/",
       image: "images/video.jpg",
       type: "dash",
       drm: {
         "clearkey": {
-          "keyId": "fadd2720deff5925ab86df0819cd7775",
-          "key": "f67ff08c7ebc779f6a6fcfc83835f65b"
+          "keyId": "88f6c7cbd793374cb5f12d7e26dcd63b",
+          "key": "e82daa7c7bfb03d99327463fdbd37336"
         }
       }
     });
