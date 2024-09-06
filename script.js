@@ -6,8 +6,8 @@ playerInstance.setup({
       type: "dash",
       drm: {
         "clearkey": {
-          "keyId": "252a671825ba31ec8433f978c32ccf6d",
-          "key": "ee560759ecc8d2274df2e63fcef56915"
+          "keyId": "ee560759ecc8d2274df2e63fcef56915",
+          "key": "252a671825ba31ec8433f978c32ccf6d"
         }
       }
     });
