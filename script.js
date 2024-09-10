@@ -1,13 +1,13 @@
 var playerInstance = jwplayer("jwplayerDiv");
 
 playerInstance.setup({
-      file: "https://fsly.stream.peacocktv.com/Content/CMAF_OL1-CTR-4s/Live/channel(usa-west)/master.mpd",
+      file: "https://dsgtq5sngxkde.cloudfront.net/live/eds/MNCSports2-HD/sa_dash_vmx/MNCSports2-HD.mpd|Referer=https://www.visionplus.id/&user-agent=Android",
       image: "images/video.jpg",
       type: "dash",
       drm: {
         "clearkey": {
-          "keyId": "ee560759ecc8d2274df2e63fcef56915",
-          "key": "252a671825ba31ec8433f978c32ccf6d"
+          "keyId": "45fec91ce1f19b6b1f31d69dcfaaf6cd",
+          "key": "843e228ab109e9aa6c4822ee4ad05d7d"
         }
       }
     });
