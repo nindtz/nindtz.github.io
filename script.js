@@ -1,7 +1,7 @@
 var playerInstance = jwplayer("jwplayerDiv");
 
 playerInstance.setup({
-      file: "https://dsgtq5sngxkde.cloudfront.net/live/eds/MNCSports2-HD/sa_dash_vmx/MNCSports2-HD.mpd|Referer=https://www.visionplus.id/&user-agent=Android",
+      file: "https://dsgtq5sngxkde.cloudfront.net/live/eds/MNCSports2-HD/sa_dash_vmx/MNCSports2-HD.mpd",
       image: "images/video.jpg",
       type: "dash",
       drm: {
