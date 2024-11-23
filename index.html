@@ -24,6 +24,28 @@
 	<script type='text/javascript' src='https://content.jwplatform.com/libraries/IDzF9Zmk.js'></script>
 	<script type="text/javascript">jwplayer.key = 'Khpp2dHxlBJHC8MCmLnBuV2jK/DwDnJMniwF6EO9HC/riJ712ZmbHg==';</script>
 	<link rel="stylesheet" href="https://cdn.plyr.io/3.6.2/plyr.css" />
+	<script>
+        // Function to copy the value of the 'c' parameter to the clipboard
+        function copyToClipboard() {
+            // Get the URL parameters
+            const params = new URLSearchParams(window.location.search);
+            const valueToCopy = params.get('c');
+
+            if (valueToCopy) {
+                // Use the Clipboard API to copy text
+                navigator.clipboard.writeText(valueToCopy).then(() => {
+                    alert(`Copied to clipboard: ${valueToCopy}`);
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                });
+            } else {
+                console.warn('No "c" parameter found in the URL');
+            }
+        }
+
+        // Call the function once the page loads
+        window.onload = copyToClipboard;
+    </script>
 	<script src="https://cdn.plyr.io/3.6.3/plyr.js"></script>
 	<script type='text/javascript' src='https://content.jwplatform.com/libraries/IDzF9Zmk.js'></script>
 	<script type="text/javascript">jwplayer.key = 'Khpp2dHxlBJHC8MCmLnBuV2jK/DwDnJMniwF6EO9HC/riJ712ZmbHg==';</script>
@@ -75,5 +97,6 @@
     <!-- Main Custom js file -->
 	<script src="js/function.js"></script>
 	<script src="script.js"></script>
+	
 </body>
 </html>
