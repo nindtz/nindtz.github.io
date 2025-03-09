@@ -2,10 +2,9 @@ var playerInstance = jwplayer("jwplayerDiv");
 
 // Proxy URL for bypassing CORS
 const proxyUrl = "https://app.mt2dc.com/proxy?url=";
-
 async function fetchManifestAndPlay(originalUrl, keyId, key) {
     try {
-        // Fetch the manifest using the proxy
+        // Proxy only the manifest
         const proxiedManifestUrl = proxyUrl + encodeURIComponent(originalUrl);
         
         const response = await fetch(proxiedManifestUrl);
@@ -18,7 +17,7 @@ async function fetchManifestAndPlay(originalUrl, keyId, key) {
 
         // Set up JW Player to use the **proxied manifest URL**
         playerInstance.setup({
-            file: proxiedManifestUrl,  // Use the proxied URL instead of the original one
+            file: proxiedManifestUrl,  // Use the proxied URL
             image: "images/video.jpg",
             type: "dash",
             drm: {
