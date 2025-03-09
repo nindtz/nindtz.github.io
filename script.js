@@ -1,13 +1,13 @@
 var playerInstance = jwplayer("jwplayerDiv");
 
 playerInstance.setup({
-      file: "https://app.mt2dc.com/proxy?url=https://cempedak-live-cdn.mncnow.id/live/eds/GTV-HD/sa_dash_vmx/GTV-HD.mpd",
+      file: "https://cempedak-live-cdn.mncnow.id/live/eds/GTV-HD/sa_dash_vmx/GTV-HD.mpd",
       image: "images/video.jpg",
       type: "dash",
       type: "dash",
       drm: {
         "widevine": {
-          "url": "https://app.mt2dc.com/widevine-proxy/mrpw.ptmnc01.verspective.net/?deviceId=MDA5MmI1NjctOWMyMS0zNDYyLTk0NDAtODM5NGQ1ZjdlZWRi"
+          "url": "https://mrpw.ptmnc01.verspective.net/?deviceId=MDA5MmI1NjctOWMyMS0zNDYyLTk0NDAtODM5NGQ1ZjdlZWRi"
         }
     }
 });
