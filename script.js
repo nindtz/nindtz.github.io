@@ -4,7 +4,6 @@ playerInstance.setup({
       file: "https://cempedak-live-cdn.mncnow.id/live/eds/GTV-HD/sa_dash_vmx/GTV-HD.mpd",
       image: "images/video.jpg",
       type: "dash",
-      type: "dash",
       drm: {
         "widevine": {
           "url": "https://mrpw.ptmnc01.verspective.net/?deviceId=MDA5MmI1NjctOWMyMS0zNDYyLTk0NDAtODM5NGQ1ZjdlZWRi"
