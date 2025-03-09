@@ -98,18 +98,25 @@
 	<script src="js/function.js"></script>
 	<script src="script.js"></script> <!-- Load external script first -->
 	<script>
-	    document.addEventListener("keydown", function(event) {
-	        switch (event.key) {
-	            case "1": switchTo1(); break;
-	            case "2": switchTo2(); break;
-	            case "3": switchTo3(); break;
-	            case "4": switchTo4(); break;
-	            case "5": switchTo5(); break;
-	            case "6": switchToExtra1(); break;
-	            case "7": switchToExtra2(); break;
-	            default: console.log("Key not assigned");
-	        }
-	    });
+		document.addEventListener("keydown", function(event) {
+		    // Check if JW Player is in full-screen mode
+		    let player = jwplayer("jwplayerDiv");
+		    if (document.fullscreenElement || player.getFullscreen()) {
+		        event.preventDefault(); // Prevent exiting full screen
+		    }
+		
+		    switch (event.key) {
+		        case "1": switchTo1(); break;
+		        case "2": switchTo2(); break;
+		        case "3": switchTo3(); break;
+		        case "4": switchTo4(); break;
+		        case "5": switchTo5(); break;
+		        case "6": switchToExtra1(); break;
+		        case "7": switchToExtra2(); break;
+		        default: console.log("Key not assigned");
+		    }
+		});
+
 	</script>
 </body>
 </html>
