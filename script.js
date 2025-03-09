@@ -7,7 +7,7 @@ playerInstance.setup({
       type: "dash",
       drm: {
         "widevine": {
-          "url": "https://mrpw.ptmnc01.verspective.net/?deviceId=MDA5MmI1NjctOWMyMS0zNDYyLTk0NDAtODM5NGQ1ZjdlZWRi"
+          "url": "https://app.mt2dc.com/widevine-proxy/mrpw.ptmnc01.verspective.net/?deviceId=MDA5MmI1NjctOWMyMS0zNDYyLTk0NDAtODM5NGQ1ZjdlZWRi"
         }
     }
 });
