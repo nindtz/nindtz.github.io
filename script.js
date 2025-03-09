@@ -1,12 +1,13 @@
 var playerInstance = jwplayer("jwplayerDiv");
 
 playerInstance.setup({
-      file: "https://cempedak-live-cdn.mncnow.id/live/eds/GTV-HD/sa_dash_vmx/GTV-HD.mpd",
+      file: "https://ssc1-ak.akamaized.net/out/v1/c696e4819b55414388a1a487e8a45ca1/index.mpd",
       image: "images/video.jpg",
       type: "dash",
       drm: {
-        "widevine": {
-          "url": "https://mrpw.ptmnc01.verspective.net/?deviceId=MDA5MmI1NjctOWMyMS0zNDYyLTk0NDAtODM5NGQ1ZjdlZWRi"
+        "clearkey": {
+          "keyId": "d84c325f36814f39bbe59080272b10c3",
+          "key": "550727de4c96ef1ecff874905493580f"
         }
     }
 });
@@ -117,10 +118,3 @@ playerInstance.setup({
     });
   }
 
-  function switchToExtra3() {
-      playerInstance.setup({
-      file: "https://app.mt2dc.com/hlsvidio?id=206",
-      image: "images/video.jpg",
-      type: "hls",
-    });
-  }
