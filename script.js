@@ -1,12 +1,13 @@
 var playerInstance = jwplayer("jwplayerDiv");
 
-// Proxy URL for bypassing CORS
+// Flask Proxy Server URL
 const proxyUrl = "https://app.mt2dc.com/proxy?url=";
+
 async function fetchManifestAndPlay(originalUrl, keyId, key) {
     try {
         // Proxy only the manifest
         const proxiedManifestUrl = proxyUrl + encodeURIComponent(originalUrl);
-        
+
         const response = await fetch(proxiedManifestUrl);
 
         if (!response.ok) {
@@ -15,9 +16,8 @@ async function fetchManifestAndPlay(originalUrl, keyId, key) {
 
         console.log("Manifest loaded successfully via proxy:", proxiedManifestUrl);
 
-        // Set up JW Player to use the **proxied manifest URL**
         playerInstance.setup({
-            file: proxiedManifestUrl,  // Use the proxied URL
+            file: proxiedManifestUrl,  // Use the Flask proxy for the manifest
             image: "images/video.jpg",
             type: "dash",
             drm: {
@@ -32,6 +32,7 @@ async function fetchManifestAndPlay(originalUrl, keyId, key) {
         console.error("Error fetching manifest via proxy:", error);
     }
 }
+
 
 // Load initial stream
 fetchManifestAndPlay(
