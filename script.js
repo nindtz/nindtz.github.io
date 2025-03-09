@@ -3,19 +3,22 @@ var playerInstance = jwplayer("jwplayerDiv");
 // Proxy URL for bypassing CORS
 const proxyUrl = "https://app.mt2dc.com/proxy?url=";
 
-// Function to fetch the manifest through proxy before setting up JW Player
-async function fetchManifestAndPlay(url, keyId, key) {
+async function fetchManifestAndPlay(originalUrl, keyId, key) {
     try {
-        const proxyManifestUrl = proxyUrl + encodeURIComponent(url);
+        // Fetch the manifest via proxy
+        const proxyManifestUrl = proxyUrl + encodeURIComponent(originalUrl);
         const response = await fetch(proxyManifestUrl);
 
         if (!response.ok) {
             throw new Error(`Failed to load manifest: ${response.statusText}`);
         }
 
-        // If the manifest fetch is successful, set up the player
+        // Convert response to text (modify manifest if needed)
+        const manifestText = await response.text();
+
+        // Set up JW Player with the **original URL** (not the proxy)
         playerInstance.setup({
-            file: proxyManifestUrl, // Load the manifest via proxy
+            file: originalUrl, // Use the real manifest URL
             image: "images/video.jpg",
             type: "dash",
             drm: {
@@ -26,7 +29,7 @@ async function fetchManifestAndPlay(url, keyId, key) {
             }
         });
 
-        console.log("Manifest loaded successfully via proxy:", proxyManifestUrl);
+        console.log("Manifest loaded successfully:", originalUrl);
     } catch (error) {
         console.error("Error fetching manifest via proxy:", error);
     }
