@@ -14,7 +14,7 @@ playerInstance.setup({
 
   function switchTo1() {
     playerInstance.setup({
-      “autostart”: true,
+      autostart: true,
       file: "https://ssc1-ak.akamaized.net/out/v1/c696e4819b55414388a1a487e8a45ca1/index.mpd",
       image: "images/video.jpg",
       type: "dash",
@@ -30,7 +30,7 @@ playerInstance.setup({
   // Function to switch to DRM 2
   function switchTo2() {
       playerInstance.setup({
-      “autostart”: true,
+      autostart: true,
       file: "https://ssc2-ak.akamaized.net/out/v1/a16db2ec338a445a82d9c541cc9293f9/index.mpd",
       image: "images/video.jpg",
       type: "dash",
@@ -45,7 +45,7 @@ playerInstance.setup({
 
   function switchTo3() {
       playerInstance.setup({
-      “autostart”: true,
+      autostart: true,
       file: "https://ssc3-ak.akamaized.net/out/v1/42e86125555242aaa2a12056832e7814/index.mpd",
       image: "images/video.jpg",
       type: "dash",
@@ -60,7 +60,7 @@ playerInstance.setup({
 
   function switchTo4() {
       playerInstance.setup({
-      “autostart”: true,
+      autostart: true,
       file: "https://ssc4-ak.akamaized.net/out/v1/5267ea5772874b0db24559d643eaad93/index.mpd",
       image: "images/video.jpg",
       type: "dash",
@@ -75,7 +75,7 @@ playerInstance.setup({
 
   function switchTo5() {
       playerInstance.setup({
-      “autostart”: true,
+      autostart: true,
       file: "https://ssc5-ak.akamaized.net/out/v1/99289eac5a7b4319905da595afbd792b/index.mpd",
       image: "images/video.jpg",
       type: "dash",
@@ -90,7 +90,7 @@ playerInstance.setup({
 
   function switchToExtra1() {
       playerInstance.setup({
-      “autostart”: true,
+      autostart: true,
       file: "https://ssc-extra1-ak.akamaized.net/out/v1/647c58693f1d46af92bd7e69f17912cb/index.mpd",
       image: "images/video.jpg",
       type: "dash",
@@ -105,7 +105,7 @@ playerInstance.setup({
 
   function switchToExtra2() {
       playerInstance.setup({
-      “autostart”: true,
+      autostart: true,
       file: "https://ssc-extra2-ak.akamaized.net/out/v1/8b70de2b70d447ba8a7450ba90926a2d/index.mpd",
       image: "images/video.jpg",
       type: "dash",
