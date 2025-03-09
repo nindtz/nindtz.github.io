@@ -5,20 +5,20 @@ const proxyUrl = "https://app.mt2dc.com/proxy?url=";
 
 async function fetchManifestAndPlay(originalUrl, keyId, key) {
     try {
-        // Fetch the manifest via proxy
-        const proxyManifestUrl = proxyUrl + encodeURIComponent(originalUrl);
-        const response = await fetch(proxyManifestUrl);
+        // Fetch the manifest using the proxy
+        const proxiedManifestUrl = proxyUrl + encodeURIComponent(originalUrl);
+        
+        const response = await fetch(proxiedManifestUrl);
 
         if (!response.ok) {
             throw new Error(`Failed to load manifest: ${response.statusText}`);
         }
 
-        // Convert response to text (modify manifest if needed)
-        const manifestText = await response.text();
+        console.log("Manifest loaded successfully via proxy:", proxiedManifestUrl);
 
-        // Set up JW Player with the **original URL** (not the proxy)
+        // Set up JW Player to use the **proxied manifest URL**
         playerInstance.setup({
-            file: originalUrl, // Use the real manifest URL
+            file: proxiedManifestUrl,  // Use the proxied URL instead of the original one
             image: "images/video.jpg",
             type: "dash",
             drm: {
@@ -29,7 +29,6 @@ async function fetchManifestAndPlay(originalUrl, keyId, key) {
             }
         });
 
-        console.log("Manifest loaded successfully:", originalUrl);
     } catch (error) {
         console.error("Error fetching manifest via proxy:", error);
     }
