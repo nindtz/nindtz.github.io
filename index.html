@@ -96,44 +96,20 @@
 	<script src="js/SmoothScroll.js"></script>
     <!-- Main Custom js file -->
 	<script src="js/function.js"></script>
-	<script src="script.js"></script>
+	<script src="script.js"></script> <!-- Load external script first -->
 	<script>
-	document.addEventListener("keydown", function(event) {
-	    switch (event.key) {
-	        case "1":
-	            switchTo1();
-	            break;
-	        case "2":
-	            switchTo2();
-	            break;
-	        case "3":
-	            switchTo3();
-	            break;
-	        case "4":
-	            switchTo4();
-	            break;
-	        case "5":
-	            switchTo5();
-	            break;
-	        case "6":
-	            switchToExtra1();
-	            break;
-	        case "7":
-	            switchToExtra2();
-	            break;
-	        default:
-	            console.log("Key not assigned");
-	    }
-	});
-	
-	function switchTo1() { console.log("Switched to 1"); }
-	function switchTo2() { console.log("Switched to 2"); }
-	function switchTo3() { console.log("Switched to 3"); }
-	function switchTo4() { console.log("Switched to 4"); }
-	function switchTo5() { console.log("Switched to 5"); }
-	function switchToExtra1() { console.log("Switched to Extra 1"); }
-	function switchToExtra2() { console.log("Switched to Extra 2"); }
+	    document.addEventListener("keydown", function(event) {
+	        switch (event.key) {
+	            case "1": switchTo1(); break;
+	            case "2": switchTo2(); break;
+	            case "3": switchTo3(); break;
+	            case "4": switchTo4(); break;
+	            case "5": switchTo5(); break;
+	            case "6": switchToExtra1(); break;
+	            case "7": switchToExtra2(); break;
+	            default: console.log("Key not assigned");
+	        }
+	    });
 	</script>
-
 </body>
 </html>
