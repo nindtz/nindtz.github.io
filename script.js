@@ -1,7 +1,7 @@
 var playerInstance = jwplayer("jwplayerDiv");
 
 // Proxy URL for bypassing CORS
-const proxyUrl = "https://app.mt2dc.com/proxy?url=https://www.visionplus.id/";
+const proxyUrl = "https://app.mt2dc.com/proxy?url=";
 
 // Function to fetch the manifest through proxy before setting up JW Player
 async function fetchManifestAndPlay(url, keyId, key) {
