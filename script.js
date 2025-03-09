@@ -1,13 +1,13 @@
 var playerInstance = jwplayer("jwplayerDiv");
 
 playerInstance.setup({
-      file: "https://dsgtq5sngxkde.cloudfront.net/live/eds/MNCSports2-HD/sa_dash_vmx/MNCSports2-HD.mpd",
+      file: "https://d1abp075u76pbq.cloudfront.net/live/eds/RCTI-DD/sa_dash_vmx/RCTI-DD.mpd",
       image: "images/video.jpg",
       type: "dash",
       drm: {
         "clearkey": {
-          "keyId": "45fec91ce1f19b6b1f31d69dcfaaf6cd",
-          "key": "843e228ab109e9aa6c4822ee4ad05d7d"
+          "keyId": "9ba3e153ef8956d6e2b0684fcf74f58f",
+          "key": "dbc28cb5c6426080f984a5b6d436bb30"
         }
       }
     });
