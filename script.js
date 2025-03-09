@@ -110,3 +110,11 @@ playerInstance.setup({
       }
     });
   }
+
+  function switchToExtra3() {
+      playerInstance.setup({
+      file: "https://app.mt2dc.com/hlsvidio?id=206",
+      image: "images/video.jpg",
+      type: "hls",
+    });
+  }
