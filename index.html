@@ -78,7 +78,6 @@
 						<i class="fa fa-motorcycle" onclick="switchTo5()"></i>
 						<i class="fa fa-bicycle" onclick="switchToExtra1()"></i>
 						<i class="fa fa-bed" onclick="switchToExtra2()"></i>
-						<i class="fa fa-bed" onclick="switchToExtra3()"></i>
 					</div>
 				</div>
 			</div>
@@ -115,24 +114,10 @@
 		        case "5": switchTo5(); break;
 		        case "6": switchToExtra1(); break;
 		        case "7": switchToExtra2(); break;
-			case "8": switchToExtra3(); break;
 		        default: console.log("Key not assigned");
 		    }
 		});
 
 	</script>
-	  <script>
-	    var allowedDomains = ["#", "#"];
-	  </script>
-	  <script>
-	    // Get the domain of the current page
-	    var currentDomain = location.hostname.split(".").slice(-2).join(".");
-	
-	    // Check if the current domain is in the list of allowed domains
-	    if (allowedReferers.indexOf(document.referrer) === -1) {
-	      // Redirect to an error page if the current domain is not allowed
-	      window.location = "http://error.com/";
-	    }
-	  </script>
 </body>
 </html>
