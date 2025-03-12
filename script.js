@@ -1,13 +1,12 @@
 var playerInstance = jwplayer("jwplayerDiv");
 
 playerInstance.setup({
-      file: "https://av-ch-cdn.mncnow.id/live/eds/RCTI-DD/sa_dash_vmx/RCTI-DD.mpd",
+      file: "https://av-ch-cdn.mncnow.id/live/eds/GTV-HD/sa_dash_vmx/GTV-HD.mpd",
       image: "images/video.jpg",
       type: "dash",
       drm: {
-        "clearkey": {
-          "keyId": "9ba3e153ef8956d6e2b0684fcf74f58f",
-          "key": "dbc28cb5c6426080f984a5b6d436bb30"
+        "widevine": {
+          "url": "https://mrpw.ptmnc01.verspective.net/?deviceId=MDA5MmI1NjctOWMyMS0zNDYyLTk0NDAtODM5NGQ1ZjdlZWRi"
         }
     }
 });
