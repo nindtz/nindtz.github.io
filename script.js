@@ -1,7 +1,7 @@
 var playerInstance = jwplayer("jwplayerDiv");
 
 playerInstance.setup({
-      file: "https://d1abp075u76pbq.cloudfront.net/live/eds/RCTI-DD/sa_dash_vmx/RCTI-DD.mpd",
+      file: "https://av-ch-cdn.mncnow.id/live/eds/RCTI-DD/sa_dash_vmx/RCTI-DD.mpd",
       image: "images/video.jpg",
       type: "dash",
       drm: {
