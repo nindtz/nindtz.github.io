@@ -1,13 +1,13 @@
 var playerInstance = jwplayer("jwplayerDiv");
 
 playerInstance.setup({
-      file: "https://ssc1-ak.akamaized.net/out/v1/c696e4819b55414388a1a487e8a45ca1/index.mpd",
+      file: "https://d1abp075u76pbq.cloudfront.net/live/eds/RCTI-DD/sa_dash_vmx/RCTI-DD.mpd",
       image: "images/video.jpg",
       type: "dash",
       drm: {
         "clearkey": {
-          "keyId": "d84c325f36814f39bbe59080272b10c3",
-          "key": "550727de4c96ef1ecff874905493580f"
+          "keyId": "9ba3e153ef8956d6e2b0684fcf74f58f",
+          "key": "dbc28cb5c6426080f984a5b6d436bb30"
         }
     }
 });
