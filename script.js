@@ -1,12 +1,13 @@
 var playerInstance = jwplayer("jwplayerDiv");
 
 playerInstance.setup({
-      file: "https://av-ch-cdn.mncnow.id/live/eds/GTV-HD/sa_dash_vmx/GTV-HD.mpd",
+      file: "https://fsly.stream.peacocktv.com/Content/CMAF_OL1-CTR-4s/Live/channel(usa-east)/master.mpd",
       image: "images/video.jpg",
       type: "dash",
       drm: {
-        "widevine": {
-          "url": "https://mrpw.ptmnc01.verspective.net/?deviceId=MDA5MmI1NjctOWMyMS0zNDYyLTk0NDAtODM5NGQ1ZjdlZWRi"
+        "clearkey": {
+          "keyId": "78ab64fa90f137a697743b5dc27b2f96",
+          "key": "de4d31c7fc6005ede28abab2a0720a9f"
         }
     }
 });
