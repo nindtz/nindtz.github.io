@@ -1,13 +1,13 @@
 var playerInstance = jwplayer("jwplayerDiv");
 
 playerInstance.setup({
-      file: "https://fsly.stream.peacocktv.com/Content/CMAF_OL1-CTR-4s/Live/channel(usa-east)/master.mpd",
+      file: "https://av-ch-cdn.mncnow.id/live/eds/RCTI-DD/sa_dash_vmx/RCTI-DD.mpd",
       image: "images/video.jpg",
       type: "dash",
       drm: {
         "clearkey": {
-          "keyId": "78ab64fa90f137a697743b5dc27b2f96",
-          "key": "de4d31c7fc6005ede28abab2a0720a9f"
+          "keyId": "9ba3e153ef8956d6e2b0684fcf74f58f",
+          "key": "dbc28cb5c6426080f984a5b6d436bb30"
         }
     }
 });
