@@ -9,7 +9,8 @@ playerInstance.setup({
           "keyId": "9ba3e153ef8956d6e2b0684fcf74f58f",
           "key": "dbc28cb5c6426080f984a5b6d436bb30"
         }
-    }
+    },
+      autostart: true
 });
 
 function switchTo1() {
