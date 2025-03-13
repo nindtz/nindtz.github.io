@@ -98,7 +98,7 @@
     <!-- Main Custom js file -->
 	<script src="js/function.js"></script>
 	<script src="script.js"></script> <!-- Load external script first -->
-	<script>
+<!-- 	<script>
 		document.addEventListener("keydown", function(event) {
 		    // Check if JW Player is in full-screen mode
 		    let player = jwplayer("jwplayerDiv");
@@ -118,6 +118,54 @@
 		    }
 		});
 
-	</script>
+	</script> -->
+	<script>
+    let inputBuffer = ""; // Store typed characters
+    let timeout;
+
+    document.addEventListener("keydown", function(event) {
+        let player = jwplayer("jwplayerDiv");
+
+        // Prevent exiting fullscreen if player is in fullscreen mode
+        if (document.fullscreenElement || player.getFullscreen()) {
+            event.preventDefault();
+        }
+
+        // Add pressed key to buffer
+        inputBuffer += event.key.toLowerCase();
+
+        // Check for valid commands
+        if (inputBuffer.includes("switch1")) {
+            switchTo1();
+            clearBuffer();
+        } else if (inputBuffer.includes("switch2")) {
+            switchTo2();
+            clearBuffer();
+        } else if (inputBuffer.includes("switch3")) {
+            switchTo3();
+            clearBuffer();
+        } else if (inputBuffer.includes("switch4")) {
+            switchTo4();
+            clearBuffer();
+        } else if (inputBuffer.includes("switch5")) {
+            switchTo5();
+            clearBuffer();
+        } else if (inputBuffer.includes("switch6")) {
+            switchToExtra1();
+            clearBuffer();
+        } else if (inputBuffer.includes("switch7")) {
+            switchToExtra2();
+            clearBuffer();
+        }
+
+        // Auto-clear buffer after a short delay
+        clearTimeout(timeout);
+        timeout = setTimeout(clearBuffer, 1500); // Clear after 1.5 sec of inactivity
+    });
+
+    function clearBuffer() {
+        inputBuffer = "";
+    }
+</script>
 </body>
 </html>
