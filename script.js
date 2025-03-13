@@ -12,7 +12,8 @@ playerInstance.setup({
     }
 });
 
-  function switchTo1() {
+function switchTo1() {
+    var playerInstance = jwplayer(); // Ensure you're referencing the correct player instance
     playerInstance.setup({      
       file: "https://ssc1-ak.akamaized.net/out/v1/c696e4819b55414388a1a487e8a45ca1/index.mpd",
       image: "images/video.jpg",
@@ -25,7 +26,11 @@ playerInstance.setup({
       },
       autostart: true
     });
-  }
+
+    playerInstance.on('play', function() {
+        playerInstance.setFullscreen(true);
+    });
+}
 
   // Function to switch to DRM 2
   function switchTo2() {
