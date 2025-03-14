@@ -87,31 +87,15 @@ function switchTo2() {
     }
 }
 
-function resizeShakaPlayer() {
-    let shakaContainer = document.getElementById("jwplayerDiv");
-    let videoElement = document.getElementById("shakaPlayer");
-    
-    function adjustSize() {
-        let width = shakaContainer.clientWidth;
-        let height = width * (9 / 16); 
-        videoElement.style.width = width + "px";
-        videoElement.style.height = height + "px";
-    }
-    
-    adjustSize();
-    window.addEventListener("resize", adjustSize);
-}
-
   function switchTo4() {
       playerInstance.setup({
-      file: "https://ssc4-ak.akamaized.net/out/v1/5267ea5772874b0db24559d643eaad93/index.mpd",
+      file: "https://cdnjkt4.transvision.co.id:1001/live/master/4/4028c685651d7bcc01651f0db0bf0097/manifest.mpd",
       image: "images/video.jpg",
       type: "dash",
       drm: {
-        "clearkey": {
-          "keyId": "5c672f6b85a94638872d0214f7806ed4",
-          "key": "bf8756fbb866ee2d5c701c2289dd8de3"
-        }
+            "widevine": {
+                  "url": "https://lic-cubmux.konslet.workers.dev/4rr0w/play.wv"
+            }
       },
       autostart: true
     });
@@ -162,3 +146,17 @@ function resizeShakaPlayer() {
     });
   }
 
+function resizeShakaPlayer() {
+    let shakaContainer = document.getElementById("jwplayerDiv");
+    let videoElement = document.getElementById("shakaPlayer");
+    
+    function adjustSize() {
+        let width = shakaContainer.clientWidth;
+        let height = width * (9 / 16); 
+        videoElement.style.width = width + "px";
+        videoElement.style.height = height + "px";
+    }
+    
+    adjustSize();
+    window.addEventListener("resize", adjustSize);
+}
