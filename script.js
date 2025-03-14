@@ -26,19 +26,6 @@ function switchTo1() {
         playerInstance.setFullscreen(true);
     });
 
-    player.on("ready", () => {
-        const container = document.getElementById("plyrPlayer");
-
-        if (container.requestFullscreen) {
-            container.requestFullscreen();
-        } else if (container.mozRequestFullScreen) { // Firefox
-            container.mozRequestFullScreen();
-        } else if (container.webkitRequestFullscreen) { // Chrome, Safari, Opera
-            container.webkitRequestFullscreen();
-        } else if (container.msRequestFullscreen) { // IE/Edge
-            container.msRequestFullscreen();
-        }
-    });
 }
 
 function switchTo2() {
@@ -153,6 +140,20 @@ function switchTo2() {
     const player = new Plyr("#plyrPlayer", {
         autoplay: true,
         controls: ["play", "volume", "fullscreen"]
+    });
+
+      player.on("ready", () => {
+        const container = document.getElementById("plyrPlayer");
+
+        if (container.requestFullscreen) {
+            container.requestFullscreen();
+        } else if (container.mozRequestFullScreen) { // Firefox
+            container.mozRequestFullScreen();
+        } else if (container.webkitRequestFullscreen) { // Chrome, Safari, Opera
+            container.webkitRequestFullscreen();
+        } else if (container.msRequestFullscreen) { // IE/Edge
+            container.msRequestFullscreen();
+        }
     });
 }
 
