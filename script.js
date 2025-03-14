@@ -160,6 +160,7 @@ function switchTo2() {
 }
 
 function switchToYT(videoID) {
+    console.log("Switching to YouTube video ID:", videoID);
     // Exit fullscreen if active before switching
     if (document.fullscreenElement) {
         document.exitFullscreen().catch(err => console.error("Error exiting fullscreen:", err));
