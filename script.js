@@ -138,8 +138,7 @@ function switchTo2() {
 
     const player = new Plyr("#plyrPlayer", {
         autoplay: true,
-        muted: true,
-        controls: ["play", "progress", "current-time", "mute", "volume"]
+        controls: ["play", "volume"]
     });
 }
 
