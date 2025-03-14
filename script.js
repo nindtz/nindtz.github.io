@@ -60,24 +60,38 @@ function switchTo1() {
     if (shaka.Player.isBrowserSupported()) {
         var player = new shaka.Player(video);
 
-        // Set custom headers including User-Agent
         player.getNetworkingEngine().registerRequestFilter((type, request) => {
             if (type === shaka.net.NetworkingEngine.RequestType.MANIFEST ||
                 type === shaka.net.NetworkingEngine.RequestType.SEGMENT) {
                 request.headers["User-Agent"] = "http-user-agent=VidioPlayer/4.3.0-WITH_ADS";
-                request.headers["Referer"] = "https://vidio.com"; // Optional
+                request.headers["Referer"] = "https://vidio.com";
             }
         });
 
-
         player.load(manifestUri).then(function () {
             console.log("The video has been loaded successfully with custom headers.");
+            resizeShakaPlayer();
         }).catch(function (error) {
             console.error("Error loading video:", error);
         });
     } else {
         console.error("Shaka Player is not supported on this browser.");
     }
+}
+
+function resizeShakaPlayer() {
+    let shakaContainer = document.getElementById("jwplayerDiv");
+    let videoElement = document.getElementById("shakaPlayer");
+    
+    function adjustSize() {
+        let width = shakaContainer.clientWidth;
+        let height = width * (9 / 16); 
+        videoElement.style.width = width + "px";
+        videoElement.style.height = height + "px";
+    }
+    
+    adjustSize();
+    window.addEventListener("resize", adjustSize);
 }
 
   function switchTo4() {
