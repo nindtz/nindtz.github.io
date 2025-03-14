@@ -16,15 +16,9 @@ playerInstance.setup({
 function switchTo1() {
     var playerInstance = jwplayer(); // Ensure you're referencing the correct player instance
     playerInstance.setup({      
-      file: "https://ssc1-ak.akamaized.net/out/v1/c696e4819b55414388a1a487e8a45ca1/index.mpd",
+      file: "https://video.detik.com/transtv/smil:transtv.smil/index.m3u8",
       image: "images/video.jpg",
-      type: "dash",
-      drm: {
-        "clearkey": {
-          "keyId": "d84c325f36814f39bbe59080272b10c3",
-          "key": "550727de4c96ef1ecff874905493580f"
-        }
-      },
+      type: "hls",
       autostart: true
     });
 
@@ -36,15 +30,9 @@ function switchTo1() {
   // Function to switch to DRM 2
   function switchTo2() {
       playerInstance.setup({
-      file: "https://ssc2-ak.akamaized.net/out/v1/a16db2ec338a445a82d9c541cc9293f9/index.mpd",
+      file: "http://op-group1-swiftservehd-1.dens.tv/h/h223/02.m3u8",
       image: "images/video.jpg",
-      type: "dash",
-      drm: {
-        "clearkey": {
-          "keyId": "8bcfc55359e24bd7ad1c5560a96ddd3c",
-          "key": "b5dcf721ab522af92a9d3bf0bd55b596"
-        }
-      },
+      type: "hls",
       autostart: true
     });
   }
@@ -52,7 +40,7 @@ function switchTo1() {
   function switchTo3() {
     document.getElementById("jwplayerDiv").innerHTML = '<video id="shakaPlayer" controls autoplay></video>';
 
-    var manifestUri = "https://app.mt2dc.com/misc?id=8237";
+    var manifestUri = "https://app.mt2dc.com/misc?id=204";
     var video = document.getElementById("shakaPlayer");
 
     shaka.polyfill.installAll();
