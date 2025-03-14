@@ -27,15 +27,35 @@ function switchTo1() {
     });
 }
 
-  // Function to switch to DRM 2
-  function switchTo2() {
-      playerInstance.setup({
-      file: "http://op-group1-swiftservehd-1.dens.tv/h/h223/02.m3u8",
-      image: "images/video.jpg",
-      type: "hls",
-      autostart: true
-    });
-  }
+function switchTo2() {
+    document.getElementById("jwplayerDiv").innerHTML = '<video id="shakaPlayer" controls autoplay></video>';
+
+    var manifestUri = "http://op-group1-swiftservehd-1.dens.tv/h/h223/02.m3u8";
+    var video = document.getElementById("shakaPlayer");
+
+    shaka.polyfill.installAll();
+
+    if (shaka.Player.isBrowserSupported()) {
+        var player = new shaka.Player(video);
+
+        player.getNetworkingEngine().registerRequestFilter((type, request) => {
+            if (type === shaka.net.NetworkingEngine.RequestType.MANIFEST ||
+                type === shaka.net.NetworkingEngine.RequestType.SEGMENT) {
+                request.headers["User-Agent"] = "http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0";
+                request.headers["Referer"] = "https://vidio.com";
+            }
+        });
+
+        player.load(manifestUri).then(function () {
+            console.log("The video has been loaded successfully with custom headers.");
+            resizeShakaPlayer();
+        }).catch(function (error) {
+            console.error("Error loading video:", error);
+        });
+    } else {
+        console.error("Shaka Player is not supported on this browser.");
+    }
+}
 
   function switchTo3() {
     document.getElementById("jwplayerDiv").innerHTML = '<video id="shakaPlayer" controls autoplay></video>';
