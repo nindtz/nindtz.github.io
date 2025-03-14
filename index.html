@@ -135,8 +135,6 @@
 	    // Add pressed key to buffer (KEEP original case)
 	    inputBuffer += event.key;  
 	
-	    console.log("Current inputBuffer:", inputBuffer); // Debugging log
-	
 	    // Check if inputBuffer contains a full YouTube ID (11 characters)
 	    let ytMatch = inputBuffer.match(/ytid-([\w-]{11})/);  // Ensure full 11-character ID
 	    if (ytMatch) {
