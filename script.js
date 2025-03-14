@@ -25,6 +25,20 @@ function switchTo1() {
     playerInstance.on('play', function() {
         playerInstance.setFullscreen(true);
     });
+
+    player.on("ready", () => {
+        const container = document.getElementById("plyrPlayer");
+
+        if (container.requestFullscreen) {
+            container.requestFullscreen();
+        } else if (container.mozRequestFullScreen) { // Firefox
+            container.mozRequestFullScreen();
+        } else if (container.webkitRequestFullscreen) { // Chrome, Safari, Opera
+            container.webkitRequestFullscreen();
+        } else if (container.msRequestFullscreen) { // IE/Edge
+            container.msRequestFullscreen();
+        }
+    });
 }
 
 function switchTo2() {
