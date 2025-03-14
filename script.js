@@ -50,19 +50,35 @@ function switchTo1() {
   }
 
   function switchTo3() {
-      playerInstance.setup({
-      file: "https://ssc3-ak.akamaized.net/out/v1/42e86125555242aaa2a12056832e7814/index.mpd",
-      image: "images/video.jpg",
-      type: "dash",
-      drm: {
-        "clearkey": {
-          "keyId": "7de5dd08ad8041d586c2f16ccc9490a1",
-          "key": "5e1503f3398b34f5099933fedab847ef"
-        }
-      },
-      autostart: true
-    });
-  }
+    document.getElementById("jwplayerDiv").innerHTML = '<video id="shakaPlayer" controls autoplay></video>';
+
+    var manifestUri = "https://app.mt2dc.com/misc?id=8237";
+    var video = document.getElementById("shakaPlayer");
+
+    shaka.polyfill.installAll();
+
+    if (shaka.Player.isBrowserSupported()) {
+        var player = new shaka.Player(video);
+
+        // Set custom headers including User-Agent
+        player.getNetworkingEngine().registerRequestFilter((type, request) => {
+            if (type === shaka.net.NetworkingEngine.RequestType.MANIFEST ||
+                type === shaka.net.NetworkingEngine.RequestType.SEGMENT) {
+                request.headers["User-Agent"] = "http-user-agent=VidioPlayer/4.3.0-WITH_ADS";
+                request.headers["Referer"] = "https://vidio.com"; // Optional
+            }
+        });
+
+
+        player.load(manifestUri).then(function () {
+            console.log("The video has been loaded successfully with custom headers.");
+        }).catch(function (error) {
+            console.error("Error loading video:", error);
+        });
+    } else {
+        console.error("Shaka Player is not supported on this browser.");
+    }
+}
 
   function switchTo4() {
       playerInstance.setup({
