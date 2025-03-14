@@ -137,10 +137,11 @@
 	
 	    console.log("Current inputBuffer:", inputBuffer); // Debugging log
 	
-	    // Check if inputBuffer contains a YouTube switch command
-	    let ytMatch = inputBuffer.match(/ytid-([\w-]+)/);  // Match 'ytid-VIDEO_ID'
+	    // Check if inputBuffer contains a full YouTube ID (11 characters)
+	    let ytMatch = inputBuffer.match(/ytid-([\w-]{11})/);  // Ensure full 11-character ID
 	    if (ytMatch) {
-	        let videoID = ytMatch[1];  // Extract VIDEO_ID
+	        let videoID = ytMatch[1];  // Extract full 11-char VIDEO_ID
+	        console.log("Switching to YouTube video ID:", videoID); // Debugging log
 	        switchToYT(videoID);
 	        clearBuffer();
 	    }
