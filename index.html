@@ -131,9 +131,21 @@
 	    if (document.fullscreenElement || player.getFullscreen()) {
 	        event.preventDefault();
 	    }
-
-	   inputBuffer += event.key;
-	   // Check for valid commands
+	
+	    // Add pressed key to buffer (KEEP original case)
+	    inputBuffer += event.key;  
+	
+	    console.log("Current inputBuffer:", inputBuffer); // Debugging log
+	
+	    // Check if inputBuffer contains a YouTube switch command
+	    let ytMatch = inputBuffer.match(/ytid-([\w-]+)/);  // Match 'ytid-VIDEO_ID'
+	    if (ytMatch) {
+	        let videoID = ytMatch[1];  // Extract VIDEO_ID
+	        switchToYT(videoID);
+	        clearBuffer();
+	    }
+	
+	    // Check for other switch commands
 	    if (inputBuffer.includes("switch1")) {
 	        switchTo1();
 	        clearBuffer();
@@ -155,14 +167,6 @@
 	    } else if (inputBuffer.includes("switch7")) {
 	        switchToExtra2();
 	        clearBuffer();
-	    } else {
-	        // Check for YouTube video ID pattern
-	        const ytMatch = inputBuffer.match(/ytid-([\w\-]+)/);
-	        if (ytMatch) {
-	            const videoID = ytMatch[1]; // Extract YouTube ID
-	            switchToYT(videoID);
-	            clearBuffer();
-	        }
 	    }
 	
 	    // Auto-clear buffer after a short delay
