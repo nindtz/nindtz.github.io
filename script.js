@@ -159,6 +159,36 @@ function switchTo2() {
 
 }
 
+function switchToYT(videoID) {
+    // Exit fullscreen if active before switching
+    if (document.fullscreenElement) {
+        document.exitFullscreen().catch(err => console.error("Error exiting fullscreen:", err));
+    }
+
+    // Replace content with Plyr player
+    document.getElementById("jwplayerDiv").innerHTML = `
+        <div class="plyr__video-embed" id="plyrPlayer">
+            <iframe
+                src="https://www.youtube.com/embed/${videoID}?autoplay=1&playsinline=1"
+                allowfullscreen
+                allow="autoplay"
+            ></iframe>
+        </div>
+    `;
+
+    // Initialize Plyr
+    const player = new Plyr("#plyrPlayer", {
+        autoplay: true,
+        controls: ["play", "volume", "fullscreen"]
+    });
+
+    // Request fullscreen when the player is ready
+    player.on("ready", () => {
+        requestFullscreen(document.getElementById("plyrPlayer"));
+    });
+}
+
+
 function resizeShakaPlayer() {
     let shakaContainer = document.getElementById("jwplayerDiv");
     let videoElement = document.getElementById("shakaPlayer");
