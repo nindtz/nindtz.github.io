@@ -157,7 +157,15 @@
         } else if (inputBuffer.includes("switch7")) {
             switchToExtra2();
             clearBuffer();
-        }
+        } else {
+        // Check for YouTube video ID pattern
+        const ytMatch = inputBuffer.match(/ytid-([\w\-]+)/);
+        if (ytMatch) {
+            const videoID = ytMatch[1]; // Extract YouTube ID
+            switchToYT(videoID);
+            clearBuffer();
+            }
+    	}
 
         // Auto-clear buffer after a short delay
         clearTimeout(timeout);
