@@ -138,7 +138,7 @@ function switchTo2() {
 
     const player = new Plyr("#plyrPlayer", {
         autoplay: true,
-        controls: ["play", "volume"]
+        controls: ["play", "volume", "fullscreen"]
     });
 }
 
