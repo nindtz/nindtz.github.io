@@ -128,7 +128,7 @@ function switchTo2() {
 
   function switchToExtra2() {
      document.getElementById("jwplayerDiv").innerHTML = `
-        <div class="plyr__video-embed" id="plyrPlayer">
+        <div class="plyr__video-embed" id="plyrPlayer" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9999;">
             <iframe
                 src="https://www.youtube.com/embed/yNKvkPJl-tg?autoplay=1&playsinline=1"
                 allowfullscreen
