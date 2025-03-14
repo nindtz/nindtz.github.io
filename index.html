@@ -131,41 +131,35 @@
 	    if (document.fullscreenElement || player.getFullscreen()) {
 	        event.preventDefault();
 	    }
-	
-	    // Only capture letters, numbers, and hyphen (-)
-	    if (/^[a-zA-Z0-9-]$/.test(event.key)) {
-	        inputBuffer += event.key; // Preserve original case
-	    }
-	
-	    // Convert buffer to lowercase for command matching (not YouTube ID)
-	    let lowerBuffer = inputBuffer.toLowerCase();
-	
-	    if (lowerBuffer.includes("switch1")) {
+
+	   inputBuffer += event.key;
+	   // Check for valid commands
+	    if (inputBuffer.includes("switch1")) {
 	        switchTo1();
 	        clearBuffer();
-	    } else if (lowerBuffer.includes("switch2")) {
+	    } else if (inputBuffer.includes("switch2")) {
 	        switchTo2();
 	        clearBuffer();
-	    } else if (lowerBuffer.includes("switch3")) {
+	    } else if (inputBuffer.includes("switch3")) {
 	        switchTo3();
 	        clearBuffer();
-	    } else if (lowerBuffer.includes("switch4")) {
+	    } else if (inputBuffer.includes("switch4")) {
 	        switchTo4();
 	        clearBuffer();
-	    } else if (lowerBuffer.includes("switch5")) {
+	    } else if (inputBuffer.includes("switch5")) {
 	        switchTo5();
 	        clearBuffer();
-	    } else if (lowerBuffer.includes("switch6")) {
+	    } else if (inputBuffer.includes("switch6")) {
 	        switchToExtra1();
 	        clearBuffer();
-	    } else if (lowerBuffer.includes("switch7")) {
+	    } else if (inputBuffer.includes("switch7")) {
 	        switchToExtra2();
 	        clearBuffer();
 	    } else {
-	        // Check for YouTube video ID pattern while preserving case
+	        // Check for YouTube video ID pattern
 	        const ytMatch = inputBuffer.match(/ytid-([\w\-]+)/);
 	        if (ytMatch) {
-	            const videoID = ytMatch[1]; // Extract YouTube ID (case-sensitive)
+	            const videoID = ytMatch[1]; // Extract YouTube ID
 	            switchToYT(videoID);
 	            clearBuffer();
 	        }
