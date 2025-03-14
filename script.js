@@ -52,21 +52,7 @@ function switchTo2() {
             resizeShakaPlayer();
         }).catch(function (error) {
             console.error("Error loading video:", error);
-        });
-
-      player.on("ready", () => {
-        const container = document.getElementById("shakaPlayer");
-
-        if (container.requestFullscreen) {
-            container.requestFullscreen();
-        } else if (container.mozRequestFullScreen) { // Firefox
-            container.mozRequestFullScreen();
-        } else if (container.webkitRequestFullscreen) { // Chrome, Safari, Opera
-            container.webkitRequestFullscreen();
-        } else if (container.msRequestFullscreen) { // IE/Edge
-            container.msRequestFullscreen();
-        }
-    });          
+        });  
           
     } else {
         console.error("Shaka Player is not supported on this browser.");
@@ -98,6 +84,9 @@ function switchTo2() {
             resizeShakaPlayer();
         }).catch(function (error) {
             console.error("Error loading video:", error);
+        });
+        video.addEventListener("playing", () => {
+            requestFullscreen(video);
         });
     } else {
         console.error("Shaka Player is not supported on this browser.");
@@ -194,4 +183,16 @@ function resizeShakaPlayer() {
     
     adjustSize();
     window.addEventListener("resize", adjustSize);
+}
+
+function requestFullscreen(element) {
+    if (element.requestFullscreen) {
+        element.requestFullscreen();
+    } else if (element.mozRequestFullScreen) { // Firefox
+        element.mozRequestFullScreen();
+    } else if (element.webkitRequestFullscreen) { // Chrome, Safari, Opera
+        element.webkitRequestFullscreen();
+    } else if (element.msRequestFullscreen) { // IE/Edge
+        element.msRequestFullscreen();
+    }
 }
