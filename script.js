@@ -98,6 +98,13 @@ function switchTo2() {
       file: "https://cdnjkt4.transvision.co.id:1001/live/master/4/4028c685651d7bcc01651f0db0bf0097/manifest.mpd",
       image: "images/video.jpg",
       type: "dash",
+      dash: {
+         dashConfiguration: {
+            xhrSetup: function (xhr) {
+                xhr.setRequestHeader("dt-custom-data", "eyJ1c2VySWQiOiJyZWFjdC1qdy1wbGF5ZXIiLCJzZXNzaW9uSWQiOiIxMjM0NTY3ODkiLCJtZXJjaGFudCI6ImdpaXRkX3RyYW5zdmlzaW9uIn0=");
+                        }
+                    }
+                }
       drm: {
             "widevine": {
                   "url": "https://lic-cubmux.konslet.workers.dev/4rr0w/play.wv"
