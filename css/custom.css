@@ -214,13 +214,6 @@ a:focus{
     aspect-ratio: 16 / 9; /* Maintain aspect ratio */
 }
 
-#plyrPlayer {
-    width: 100%; /* Make it fill the container */
-    max-width: 800px; /* Set a reasonable max width */
-    height: auto;
-    aspect-ratio: 16 / 9; /* Maintain aspect ratio */
-}
-
 
 @media only screen and (max-width:480px){
 	.comming-soon-inner{
