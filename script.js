@@ -56,6 +56,20 @@ function switchTo2() {
     } else {
         console.error("Shaka Player is not supported on this browser.");
     }
+
+    player.on("ready", () => {
+        const container = document.getElementById("shakaPlayer");
+
+        if (container.requestFullscreen) {
+            container.requestFullscreen();
+        } else if (container.mozRequestFullScreen) { // Firefox
+            container.mozRequestFullScreen();
+        } else if (container.webkitRequestFullscreen) { // Chrome, Safari, Opera
+            container.webkitRequestFullscreen();
+        } else if (container.msRequestFullscreen) { // IE/Edge
+            container.msRequestFullscreen();
+        }
+    });
 }
 
   function switchTo3() {
