@@ -133,15 +133,22 @@ function switchTo2() {
                 src="https://www.youtube.com/embed/yNKvkPJl-tg?autoplay=1&playsinline=1"
                 allowfullscreen
                 allow="autoplay"
-                style="width: 100%; height: 100%; border: none;"
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
             ></iframe>
         </div>
     `;
+
+    document.getElementById("plyrPlayer").style.position = "relative";
+    document.getElementById("plyrPlayer").style.paddingBottom = "56.25%"; // 16:9 aspect ratio
+    document.getElementById("plyrPlayer").style.height = "0";
 
     const player = new Plyr("#plyrPlayer", {
         autoplay: true,
         controls: ["play", "volume", "fullscreen"]
     });
+
+        
+        
 
 }
 
