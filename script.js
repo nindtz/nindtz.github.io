@@ -104,7 +104,7 @@ function switchTo2() {
                 xhr.setRequestHeader("dt-custom-data", "eyJ1c2VySWQiOiJyZWFjdC1qdy1wbGF5ZXIiLCJzZXNzaW9uSWQiOiIxMjM0NTY3ODkiLCJtZXJjaGFudCI6ImdpaXRkX3RyYW5zdmlzaW9uIn0=");
                         }
                     }
-                }
+                },
       drm: {
             "widevine": {
                   "url": "https://lic-cubmux.konslet.workers.dev/4rr0w/play.wv"
