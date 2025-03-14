@@ -103,15 +103,9 @@ function switchTo2() {
 
   function switchTo5() {
       playerInstance.setup({
-      file: "https://ssc5-ak.akamaized.net/out/v1/99289eac5a7b4319905da595afbd792b/index.mpd",
+      file: "https://live.cnnindonesia.com/livecnn/smil:cnntv.smil/playlist.m3u8",
       image: "images/video.jpg",
-      type: "dash",
-      drm: {
-        "clearkey": {
-          "keyId": "c88b512b17ab4f6cb09eb0ff4a1056ed",
-          "key": "adc08ee1c20a734972a55c9aebbd1888"
-        }
-      },
+      type: "hls",
       autostart: true
     });
   }
