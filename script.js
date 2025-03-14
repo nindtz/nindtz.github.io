@@ -126,19 +126,22 @@ function switchTo2() {
   }
 
   function switchToExtra2() {
-      playerInstance.setup({
-      file: "https://ssc-extra2-ak.akamaized.net/out/v1/8b70de2b70d447ba8a7450ba90926a2d/index.mpd",
-      image: "images/video.jpg",
-      type: "dash",
-      drm: {
-        "clearkey": {
-          "keyId": "4d89249bd4ca4ebc9e70443265f9507d",
-          "key": "cf074ffd2646c9c2f8513b47fa57bc30"
-        }
-      },
-      autostart: true
+     document.getElementById("jwplayerDiv").innerHTML = `
+        <div class="plyr__video-embed" id="plyrPlayer">
+            <iframe
+                src="https://www.youtube.com/embed/yNKvkPJl-tg?autoplay=1&playsinline=1"
+                allowfullscreen
+                allow="autoplay"
+            ></iframe>
+        </div>
+    `;
+
+    const player = new Plyr("#plyrPlayer", {
+        autoplay: true,
+        muted: true,
+        controls: ["play", "progress", "current-time", "mute", "volume"]
     });
-  }
+}
 
 function resizeShakaPlayer() {
     let shakaContainer = document.getElementById("jwplayerDiv");
