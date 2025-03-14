@@ -53,11 +53,8 @@ function switchTo2() {
         }).catch(function (error) {
             console.error("Error loading video:", error);
         });
-    } else {
-        console.error("Shaka Player is not supported on this browser.");
-    }
 
-    player.on("ready", () => {
+      player.on("ready", () => {
         const container = document.getElementById("shakaPlayer");
 
         if (container.requestFullscreen) {
@@ -69,7 +66,12 @@ function switchTo2() {
         } else if (container.msRequestFullscreen) { // IE/Edge
             container.msRequestFullscreen();
         }
-    });
+    });          
+          
+    } else {
+        console.error("Shaka Player is not supported on this browser.");
+    }
+
 }
 
   function switchTo3() {
