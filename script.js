@@ -30,7 +30,7 @@ function switchTo1() {
 function switchTo2() {
     document.getElementById("jwplayerDiv").innerHTML = '<video id="shakaPlayer" controls autoplay></video>';
 
-    var manifestUri = "http://op-group1-swiftservehd-1.dens.tv/h/h223/02.m3u8";
+    var manifestUri = "https://op-group1-swiftservehd-1.dens.tv/h/h223/02.m3u8";
     var video = document.getElementById("shakaPlayer");
 
     shaka.polyfill.installAll();
