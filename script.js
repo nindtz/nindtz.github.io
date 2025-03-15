@@ -92,34 +92,41 @@ function switchTo2() {
     }
 }
 
-  function switchTo4() {
-      playerInstance.setup({
-      file: "https://cdnjkt4.transvision.co.id:1000/live/master/4/4028c6856b8d2390016b9c3ee6c21d7c/manifest.mpd",
-      image: "images/video.jpg",
-      type: "dash",
-      dash: {
-         dashConfiguration: {
-            xhrSetup: function (xhr) {
-                xhr.setRequestHeader("dt-custom-data", "eyJ1c2VySWQiOiJyZWFjdC1qdy1wbGF5ZXIiLCJzZXNzaW9uSWQiOiIxMjM0NTY3ODkiLCJtZXJjaGFudCI6ImdpaXRkX3RyYW5zdmlzaW9uIn0=");
-                        }
-                    }
-                },
-      drm: {
-            "widevine": {
-                  "url": "https://lic-cubmux.konslet.workers.dev/4rr0w/play.wv"
+function switchTo4() {
+    const playerInstance = jwplayer("myPlayer").setup({
+        file: "https://cdnjkt4.transvision.co.id:1000/live/master/4/4028c6856b8d2390016b9c3ee6c21d7c/manifest.mpd",
+        image: "images/video.jpg",
+        type: "dash",
+        dash: {
+            dashConfiguration: {
+                xhrSetup: function (xhr) {
+                    xhr.setRequestHeader("dt-custom-data", "eyJ1c2VySWQiOiJyZWFjdC1qdy1wbGF5ZXIiLCJzZXNzaW9uSWQiOiIxMjM0NTY3ODkiLCJtZXJjaGFudCI6ImdpaXRkX3RyYW5zdmlzaW9uIn0=");
+                }
             }
-      },
-      autostart: true
+        },
+        drm: {
+            "widevine": {
+                "url": "https://lic-cubmux.konslet.workers.dev/4rr0w/play.wv"
+            }
+        },
+        autostart: true
     });
-    player.on("ready", function() {
-    // Get available audio tracks
-    let audioTracks = player.getAudioTracks();
-    console.log("Available Audio Tracks:", audioTracks);
 
-    // Select a specific audio track by index (e.g., 1 for the second track)
-    player.setCurrentAudioTrack(1);
-});
-  }
+    // Wait for the audio tracks to be available
+    playerInstance.on("audioTracks", function(event) {
+        let audioTracks = playerInstance.getAudioTracks();
+        console.log("Available Audio Tracks:", audioTracks);
+
+        if (audioTracks.length > 1) {
+            // Select a specific audio track (e.g., index 1)
+            playerInstance.setCurrentAudioTrack(1);
+            console.log("Switched to audio track 1");
+        } else {
+            console.log("No alternative audio tracks available.");
+        }
+    });
+}
+
 
   function switchTo5() {
       playerInstance.setup({
