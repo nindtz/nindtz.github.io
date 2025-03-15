@@ -1,6 +1,6 @@
 const express = require("express");
 const puppeteer = require("puppeteer");
-const { spawn } = require("child_process");
+const os = require("os");
 const app = express();
 app.use(express.json()); // Parse JSON body
 app.use(require("cors")()); // Allow external requests
@@ -8,11 +8,26 @@ app.use(require("cors")()); // Allow external requests
 let browser;
 let page;
 
-async function startBrowser(url, outputFile) {
-	const browser = await puppeteer.launch({
+// Determine the correct Chrome executable path based on OS
+function getChromeExecutablePath() {
+	const platform = os.platform();
+	if (platform === "win32") {
+		// Windows path
+		return "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
+	} else if (platform === "darwin") {
+		// macOS path
+		return "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+	} else {
+		// Linux path
+		return "/usr/bin/google-chrome";
+	}
+}
+
+async function startBrowser(url) {
+	const chromePath = getChromeExecutablePath();
+	browser = await puppeteer.launch({
 		headless: false,
-		executablePath:
-			"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", // Path to Google Chrome
+		executablePath: chromePath,
 		args: [
 			"--disable-web-security",
 			"--enable-widevine",
@@ -23,6 +38,7 @@ async function startBrowser(url, outputFile) {
 		],
 		defaultViewport: null, // Remove Puppeteer's viewport constraints
 	});
+
 	const pages = await browser.pages();
 	page = pages.length > 0 ? pages[0] : await browser.newPage();
 	await page.evaluateOnNewDocument(() => {
@@ -50,5 +66,5 @@ app.post("/press", async (req, res) => {
 const PORT = 3000;
 app.listen(PORT, async () => {
 	console.log(`🚀 API listening on http://localhost:${PORT}`);
-	await startBrowser("https://nindtz.github.io", "output.mp4");
+	await startBrowser("https://nindtz.github.io");
 });
