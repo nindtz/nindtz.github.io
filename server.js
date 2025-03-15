@@ -19,7 +19,7 @@ function getChromeExecutablePath() {
 		return "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 	} else {
 		// Linux path
-		return "/usr/bin/google-chrome";
+		return "/usr/bin/chromium";
 	}
 }
 
