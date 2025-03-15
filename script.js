@@ -43,6 +43,7 @@ function switchTo2() {
             if (type === shaka.net.NetworkingEngine.RequestType.MANIFEST ||
                 type === shaka.net.NetworkingEngine.RequestType.SEGMENT) {
                 request.headers["User-Agent"] = "http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0";
+                request.headers["Referer"] = "https://vidio.com";
             }
         });
 
@@ -92,28 +93,26 @@ function switchTo2() {
     }
 }
 
-function switchTo4() {
-    const playerInstance = jwplayer("myPlayer").setup({
-        file: "https://cdnjkt4.transvision.co.id:1000/live/master/4/4028c6856b8d2390016b9c3ee6c21d7c/manifest.mpd",
-        image: "images/video.jpg",
-        type: "dash",
-        dash: {
-            dashConfiguration: {
-                xhrSetup: function (xhr) {
-                    xhr.setRequestHeader("dt-custom-data", "eyJ1c2VySWQiOiJyZWFjdC1qdy1wbGF5ZXIiLCJzZXNzaW9uSWQiOiIxMjM0NTY3ODkiLCJtZXJjaGFudCI6ImdpaXRkX3RyYW5zdmlzaW9uIn0=");
-                }
-            }
-        },
-        drm: {
+  function switchTo4() {
+      playerInstance.setup({
+      file: "https://cdnjkt4.transvision.co.id:1001/live/master/4/4028c685651d7bcc01651f0db0bf0097/manifest.mpd",
+      image: "images/video.jpg",
+      type: "dash",
+      dash: {
+         dashConfiguration: {
+            xhrSetup: function (xhr) {
+                xhr.setRequestHeader("dt-custom-data", "eyJ1c2VySWQiOiJyZWFjdC1qdy1wbGF5ZXIiLCJzZXNzaW9uSWQiOiIxMjM0NTY3ODkiLCJtZXJjaGFudCI6ImdpaXRkX3RyYW5zdmlzaW9uIn0=");
+                        }
+                    }
+                },
+      drm: {
             "widevine": {
-                "url": "https://lic-cubmux.konslet.workers.dev/4rr0w/play.wv"
+                  "url": "https://lic-cubmux.konslet.workers.dev/4rr0w/play.wv"
             }
-        },
-        autostart: true
+      },
+      autostart: true
     });
-
-    // Wait for the audio tracks to be available
-    playerInstance.on("audioTracks", function(event) {
+      playerInstance.on("audioTracks", function(event) {
         let audioTracks = playerInstance.getAudioTracks();
         console.log("Available Audio Tracks:", audioTracks);
 
@@ -125,8 +124,7 @@ function switchTo4() {
             console.log("No alternative audio tracks available.");
         }
     });
-}
-
+  }
 
   function switchTo5() {
       playerInstance.setup({
