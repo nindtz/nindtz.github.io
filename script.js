@@ -94,7 +94,7 @@ function switchTo2() {
 
   function switchTo4() {
       playerInstance.setup({
-      file: "https://cdnjkt4.transvision.co.id:1001/live/master/4/4028c685651d7bcc01651f0db0bf0097/manifest.mpd",
+      file: "https://cdnjkt4.transvision.co.id:1000/live/master/4/4028c6856b8d2390016b9c3ee6c21d7c/manifest.mpd",
       image: "images/video.jpg",
       type: "dash",
       dash: {
@@ -111,6 +111,14 @@ function switchTo2() {
       },
       autostart: true
     });
+    player.on("ready", function() {
+    // Get available audio tracks
+    let audioTracks = player.getAudioTracks();
+    console.log("Available Audio Tracks:", audioTracks);
+
+    // Select a specific audio track by index (e.g., 1 for the second track)
+    player.setCurrentAudioTrack(1);
+});
   }
 
   function switchTo5() {
