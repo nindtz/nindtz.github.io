@@ -137,13 +137,13 @@ function switchTo2() {
 
   function switchToExtra1() {
       playerInstance.setup({
-      file: "https://ssc-extra1-ak.akamaized.net/out/v1/647c58693f1d46af92bd7e69f17912cb/index.mpd",
+      file: "https://otte.live.fly.ww.aiv-cdn.net/pdx-nitro/live/clients/dash/enc/3b7qwiqzk3/out/v1/9f14895badca43e6a716db021dcd0c31/cenc.mpd",
       image: "images/video.jpg",
       type: "dash",
       drm: {
         "clearkey": {
-          "keyId": "ecbc9e6fe6b145efb6658fb5cf7427f8",
-          "key": "03c17e28911f71221acbc0b11f900401"
+          "keyId": "dc69b6159a0f9f0a4e03b3ff91cbacd5",
+          "key": "d0dcbcd7723bc40df0bf34c9c092d51f"
         }
       },
       autostart: true
