@@ -107,7 +107,7 @@ function switchTo2() {
                 },
       drm: {
             "widevine": {
-                  "url": "https://app.mt2dc.com/getlicense"
+                  "url": "https://lic-cubmux.konslet.workers.dev/4rr0w/play.wv"
             }
       },
       autostart: true
