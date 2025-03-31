@@ -95,7 +95,7 @@ function switchTo2() {
 
   function switchTo4() {
       playerInstance.setup({
-      file: "https://cdnjkt4.transvision.co.id:1000/live/master/4/4028c6856b8d2390016b9c3ee6c21d7c/manifest.mpd",
+      file: "https://cdnjkt913.transvision.co.id:1000/live/master/4/4028c6856b8d2390016b9c3ee6c21d7c/manifest.mpd",
       image: "images/video.jpg",
       type: "dash",
       dash: {
