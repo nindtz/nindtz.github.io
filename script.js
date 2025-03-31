@@ -63,7 +63,7 @@ function switchTo2() {
   function switchTo3() {
     document.getElementById("jwplayerDiv").innerHTML = '<video id="shakaPlayer" controls autoplay></video>';
 
-    var manifestUri = "https://app.mt2dc.com/misc?id=204";
+    var manifestUri = "https://app.mt2dc.com/misc?id=8237";
     var video = document.getElementById("shakaPlayer");
 
     shaka.polyfill.installAll();
