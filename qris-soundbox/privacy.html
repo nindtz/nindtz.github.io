@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="id">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Privacy Policy · QRIS Soundbox</title>
+		<meta
+			name="description"
+			content="Privacy policy for QRIS Soundbox and the SoundboxBridge Android app."
+		/>
+		<meta name="theme-color" content="#0f766e" />
+		<style>
+			:root {
+				--bg: #f7f8f7;
+				--surface: #ffffff;
+				--text: #14201e;
+				--muted: #5b6b68;
+				--border: #dde3e1;
+				--accent: #0f766e;
+				--accent-ink: #ffffff;
+				--radius: 14px;
+			}
+			@media (prefers-color-scheme: dark) {
+				:root {
+					--bg: #0e1513;
+					--surface: #16201e;
+					--text: #e6eeec;
+					--muted: #9aaba7;
+					--border: #26332f;
+					--accent: #2dd4bf;
+					--accent-ink: #062b27;
+				}
+			}
+			* {
+				box-sizing: border-box;
+			}
+			body {
+				margin: 0;
+				background: var(--bg);
+				color: var(--text);
+				font:
+					16px/1.7 system-ui,
+					-apple-system,
+					"Segoe UI",
+					Roboto,
+					sans-serif;
+			}
+			a {
+				color: var(--accent);
+			}
+			.wrap {
+				max-width: 760px;
+				margin: 0 auto;
+				padding: 0 16px;
+			}
+			header {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 18px 0;
+			}
+			.brand {
+				font-weight: 700;
+				font-size: 1.1rem;
+				text-decoration: none;
+				color: var(--text);
+			}
+			.brand span {
+				color: var(--accent);
+			}
+			.lang {
+				display: flex;
+				gap: 4px;
+			}
+			.lang button {
+				border: 1px solid var(--border);
+				background: var(--surface);
+				color: var(--muted);
+				padding: 4px 10px;
+				border-radius: 999px;
+				cursor: pointer;
+				font: inherit;
+				font-size: 0.85rem;
+			}
+			.lang button[aria-pressed="true"] {
+				color: var(--accent-ink);
+				background: var(--accent);
+				border-color: var(--accent);
+			}
+			main {
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: var(--radius);
+				padding: 24px 20px;
+				margin: 8px 0 32px;
+			}
+			h1 {
+				font-size: clamp(1.6rem, 4vw, 2.2rem);
+				line-height: 1.2;
+				margin: 0 0 6px;
+			}
+			.updated {
+				color: var(--muted);
+				font-size: 0.9rem;
+				margin: 0 0 20px;
+			}
+			h2 {
+				font-size: 1.15rem;
+				margin: 28px 0 8px;
+			}
+			p,
+			li {
+				color: var(--text);
+			}
+			ul {
+				padding-left: 20px;
+			}
+			li {
+				margin-bottom: 6px;
+			}
+			footer {
+				border-top: 1px solid var(--border);
+				padding: 24px 0 40px;
+				color: var(--muted);
+				font-size: 0.85rem;
+			}
+			footer p {
+				margin: 4px 0;
+			}
+			[data-lang="en"] .id,
+			[data-lang="id"] .en {
+				display: none !important;
+			}
+		</style>
+	</head>
+	<body data-lang="id">
+		<div class="wrap">
+			<header>
+				<a class="brand" href="./">QRIS <span>Soundbox</span></a>
+				<div class="lang" role="group" aria-label="Language">
+					<button type="button" data-set-lang="id" aria-pressed="true">
+						ID
+					</button>
+					<button type="button" data-set-lang="en" aria-pressed="false">
+						EN
+					</button>
+				</div>
+			</header>
+
+			<!-- ===================== BAHASA INDONESIA ===================== -->
+			<main class="id">
+				<h1>Kebijakan Privasi</h1>
+				<p class="updated">Terakhir diperbarui: 2 November 2026</p>
+
+				<p>
+					Kebijakan ini menjelaskan bagaimana perangkat QRIS Soundbox, aplikasi
+					Android SoundboxBridge (<code>id.nindita.qrissbbridge</code>), dan
+					situs web ini menangani data Anda. Singkatnya:
+					<b
+						>kami tidak mengoperasikan server sendiri dan tidak mengumpulkan
+						data transaksi Anda.</b
+					>
+					Data diproses di HP dan soundbox Anda.
+				</p>
+
+				<h2>1. Data yang diproses aplikasi SoundboxBridge</h2>
+				<ul>
+					<li>
+						<b>Notifikasi pembayaran.</b> Dengan izin Akses Notifikasi yang Anda
+						berikan, aplikasi membaca notifikasi pembayaran QRIS untuk mengambil
+						nominal transaksi. Notifikasi lain diabaikan. Data ini diproses di
+						HP dan dikirim hanya ke soundbox Anda serta ke perangkat cabang yang
+						Anda hubungkan.
+					</li>
+					<li>
+						<b>Pengaturan soundbox.</b> Kode QRIS dan PIN disimpan di HP Anda
+						dan dikirim ke soundbox lewat Bluetooth. Soundbox tidak menyimpannya
+						secara permanen; data terhapus saat perangkat dinyalakan ulang.
+					</li>
+					<li>
+						<b>Bluetooth.</b> Izin Bluetooth (dan, pada versi Android tertentu,
+						izin lokasi/perangkat sekitar) dipakai hanya untuk menemukan dan
+						terhubung ke soundbox. Kami tidak memakai data lokasi.
+					</li>
+					<li>
+						<b>Penerusan antar cabang (Telegram).</b> Jika Anda memakai fitur
+						multi-cabang, nominal pembayaran diteruskan antar perangkat melalui
+						akun Telegram Anda sendiri. Nomor telepon dan proses login ditangani
+						langsung oleh Telegram dan tunduk pada
+						<a
+							href="https://telegram.org/privacy"
+							target="_blank"
+							rel="noopener"
+							>Kebijakan Privasi Telegram</a
+						>.
+					</li>
+					<li>
+						<b>Notifikasi push (Firebase Cloud Messaging).</b> Aplikasi memakai
+						layanan Google Firebase Cloud Messaging untuk menjaga penerusan
+						tetap berjalan. Google memproses token perangkat sesuai
+						<a
+							href="https://policies.google.com/privacy"
+							target="_blank"
+							rel="noopener"
+							>Kebijakan Privasi Google</a
+						>.
+					</li>
+					<li>
+						<b>Pembelian dalam aplikasi.</b> Pembelian Premium diproses oleh
+						Google Play. Kami tidak menerima data kartu atau pembayaran Anda;
+						aplikasi hanya memeriksa status pembelian dari Google Play.
+					</li>
+				</ul>
+
+				<h2>2. Yang tidak kami lakukan</h2>
+				<ul>
+					<li>
+						Kami tidak menjual, menyewakan, atau membagikan data Anda untuk
+						iklan.
+					</li>
+					<li>Kami tidak mengirim riwayat transaksi ke server milik kami.</li>
+					<li>Kami tidak memakai pelacak iklan.</li>
+				</ul>
+
+				<h2>3. Situs web ini</h2>
+				<ul>
+					<li>
+						Situs di-host oleh GitHub Pages. GitHub dapat mencatat alamat IP
+						pengunjung untuk keamanan; lihat
+						<a
+							href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement"
+							target="_blank"
+							rel="noopener"
+							>Pernyataan Privasi GitHub</a
+						>.
+					</li>
+					<li>
+						Lencana Google Play dimuat dari server Google, dan alat flashing
+						dimuat dari unpkg.com.
+					</li>
+					<li>
+						Pilihan bahasa disimpan di browser Anda (localStorage). Tidak ada
+						cookie pelacak.
+					</li>
+					<li>
+						Flashing firmware berjalan sepenuhnya di browser Anda melalui kabel
+						USB; tidak ada data perangkat yang dikirim ke kami.
+					</li>
+				</ul>
+
+				<h2>4. Penyimpanan dan penghapusan</h2>
+				<p>
+					Data aplikasi tersimpan di HP Anda dan terhapus saat Anda menghapus
+					data aplikasi atau mencopot pemasangannya. Data di soundbox terhapus
+					saat perangkat dimatikan atau baterai dilepas. Untuk data di Telegram
+					atau Google, gunakan pengaturan masing-masing layanan.
+				</p>
+
+				<h2>5. Hak Anda</h2>
+				<p>
+					Sesuai Undang-Undang No. 27 Tahun 2022 tentang Pelindungan Data
+					Pribadi, Anda berhak meminta informasi, koreksi, atau penghapusan data
+					pribadi Anda. Karena kami tidak menyimpan data Anda di server,
+					sebagian besar hak ini dapat Anda jalankan langsung dari HP. Untuk
+					pertanyaan lain, hubungi kami di bawah.
+				</p>
+
+				<h2>6. Anak-anak</h2>
+				<p>
+					Produk ini ditujukan untuk pelaku usaha dan tidak ditujukan untuk anak
+					di bawah 18 tahun.
+				</p>
+
+				<h2>7. Perubahan kebijakan</h2>
+				<p>
+					Kami dapat memperbarui kebijakan ini. Perubahan akan ditampilkan di
+					halaman ini dengan tanggal pembaruan yang baru.
+				</p>
+
+				<h2>8. Kontak</h2>
+				<p>Email: <a href="mailto:nindita@gmail.com">Nindita</a></p>
+			</main>
+
+			<!-- ========================= ENGLISH ========================= -->
+			<main class="en">
+				<h1>Privacy Policy</h1>
+				<p class="updated">Last updated: November 2, 2026</p>
+
+				<p>
+					This policy explains how the QRIS Soundbox device, the SoundboxBridge
+					Android app (<code>id.nindita.qrissbbridge</code>), and this website
+					handle your data. In short:
+					<b
+						>we don't run our own servers and we don't collect your transaction
+						data.</b
+					>
+					Data is processed on your phone and your soundbox.
+				</p>
+
+				<h2>1. Data processed by the SoundboxBridge app</h2>
+				<ul>
+					<li>
+						<b>Payment notifications.</b> With the Notification Access
+						permission you grant, the app reads QRIS payment notifications to
+						extract the transaction amount. Other notifications are ignored.
+						This data is processed on your phone and sent only to your soundbox
+						and to branch devices you link.
+					</li>
+					<li>
+						<b>Soundbox settings.</b> Your QRIS code and PIN are stored on your
+						phone and sent to the soundbox over Bluetooth. The soundbox doesn't
+						keep them permanently; they are cleared when it restarts.
+					</li>
+					<li>
+						<b>Bluetooth.</b> Bluetooth permissions (and, on some Android
+						versions, location/nearby-devices permission) are used only to find
+						and connect to the soundbox. We don't use your location.
+					</li>
+					<li>
+						<b>Branch forwarding (Telegram).</b> If you use multi-branch
+						forwarding, payment amounts are relayed between devices through your
+						own Telegram account. Your phone number and sign-in are handled
+						directly by Telegram under the
+						<a
+							href="https://telegram.org/privacy"
+							target="_blank"
+							rel="noopener"
+							>Telegram Privacy Policy</a
+						>.
+					</li>
+					<li>
+						<b>Push messaging (Firebase Cloud Messaging).</b> The app uses
+						Google's Firebase Cloud Messaging to keep forwarding running. Google
+						processes a device token under the
+						<a
+							href="https://policies.google.com/privacy"
+							target="_blank"
+							rel="noopener"
+							>Google Privacy Policy</a
+						>.
+					</li>
+					<li>
+						<b>In-app purchases.</b> Premium purchases are handled by Google
+						Play. We never receive your card or payment details; the app only
+						checks your purchase status with Google Play.
+					</li>
+				</ul>
+
+				<h2>2. What we don't do</h2>
+				<ul>
+					<li>We don't sell, rent, or share your data for advertising.</li>
+					<li>We don't send your transaction history to any server of ours.</li>
+					<li>We don't use advertising trackers.</li>
+				</ul>
+
+				<h2>3. This website</h2>
+				<ul>
+					<li>
+						The site is hosted on GitHub Pages. GitHub may log visitor IP
+						addresses for security; see the
+						<a
+							href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement"
+							target="_blank"
+							rel="noopener"
+							>GitHub Privacy Statement</a
+						>.
+					</li>
+					<li>
+						The Google Play badge is loaded from Google's servers, and the
+						flashing tool is loaded from unpkg.com.
+					</li>
+					<li>
+						Your language choice is saved in your browser (localStorage). No
+						tracking cookies are used.
+					</li>
+					<li>
+						Firmware flashing runs entirely in your browser over USB; no device
+						data is sent to us.
+					</li>
+				</ul>
+
+				<h2>4. Retention and deletion</h2>
+				<p>
+					App data stays on your phone and is deleted when you clear the app's
+					data or uninstall it. Data on the soundbox is cleared when it powers
+					off or the battery is removed. For data held by Telegram or Google,
+					use those services' own settings.
+				</p>
+
+				<h2>5. Your rights</h2>
+				<p>
+					Under Indonesia's Personal Data Protection Law (Law No. 27 of 2022),
+					you may request access to, correction of, or deletion of your personal
+					data. Because we don't hold your data on any server, most of these
+					rights can be exercised directly on your phone. For anything else,
+					contact us below.
+				</p>
+
+				<h2>6. Children</h2>
+				<p>
+					This product is intended for businesses and is not directed at
+					children under 18.
+				</p>
+
+				<h2>7. Changes</h2>
+				<p>
+					We may update this policy. Changes will be posted on this page with a
+					new "last updated" date.
+				</p>
+
+				<h2>8. Contact</h2>
+				<p>Email: <a href="mailto:nindita@gmail.com">Nindita</a></p>
+			</main>
+
+			<footer>
+				<p>
+					<a href="./"
+						><span class="id">← Kembali ke beranda</span
+						><span class="en">← Back to home</span></a
+					>
+				</p>
+				<p>© <span id="year"></span> QRIS Soundbox</p>
+			</footer>
+		</div>
+
+		<script>
+			(function () {
+				var body = document.body;
+				var saved = null;
+				try {
+					saved = localStorage.getItem("lang");
+				} catch (e) {}
+				var initial =
+					saved ||
+					((navigator.language || "id").toLowerCase().startsWith("id")
+						? "id"
+						: "en");
+				function setLang(l) {
+					body.dataset.lang = l;
+					document.documentElement.lang = l;
+					document.title =
+						(l === "id" ? "Kebijakan Privasi" : "Privacy Policy") +
+						" · QRIS Soundbox";
+					document.querySelectorAll("[data-set-lang]").forEach(function (b) {
+						b.setAttribute(
+							"aria-pressed",
+							b.dataset.setLang === l ? "true" : "false",
+						);
+					});
+					try {
+						localStorage.setItem("lang", l);
+					} catch (e) {}
+				}
+				document.querySelectorAll("[data-set-lang]").forEach(function (b) {
+					b.addEventListener("click", function () {
+						setLang(b.dataset.setLang);
+					});
+				});
+				// allow ?lang=en / ?lang=id (handy for the Play Console link)
+				var q = new URLSearchParams(location.search).get("lang");
+				setLang(q === "en" || q === "id" ? q : initial);
+				document.getElementById("year").textContent = new Date().getFullYear();
+			})();
+		</script>
+	</body>
+</html>
