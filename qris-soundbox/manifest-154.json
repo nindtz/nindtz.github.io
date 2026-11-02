@@ -1,0 +1,13 @@
+{
+  "name": "QRIS Soundbox Mini 1.54\"",
+  "version": "1.0.0",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP32-S3",
+      "parts": [
+        { "path": "firmware/soundbox-154.merged.bin", "offset": 0 }
+      ]
+    }
+  ]
+}

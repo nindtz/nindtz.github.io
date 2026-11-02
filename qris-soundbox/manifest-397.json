@@ -1,0 +1,13 @@
+{
+  "name": "QRIS Soundbox 3.97\"",
+  "version": "1.0.0",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP32-S3",
+      "parts": [
+        { "path": "firmware/soundbox-397.merged.bin", "offset": 0 }
+      ]
+    }
+  ]
+}

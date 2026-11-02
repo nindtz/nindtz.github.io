@@ -1,9 +1,262 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <!-- head definitions go here -->
-    </head>
-    <body>
-        <!-- the content goes here -->
-    </body>
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QRIS Soundbox</title>
+  <meta name="description" content="QRIS Soundbox — announce every QRIS payment out loud. Get the SoundboxBridge app and flash the latest firmware right from your browser.">
+  <meta name="theme-color" content="#0f766e">
+  <!-- ESP Web Tools: browser flasher (Web Serial) -->
+  <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
+  <style>
+    :root {
+      --bg: #f7f8f7;
+      --surface: #ffffff;
+      --text: #14201e;
+      --muted: #5b6b68;
+      --border: #dde3e1;
+      --accent: #0f766e;
+      --accent-ink: #ffffff;
+      --warn-bg: #fff6e0;
+      --warn-text: #7a5300;
+      --radius: 14px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0e1513;
+        --surface: #16201e;
+        --text: #e6eeec;
+        --muted: #9aaba7;
+        --border: #26332f;
+        --accent: #2dd4bf;
+        --accent-ink: #062b27;
+        --warn-bg: #2e2510;
+        --warn-text: #f3cf7a;
+      }
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+    a { color: var(--accent); }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 0;
+    }
+    .brand { font-weight: 700; font-size: 1.1rem; letter-spacing: .2px; }
+    .brand span { color: var(--accent); }
+    .lang { display: flex; gap: 4px; }
+    .lang button {
+      border: 1px solid var(--border); background: var(--surface); color: var(--muted);
+      padding: 4px 10px; border-radius: 999px; cursor: pointer; font: inherit; font-size: .85rem;
+    }
+    .lang button[aria-pressed="true"] { color: var(--accent-ink); background: var(--accent); border-color: var(--accent); }
+
+    .hero { padding: 40px 0 32px; }
+    .hero h1 { font-size: clamp(1.9rem, 5vw, 2.8rem); line-height: 1.15; margin: 0 0 12px; }
+    .hero p { color: var(--muted); font-size: 1.1rem; max-width: 620px; margin: 0 0 24px; }
+    .cta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+    .play-badge img { height: 64px; width: auto; display: block; margin: -10px; } /* official badge has built-in padding */
+    .btn {
+      display: inline-block; text-decoration: none; font-weight: 600;
+      padding: 11px 18px; border-radius: 10px; border: 1px solid var(--border);
+      color: var(--text); background: var(--surface);
+    }
+
+    section { padding: 32px 0; }
+    h2 { font-size: 1.5rem; margin: 0 0 16px; }
+    .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 18px;
+    }
+    .card h3 { margin: 0 0 6px; font-size: 1.05rem; }
+    .card p { margin: 0; color: var(--muted); }
+
+    .steps { counter-reset: s; list-style: none; padding: 0; margin: 0 0 20px; }
+    .steps li { counter-increment: s; position: relative; padding: 0 0 12px 40px; }
+    .steps li::before {
+      content: counter(s); position: absolute; left: 0; top: 0;
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--accent); color: var(--accent-ink);
+      display: grid; place-items: center; font-weight: 700; font-size: .9rem;
+    }
+    .flash-card { display: flex; flex-direction: column; gap: 12px; }
+    .flash-card .meta { font-size: .85rem; color: var(--muted); }
+    esp-web-install-button button[slot="activate"] {
+      background: var(--accent); color: var(--accent-ink); border: 0;
+      padding: 11px 18px; border-radius: 10px; font: inherit; font-weight: 600; cursor: pointer;
+    }
+    .notice {
+      background: var(--warn-bg); color: var(--warn-text);
+      border-radius: 10px; padding: 10px 12px; font-size: .9rem; margin: 0;
+    }
+
+    footer { border-top: 1px solid var(--border); padding: 24px 0 40px; color: var(--muted); font-size: .85rem; }
+    footer p { margin: 4px 0; }
+
+    /* language toggle */
+    [data-lang="en"] .id, [data-lang="id"] .en { display: none !important; }
+  </style>
+</head>
+<body data-lang="id">
+  <div class="wrap">
+    <header>
+      <div class="brand">QRIS <span>Soundbox</span></div>
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-set-lang="id" aria-pressed="true">ID</button>
+        <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <div class="hero">
+      <h1>
+        <span class="id">Setiap pembayaran QRIS, langsung terdengar.</span>
+        <span class="en">Hear every QRIS payment, instantly.</span>
+      </h1>
+      <p>
+        <span class="id">Soundbox dengan layar e-paper untuk UMKM. Sekali beli, tanpa langganan, tanpa server. Pasang aplikasi SoundboxBridge di HP kasir dan soundbox akan mengumumkan setiap pembayaran yang masuk.</span>
+        <span class="en">An e-paper soundbox for small businesses. Buy once — no subscription, no server. Install the SoundboxBridge app on the cashier's phone and the box announces every incoming payment.</span>
+      </p>
+      <div class="cta">
+        <!-- Replace the link if your package name changes -->
+        <a class="play-badge" href="https://play.google.com/store/apps/details?id=id.nindita.qrissbbridge" target="_blank" rel="noopener">
+          <img class="id" alt="Temukan di Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/id_badge_web_generic.png">
+          <img class="en" alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png">
+        </a>
+        <a class="btn" href="#flash">
+          <span class="id">Perbarui firmware</span>
+          <span class="en">Update firmware</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- FEATURES (edit freely) -->
+    <section>
+      <div class="grid">
+        <div class="card">
+          <h3><span class="id">Suara langsung</span><span class="en">Instant voice alerts</span></h3>
+          <p><span class="id">Nominal pembayaran diumumkan begitu notifikasi masuk.</span><span class="en">The amount is announced as soon as the payment notification arrives.</span></p>
+        </div>
+        <div class="card">
+          <h3><span class="id">Layar e-paper</span><span class="en">E-paper display</span></h3>
+          <p><span class="id">Menampilkan QRIS dan transaksi terakhir, tetap terbaca di bawah sinar matahari.</span><span class="en">Shows your QRIS and the latest transaction, readable even in sunlight.</span></p>
+        </div>
+        <div class="card">
+          <h3><span class="id">Banyak cabang</span><span class="en">Multiple branches</span></h3>
+          <p><span class="id">Satu kode QRIS bisa dipakai di beberapa lokasi lewat aplikasi SoundboxBridge.</span><span class="en">One QRIS code can serve several locations through the SoundboxBridge app.</span></p>
+        </div>
+        <div class="card">
+          <h3><span class="id">Tanpa langganan</span><span class="en">No subscription</span></h3>
+          <p><span class="id">Tidak ada biaya bulanan dan tidak ada server pihak ketiga.</span><span class="en">No monthly fees and no third-party server.</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FLASHER -->
+    <section id="flash">
+      <h2><span class="id">Pasang / perbarui firmware</span><span class="en">Install / update firmware</span></h2>
+      <ol class="steps">
+        <li>
+          <span class="id">Buka halaman ini di <b>Chrome</b> atau <b>Edge</b> di komputer (Windows, macOS, Linux, atau Chromebook).</span>
+          <span class="en">Open this page in <b>Chrome</b> or <b>Edge</b> on a computer (Windows, macOS, Linux, or Chromebook).</span>
+        </li>
+        <li>
+          <span class="id">Sambungkan soundbox ke komputer dengan kabel USB-C yang mendukung data.</span>
+          <span class="en">Connect the soundbox to the computer with a USB-C cable that supports data.</span>
+        </li>
+        <li>
+          <span class="id">Pilih model Anda di bawah, klik <b>Pasang</b>, lalu pilih port soundbox.</span>
+          <span class="en">Pick your model below, click <b>Install</b>, then choose the soundbox's port.</span>
+        </li>
+        <li>
+          <span class="id">Jika port tidak muncul atau gagal terhubung: tahan tombol <b>BOOT</b>, tekan dan lepas <b>RESET</b> (atau cabut-pasang kabel), lalu lepas BOOT dan coba lagi.</span>
+          <span class="en">If the port doesn't show up or won't connect: hold <b>BOOT</b>, press and release <b>RESET</b> (or replug the cable), release BOOT, and try again.</span>
+        </li>
+      </ol>
+
+      <div class="grid">
+        <div class="card flash-card">
+          <h3>Soundbox 3.97"</h3>
+          <div class="meta">Waveshare ESP32-S3-ePaper-3.97 · <span id="ver-397">…</span></div>
+          <esp-web-install-button manifest="manifest-397.json">
+            <button slot="activate"><span class="id">Pasang</span><span class="en">Install</span></button>
+            <p slot="unsupported" class="notice">
+              <span class="id">Browser ini tidak mendukung Web Serial. Gunakan Chrome atau Edge di komputer.</span>
+              <span class="en">This browser doesn't support Web Serial. Use Chrome or Edge on a computer.</span>
+            </p>
+            <p slot="not-allowed" class="notice">
+              <span class="id">Halaman harus dibuka lewat HTTPS.</span>
+              <span class="en">This page must be served over HTTPS.</span>
+            </p>
+          </esp-web-install-button>
+        </div>
+
+        <div class="card flash-card">
+          <h3>Soundbox Mini 1.54"</h3>
+          <div class="meta">Waveshare ESP32-S3-ePaper-1.54 V2 · <span id="ver-154">…</span></div>
+          <esp-web-install-button manifest="manifest-154.json">
+            <button slot="activate"><span class="id">Pasang</span><span class="en">Install</span></button>
+            <p slot="unsupported" class="notice">
+              <span class="id">Browser ini tidak mendukung Web Serial. Gunakan Chrome atau Edge di komputer.</span>
+              <span class="en">This browser doesn't support Web Serial. Use Chrome or Edge on a computer.</span>
+            </p>
+            <p slot="not-allowed" class="notice">
+              <span class="id">Halaman harus dibuka lewat HTTPS.</span>
+              <span class="en">This page must be served over HTTPS.</span>
+            </p>
+          </esp-web-install-button>
+        </div>
+      </div>
+
+      <p class="notice" style="margin-top:16px">
+        <span class="id">Setelah flashing, pengaturan QRIS dan PIN perlu diatur ulang dari aplikasi SoundboxBridge.</span>
+        <span class="en">After flashing, set up your QRIS and PIN again from the SoundboxBridge app.</span>
+      </p>
+    </section>
+
+    <footer>
+      <p>© <span id="year"></span> QRIS Soundbox</p>
+      <p>Google Play and the Google Play logo are trademarks of Google LLC.</p>
+    </footer>
+  </div>
+
+  <script>
+    // Language toggle: browser language first, then remembered choice
+    (function () {
+      var body = document.body;
+      var saved = null;
+      try { saved = localStorage.getItem("lang"); } catch (e) {}
+      var initial = saved || ((navigator.language || "id").toLowerCase().startsWith("id") ? "id" : "en");
+      function setLang(l) {
+        body.dataset.lang = l;
+        document.documentElement.lang = l;
+        document.querySelectorAll("[data-set-lang]").forEach(function (b) {
+          b.setAttribute("aria-pressed", b.dataset.setLang === l ? "true" : "false");
+        });
+        try { localStorage.setItem("lang", l); } catch (e) {}
+      }
+      document.querySelectorAll("[data-set-lang]").forEach(function (b) {
+        b.addEventListener("click", function () { setLang(b.dataset.setLang); });
+      });
+      setLang(initial);
+      document.getElementById("year").textContent = new Date().getFullYear();
+    })();
+
+    // Show firmware version from each manifest
+    [["manifest-397.json", "ver-397"], ["manifest-154.json", "ver-154"]].forEach(function (p) {
+      fetch(p[0], { cache: "no-store" })
+        .then(function (r) { return r.json(); })
+        .then(function (m) { document.getElementById(p[1]).textContent = "v" + m.version; })
+        .catch(function () { document.getElementById(p[1]).textContent = ""; });
+    });
+  </script>
+</body>
 </html>
