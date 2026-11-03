@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="id">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Panduan Penguji · QRIS Soundbox</title>
+		<meta
+			name="description"
+			content="Panduan penguji QRIS Soundbox: cara bergabung, daftar tugas 14 hari, dan formulir umpan balik."
+		/>
+		<meta name="robots" content="noindex" />
+		<meta name="theme-color" content="#0f766e" />
+		<style>
+			:root {
+				--bg: #f7f8f7;
+				--surface: #ffffff;
+				--text: #14201e;
+				--muted: #5b6b68;
+				--border: #dde3e1;
+				--accent: #0f766e;
+				--accent-ink: #ffffff;
+				--code: #eef2f1;
+				--note-bg: #e8f5f3;
+				--warn-bg: #fff6e0;
+				--warn-text: #7a5300;
+				--radius: 14px;
+			}
+			@media (prefers-color-scheme: dark) {
+				:root {
+					--bg: #0e1513;
+					--surface: #16201e;
+					--text: #e6eeec;
+					--muted: #9aaba7;
+					--border: #26332f;
+					--accent: #2dd4bf;
+					--accent-ink: #062b27;
+					--code: #1d2a27;
+					--note-bg: #12302b;
+					--warn-bg: #2e2510;
+					--warn-text: #f3cf7a;
+				}
+			}
+			* {
+				box-sizing: border-box;
+			}
+			body {
+				margin: 0;
+				background: var(--bg);
+				color: var(--text);
+				font:
+					16px/1.65 system-ui,
+					-apple-system,
+					"Segoe UI",
+					Roboto,
+					sans-serif;
+			}
+			a {
+				color: var(--accent);
+			}
+			.wrap {
+				max-width: 760px;
+				margin: 0 auto;
+				padding: 0 16px;
+			}
+			header {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 18px 0;
+			}
+			.brand {
+				font-weight: 700;
+				font-size: 1.1rem;
+				text-decoration: none;
+				color: var(--text);
+			}
+			.brand span {
+				color: var(--accent);
+			}
+			h1 {
+				font-size: clamp(1.6rem, 4vw, 2.2rem);
+				line-height: 1.2;
+				margin: 8px 0;
+			}
+			.lead {
+				color: var(--muted);
+				margin: 0 0 20px;
+			}
+			section {
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: var(--radius);
+				padding: 20px;
+				margin: 0 0 16px;
+			}
+			h2 {
+				font-size: 1.2rem;
+				margin: 0 0 10px;
+			}
+			h3 {
+				font-size: 1rem;
+				margin: 18px 0 6px;
+			}
+			ul,
+			ol {
+				padding-left: 22px;
+				margin: 8px 0 0;
+			}
+			li {
+				margin-bottom: 8px;
+			}
+			b.ui {
+				font-weight: 600;
+			}
+			code {
+				background: var(--code);
+				padding: 1px 6px;
+				border-radius: 6px;
+				font-size: 0.92em;
+			}
+			.facts {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+				gap: 10px;
+				margin: 4px 0 14px;
+			}
+			.fact {
+				background: var(--note-bg);
+				border-radius: 10px;
+				padding: 10px 12px;
+			}
+			.fact .k {
+				font-size: 0.82rem;
+				color: var(--muted);
+			}
+			.fact .v {
+				font-weight: 700;
+				font-size: 1.05rem;
+			}
+			.warn {
+				background: var(--warn-bg);
+				color: var(--warn-text);
+				border-radius: 10px;
+				padding: 10px 12px;
+				font-size: 0.95rem;
+				margin: 12px 0 0;
+			}
+			.btn {
+				display: inline-block;
+				border: 0;
+				cursor: pointer;
+				text-decoration: none;
+				font: inherit;
+				font-weight: 600;
+				padding: 10px 16px;
+				border-radius: 10px;
+				background: var(--accent);
+				color: var(--accent-ink);
+			}
+			.btn.ghost {
+				background: transparent;
+				color: var(--accent);
+				border: 1px solid var(--border);
+			}
+			.btns {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 8px;
+				margin-top: 12px;
+			}
+			.tasks {
+				list-style: none;
+				padding: 0;
+				margin: 6px 0 0;
+			}
+			.tasks li {
+				margin: 0;
+				border-top: 1px solid var(--border);
+			}
+			.tasks li:first-child {
+				border-top: 0;
+			}
+			.tasks label {
+				display: flex;
+				gap: 12px;
+				align-items: flex-start;
+				padding: 10px 2px;
+				cursor: pointer;
+			}
+			.tasks input {
+				width: 20px;
+				height: 20px;
+				margin-top: 3px;
+				flex: none;
+				accent-color: var(--accent);
+			}
+			.tasks input:checked + span {
+				color: var(--muted);
+				text-decoration: line-through;
+			}
+			.progress {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				margin: 0 0 6px;
+				font-size: 0.92rem;
+				color: var(--muted);
+			}
+			.bar {
+				flex: 1;
+				height: 8px;
+				background: var(--code);
+				border-radius: 99px;
+				overflow: hidden;
+			}
+			.bar i {
+				display: block;
+				height: 100%;
+				width: 0;
+				background: var(--accent);
+				transition: width 0.2s;
+			}
+			.optional {
+				font-weight: 500;
+				color: var(--muted);
+				font-size: 0.9rem;
+			}
+			footer {
+				color: var(--muted);
+				font-size: 0.85rem;
+				padding: 8px 0 40px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="wrap">
+			<header>
+				<a class="brand" href="../">QRIS <span>Soundbox</span></a>
+			</header>
+
+			<h1>Panduan Penguji QRIS Soundbox</h1>
+			<p class="lead">
+				Terima kasih sudah mau menguji QRIS Soundbox, aplikasi yang mengumumkan
+				setiap pembayaran QRIS dengan suara, di soundbox atau langsung di HP.
+			</p>
+
+			<section>
+				<h2>Ringkasan</h2>
+				<div class="facts">
+					<div class="fact">
+						<div class="k">Lama pengujian</div>
+						<div class="v">14 hari berturut-turut</div>
+					</div>
+					<div class="fact">
+						<div class="k">Imbalan</div>
+						<div class="v" data-config="reward">Rp ___</div>
+					</div>
+					<div class="fact">
+						<div class="k">Dibayar</div>
+						<div class="v">Setelah hari ke-14</div>
+					</div>
+				</div>
+				<ul>
+					<li>
+						<b>Syarat:</b> tetap terdaftar sebagai penguji selama 14 hari penuh,
+						memakai aplikasi beberapa kali, dan mengisi formulir umpan balik di
+						akhir.
+					</li>
+					<li>
+						<b>Umpan balik jujur:</b> keluhan dan masalah justru paling
+						membantu. Imbalan tidak bergantung pada penilaian Anda.
+					</li>
+					<li>
+						<b>Tidak perlu soundbox:</b> tanpa soundbox, HP sendiri yang
+						mengumumkan pembayaran.
+					</li>
+				</ul>
+				<p class="warn">
+					<b>Bukan ulasan Play Store.</b> Jangan menulis ulasan atau rating di
+					Play Store sebagai bagian dari tugas ini. Semua umpan balik lewat
+					formulir atau grup WhatsApp penguji.
+				</p>
+			</section>
+
+			<section>
+				<h2>Cara bergabung</h2>
+				<p>
+					Pakai akun Google yang sama dengan yang aktif di Play Store HP Anda.
+				</p>
+				<ol>
+					<li>
+						Kirim alamat Gmail Anda ke pengembang, lalu tunggu konfirmasi bahwa
+						Anda sudah ditambahkan.
+					</li>
+					<li>Buka tautan penguji (tombol di bawah) di HP Anda.</li>
+					<li>
+						Ketuk <b class="ui">Jadi penguji</b> (Become a tester). Tanpa
+						langkah ini Anda tidak terhitung sebagai penguji.
+					</li>
+					<li>
+						Ketuk tautan untuk mengunduh, lalu pasang <b>QRIS Soundbox</b> dari
+						Play Store.
+					</li>
+					<li>
+						<b>Jangan keluar dari program penguji</b> dan jangan mencopot
+						aplikasi selama 14 hari. Jika keluar lalu bergabung lagi, hitungan
+						14 hari dimulai dari awal.
+					</li>
+				</ol>
+				<div class="btns">
+					<a class="btn" data-config="optinUrl" href="#">Buka tautan penguji</a>
+					<a class="btn ghost" data-config="whatsappUrl" href="#"
+						>Grup WhatsApp penguji</a
+					>
+				</div>
+			</section>
+
+			<section>
+				<h2>Daftar tugas</h2>
+				<p>
+					Centang setiap tugas yang sudah dicoba; centang disimpan di HP ini.
+					Tidak semua harus berhasil: jika ada yang gagal atau membingungkan,
+					catat untuk formulir.
+				</p>
+				<div class="progress">
+					<span id="count">0 dari 0</span>
+					<div class="bar"><i id="bar"></i></div>
+				</div>
+
+				<h3>Hari pertama: pengaturan (sekitar 10 menit)</h3>
+				<ul class="tasks">
+					<li>
+						<label
+							><input type="checkbox" data-task="setup-1" /><span
+								>Buka aplikasi. Bahasanya mengikuti HP Anda (Indonesia atau
+								Inggris).</span
+							></label
+						>
+					</li>
+					<li>
+						<label
+							><input type="checkbox" data-task="setup-2" /><span
+								>Muat QRIS: pindai stiker QRIS toko Anda dengan
+								<b class="ui">Kamera</b>, pilih fotonya lewat
+								<b class="ui">Galeri</b>, atau pakai
+								<a href="../review/#qris">QRIS demo</a>.</span
+							></label
+						>
+					</li>
+					<li>
+						<label
+							><input type="checkbox" data-task="setup-3" /><span
+								>Isi PIN (4-16 angka), misalnya <code>123456</code>.</span
+							></label
+						>
+					</li>
+					<li>
+						<label
+							><input type="checkbox" data-task="setup-4" /><span
+								>Ketuk <b class="ui">Izinkan akses notifikasi</b> dan aktifkan
+								untuk QRIS Soundbox.</span
+							></label
+						>
+					</li>
+					<li>
+						<label
+							><input type="checkbox" data-task="setup-5" /><span
+								><b class="ui">Tambah aplikasi pembayaran</b> (aplikasi
+								merchant, dompet digital, atau bank Anda) dan/atau
+								<b class="ui">Tambah aplikasi pesan</b> (misalnya
+								WhatsApp).</span
+							></label
+						>
+					</li>
+					<li>
+						<label
+							><input type="checkbox" data-task="setup-6" /><span
+								>Di <b class="ui">Uji soundbox</b>, isi nominal dan ketuk
+								<b class="ui">Kirim</b>: HP mengumumkan nominalnya.</span
+							></label
+						>
+					</li>
+					<li>
+						<label
+							><input type="checkbox" data-task="setup-7" /><span
+								>Ketuk <b class="ui">Mulai bridge</b> agar aplikasi tetap
+								berjalan di latar belakang.</span
+							></label
+						>
+					</li>
+					<li>
+						<label
+							><input type="checkbox" data-task="setup-8" /><span
+								>Atur baterai: Setelan &gt; Aplikasi &gt; QRIS Soundbox &gt;
+								Baterai &gt; <b class="ui">Tidak dibatasi</b>.</span
+							></label
+						>
+					</li>
+				</ul>
+
+				<h3>Selama 14 hari: pemakaian rutin</h3>
+				<ul class="tasks">
+					<li>
+						<label
+							><input type="checkbox" data-task="use-1" /><span
+								>Biarkan bridge berjalan saat berjualan, dan dengarkan apakah
+								setiap pembayaran QRIS diumumkan.</span
+							></label
+						>
+					</li>
+					<li>
+						<label
+							><input type="checkbox" data-task="use-2" /><span
+								>Tanpa toko: minta teman mengirim pesan WhatsApp berisi nominal,
+								misalnya <code>Rp 25.000</code>, ke HP Anda.</span
+							></label
+						>
+					</li>
+					<li>
+						<label
+							><input type="checkbox" data-task="use-3" /><span
+								>Coba <b class="ui">Layar pelanggan</b>: tampilkan QRIS dan
+								pembayaran ke pembeli.</span
+							></label
+						>
+					</li>
+					<li>
+						<label
+							><input type="checkbox" data-task="use-4" /><span
+								>Buka aplikasi setidaknya 3-4 kali di hari yang berbeda.</span
+							></label
+						>
+					</li>
+				</ul>
+
+				<h3>
+					Fitur Cabang <span class="optional">(opsional, butuh 2 HP)</span>
+				</h3>
+				<ul class="tasks">
+					<li>
+						<label
+							><input type="checkbox" data-task="branch-1" /><span
+								>HP pertama: <b class="ui">Cabang</b> &gt;
+								<b class="ui">HP pemilik</b> &gt;
+								<b class="ui">Tautkan Telegram</b> &gt;
+								<b class="ui">Tambah cabang</b>.</span
+							></label
+						>
+					</li>
+					<li>
+						<label
+							><input type="checkbox" data-task="branch-2" /><span
+								>HP kedua: <b class="ui">HP cabang</b> &gt;
+								<b class="ui">Pindai QR pemilik</b> &gt;
+								<b class="ui">Tautkan Telegram</b> &gt;
+								<b class="ui">Mulai bridge</b>.</span
+							></label
+						>
+					</li>
+					<li>
+						<label
+							><input type="checkbox" data-task="branch-3" /><span
+								>Kirim pembayaran uji di HP pertama dan dengarkan apakah HP
+								kedua mengumumkannya.</span
+							></label
+						>
+					</li>
+					<li>
+						<label
+							><input type="checkbox" data-task="branch-4" /><span
+								>Lihat menu <b class="ui">Premium</b> (tidak perlu
+								membeli).</span
+							></label
+						>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Jika ada masalah</h2>
+				<p>
+					Kirim pesan ke grup WhatsApp penguji: apa yang Anda lakukan, apa yang
+					terjadi, dan tangkapan layarnya. Untuk masalah teknis, sertakan file
+					log: menu (⋮) &gt; <b class="ui">Ekspor file log</b>.
+				</p>
+			</section>
+
+			<section>
+				<h2>Formulir umpan balik</h2>
+				<p>
+					Isi setelah hari ke-14 (sekitar 5 menit). Imbalan dibayar setelah
+					formulir diterima.
+				</p>
+				<div class="btns">
+					<a class="btn" data-config="formUrl" href="#"
+						>Isi formulir umpan balik</a
+					>
+				</div>
+			</section>
+
+			<footer>
+				<a href="../privacy.html">Kebijakan Privasi</a> · QRIS Soundbox
+			</footer>
+		</div>
+
+		<script>
+			// ===== EDIT THESE FOUR VALUES =====
+			var CONFIG = {
+				reward: "Rp 20.000", // e.g. "Rp 50.000"
+				optinUrl:
+					"https://play.google.com/apps/testing/id.nindita.qrissbbridge", // Play Console > Closed testing > Testers > "Copy link"
+				whatsappUrl:
+					"https://chat.whatsapp.com/LQUM6UYOyRiHpisChAVf0z?mode=gi_t", // e.g. "https://chat.whatsapp.com/..."
+				formUrl:
+					"https://docs.google.com/forms/d/e/1FAIpQLSfWwX8pPJUeyIAAm3yTMmA4DKxU6_xSU80T2j_O1KG4Q4tF8w/viewform?usp=header", // your Google Form link
+			};
+			// ==================================
+
+			document.querySelectorAll("[data-config]").forEach(function (el) {
+				var v = CONFIG[el.getAttribute("data-config")];
+				if (el.tagName === "A") {
+					if (v) {
+						el.href = v;
+						el.target = "_blank";
+						el.rel = "noopener";
+					} else {
+						el.removeAttribute("href");
+						el.style.opacity = ".5";
+						el.title = "Segera tersedia";
+					}
+				} else if (v) el.textContent = v;
+			});
+
+			// Checklist: saved on this phone only
+			var KEY = "qris-soundbox-tester-tasks";
+			var saved = {};
+			try {
+				saved = JSON.parse(localStorage.getItem(KEY) || "{}") || {};
+			} catch (e) {}
+			var boxes = Array.prototype.slice.call(
+				document.querySelectorAll("input[data-task]"),
+			);
+			function update() {
+				var done = boxes.filter(function (b) {
+					return b.checked;
+				}).length;
+				document.getElementById("count").textContent =
+					done + " dari " + boxes.length + " tugas";
+				document.getElementById("bar").style.width =
+					(100 * done) / boxes.length + "%";
+			}
+			boxes.forEach(function (b) {
+				b.checked = !!saved[b.dataset.task];
+				b.addEventListener("change", function () {
+					saved[b.dataset.task] = b.checked;
+					try {
+						localStorage.setItem(KEY, JSON.stringify(saved));
+					} catch (e) {}
+					update();
+				});
+			});
+			update();
+		</script>
+	</body>
+</html>
