@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="id">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Terms of Service · QRIS Soundbox</title>
+		<meta
+			name="description"
+			content="Terms of service for the QRIS Soundbox app, firmware and soundbox."
+		/>
+		<link rel="icon" href="favicon.ico" sizes="any" />
+		<meta name="theme-color" content="#0f766e" />
+		<style>
+			:root {
+				--bg: #f7f8f7;
+				--surface: #ffffff;
+				--text: #14201e;
+				--muted: #5b6b68;
+				--border: #dde3e1;
+				--accent: #0f766e;
+				--accent-ink: #ffffff;
+				--radius: 14px;
+			}
+			@media (prefers-color-scheme: dark) {
+				:root {
+					--bg: #0e1513;
+					--surface: #16201e;
+					--text: #e6eeec;
+					--muted: #9aaba7;
+					--border: #26332f;
+					--accent: #2dd4bf;
+					--accent-ink: #062b27;
+				}
+			}
+			* {
+				box-sizing: border-box;
+			}
+			body {
+				margin: 0;
+				background: var(--bg);
+				color: var(--text);
+				font:
+					16px/1.7 system-ui,
+					-apple-system,
+					"Segoe UI",
+					Roboto,
+					sans-serif;
+			}
+			a {
+				color: var(--accent);
+			}
+			.wrap {
+				max-width: 760px;
+				margin: 0 auto;
+				padding: 0 16px;
+			}
+			header {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 18px 0;
+			}
+			.brand {
+				font-weight: 700;
+				font-size: 1.1rem;
+				text-decoration: none;
+				color: var(--text);
+			}
+			.brand span {
+				color: var(--accent);
+			}
+			.lang {
+				display: flex;
+				gap: 4px;
+			}
+			.lang button {
+				border: 1px solid var(--border);
+				background: var(--surface);
+				color: var(--muted);
+				padding: 4px 10px;
+				border-radius: 999px;
+				cursor: pointer;
+				font: inherit;
+				font-size: 0.85rem;
+			}
+			.lang button[aria-pressed="true"] {
+				color: var(--accent-ink);
+				background: var(--accent);
+				border-color: var(--accent);
+			}
+			main {
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: var(--radius);
+				padding: 24px 20px;
+				margin: 8px 0 32px;
+			}
+			h1 {
+				font-size: clamp(1.6rem, 4vw, 2.2rem);
+				line-height: 1.2;
+				margin: 0 0 6px;
+			}
+			.updated {
+				color: var(--muted);
+				font-size: 0.9rem;
+				margin: 0 0 20px;
+			}
+			h2 {
+				font-size: 1.15rem;
+				margin: 28px 0 8px;
+			}
+			ul {
+				padding-left: 20px;
+			}
+			li {
+				margin-bottom: 6px;
+			}
+			.important {
+				background: #fff6e0;
+				color: #7a5300;
+				border-radius: 10px;
+				padding: 10px 12px;
+			}
+			@media (prefers-color-scheme: dark) {
+				.important {
+					background: #2e2510;
+					color: #f3cf7a;
+				}
+			}
+			footer {
+				border-top: 1px solid var(--border);
+				padding: 24px 0 40px;
+				color: var(--muted);
+				font-size: 0.85rem;
+			}
+			footer p {
+				margin: 4px 0;
+			}
+			[data-lang="en"] .id,
+			[data-lang="id"] .en {
+				display: none !important;
+			}
+		</style>
+	</head>
+	<body data-lang="id">
+		<div class="wrap">
+			<header>
+				<a class="brand" href="./">QRIS <span>Soundbox</span></a>
+				<div class="lang" role="group" aria-label="Language">
+					<button type="button" data-set-lang="id" aria-pressed="true">
+						ID
+					</button>
+					<button type="button" data-set-lang="en" aria-pressed="false">
+						EN
+					</button>
+				</div>
+			</header>
+
+			<!-- ===================== BAHASA INDONESIA ===================== -->
+			<main class="id">
+				<h1>Ketentuan Layanan</h1>
+				<p class="updated">Terakhir diperbarui: 5 November 2026</p>
+
+				<p>
+					Ketentuan ini berlaku untuk aplikasi Android QRIS Soundbox
+					(<code>id.nindita.qrissbbridge</code>), firmware QRIS Soundbox,
+					perangkat soundbox, dan situs web ini (bersama-sama disebut
+					"Layanan"), yang disediakan oleh Nindita ("kami"). Dengan memasang
+					atau memakai Layanan, Anda menyetujui ketentuan ini bersama
+					<a href="privacy.html">Kebijakan Privasi</a> kami.
+				</p>
+
+				<h2>1. Apa yang disediakan</h2>
+				<p>
+					QRIS Soundbox membaca notifikasi pembayaran dari aplikasi yang Anda
+					pilih dan mengumumkan nominalnya dengan suara, di soundbox atau di HP.
+					Fitur Cabang meneruskan pembayaran ke HP lain melalui akun Telegram
+					Anda sendiri. Layanan ditujukan untuk pelaku usaha berusia 18 tahun ke
+					atas.
+				</p>
+
+				<h2>2. Pengumuman bukan bukti pembayaran</h2>
+				<p class="important">
+					Pengumuman suara dan tampilan di soundbox hanya bersifat informasi.
+					Selalu pastikan pembayaran di aplikasi merchant, dompet digital, atau
+					bank Anda sebelum menyerahkan barang atau jasa.
+				</p>
+				<p>
+					Pengumuman bisa terlambat, terlewat, atau keliru, misalnya karena HP
+					mematikan aplikasi di latar belakang, notifikasi dimatikan, koneksi
+					Bluetooth atau internet terputus, atau format notifikasi aplikasi
+					pembayaran berubah. Pada fitur Cabang, setiap soundbox mengumumkan
+					semua pembayaran ke QRIS yang sama; Anda bertanggung jawab membedakan
+					pembayaran antar cabang, misalnya dengan nominal.
+				</p>
+
+				<h2>3. Akun dan layanan pihak ketiga</h2>
+				<ul>
+					<li>
+						Fitur Cabang memakai akun Telegram Anda dan tunduk pada ketentuan
+						Telegram. Anda bertanggung jawab atas keamanan akun tersebut dan
+						siapa saja yang menerima QR atau tautan pemasangan.
+					</li>
+					<li>
+						Aplikasi diunduh dan Premium dibeli melalui Google Play, dan tunduk
+						pada ketentuan Google Play.
+					</li>
+					<li>
+						Firmware dijual melalui lynk.id dan tunduk pada ketentuan lynk.id.
+					</li>
+					<li>
+						QRIS Soundbox tidak berafiliasi dengan Bank Indonesia, ASPI,
+						Telegram, maupun penyedia pembayaran mana pun. Kami tidak memproses
+						atau menyimpan dana Anda.
+					</li>
+				</ul>
+
+				<h2>4. Premium</h2>
+				<p>
+					Premium adalah pembelian sekali bayar di Google Play yang membuka
+					cabang tanpa batas pada akun Google yang membelinya. Tidak ada
+					langganan. Pengembalian dana mengikuti kebijakan Google Play.
+				</p>
+
+				<h2>5. Firmware</h2>
+				<ul>
+					<li>
+						Pembelian firmware memberi Anda izin memakai firmware tersebut pada
+						perangkat Anda sendiri. Firmware tidak boleh dibagikan, dijual
+						kembali, atau diunggah ulang tanpa izin tertulis dari kami.
+					</li>
+					<li>
+						Pemasangan (flashing) firmware sepenuhnya menjadi risiko Anda.
+						Pastikan file firmware sesuai dengan model perangkat yang
+						tersambung. Kami tidak bertanggung jawab atas kerusakan akibat
+						firmware yang dipasang pada perangkat yang salah atau proses
+						pemasangan yang terputus.
+					</li>
+					<li>
+						Firmware custom dibuat untuk perangkat yang disebutkan saat
+						pemesanan dan hanya boleh dipasang pada perangkat tersebut.
+					</li>
+				</ul>
+
+				<h2>6. Penggunaan yang dilarang</h2>
+				<p>
+					Anda tidak boleh memakai Layanan untuk penipuan, untuk mengumumkan
+					pembayaran palsu kepada pihak lain, untuk melanggar hukum, atau untuk
+					mengganggu layanan kami maupun pihak ketiga.
+				</p>
+
+				<h2>7. Batasan tanggung jawab</h2>
+				<p>
+					Layanan disediakan "sebagaimana adanya". Sejauh diizinkan hukum, kami
+					tidak bertanggung jawab atas kerugian tidak langsung, kehilangan
+					pendapatan, atau kerugian akibat pembayaran yang tidak diumumkan,
+					terlambat diumumkan, atau diumumkan keliru. Tanggung jawab kami paling
+					banyak sebesar jumlah yang Anda bayarkan kepada kami untuk Layanan
+					terkait dalam 12 bulan terakhir. Hak Anda sebagai konsumen menurut
+					hukum Indonesia tetap berlaku.
+				</p>
+
+				<h2>8. Perubahan dan penghentian</h2>
+				<p>
+					Kami dapat memperbarui Layanan dan ketentuan ini. Perubahan
+					ditampilkan di halaman ini dengan tanggal pembaruan yang baru. Anda
+					dapat berhenti memakai Layanan kapan saja dengan mencopot aplikasi.
+				</p>
+
+				<h2>9. Hukum yang berlaku</h2>
+				<p>Ketentuan ini diatur oleh hukum Republik Indonesia.</p>
+
+				<h2>10. Kontak</h2>
+				<p>Email: <a href="mailto:nindita@gmail.com">Nindita</a></p>
+			</main>
+
+			<!-- ========================= ENGLISH ========================= -->
+			<main class="en">
+				<h1>Terms of Service</h1>
+				<p class="updated">Last updated: November 5, 2026</p>
+
+				<p>
+					These terms apply to the QRIS Soundbox Android app
+					(<code>id.nindita.qrissbbridge</code>), the QRIS Soundbox firmware,
+					the soundbox device, and this website (together, the "Service"),
+					provided by Nindita ("we"). By installing or using the Service, you
+					agree to these terms and to our
+					<a href="privacy.html">Privacy Policy</a>.
+				</p>
+
+				<h2>1. What we provide</h2>
+				<p>
+					QRIS Soundbox reads payment notifications from the apps you choose and
+					announces the amount out loud, on a soundbox or on the phone. Branches
+					forwards payments to other phones through your own Telegram account.
+					The Service is intended for businesses and people aged 18 or over.
+				</p>
+
+				<h2>2. Announcements are not proof of payment</h2>
+				<p class="important">
+					Voice announcements and what the soundbox displays are for information
+					only. Always confirm a payment in your merchant, e-wallet or banking
+					app before handing over goods or services.
+				</p>
+				<p>
+					Announcements can be late, missed or wrong, for example when the phone
+					stops the app in the background, notifications are turned off, the
+					Bluetooth or internet connection drops, or a payment app changes its
+					notification format. With Branches, every soundbox announces every
+					payment to the shared QRIS; you are responsible for telling branches'
+					payments apart, for example by amount.
+				</p>
+
+				<h2>3. Accounts and third-party services</h2>
+				<ul>
+					<li>
+						Branches uses your Telegram account and is subject to Telegram's
+						terms. You are responsible for that account's security and for who
+						receives your pairing QR codes or links.
+					</li>
+					<li>
+						The app is downloaded and Premium is bought through Google Play,
+						subject to Google Play's terms.
+					</li>
+					<li>Firmware is sold through lynk.id, subject to lynk.id's terms.</li>
+					<li>
+						QRIS Soundbox isn't affiliated with Bank Indonesia, ASPI, Telegram
+						or any payment provider. We don't process or hold your funds.
+					</li>
+				</ul>
+
+				<h2>4. Premium</h2>
+				<p>
+					Premium is a one-time purchase on Google Play that unlocks unlimited
+					branches for the Google account that bought it. There is no
+					subscription. Refunds follow Google Play's refund policy.
+				</p>
+
+				<h2>5. Firmware</h2>
+				<ul>
+					<li>
+						Buying firmware gives you a license to use it on your own device.
+						You may not share, resell or re-upload the firmware without our
+						written permission.
+					</li>
+					<li>
+						You install (flash) firmware entirely at your own risk. Make sure
+						the firmware file matches the model of the connected device. We
+						aren't responsible for damage caused by firmware installed on the
+						wrong device or by an interrupted installation.
+					</li>
+					<li>
+						Custom firmware is built for the device named when it was ordered
+						and may only be installed on that device.
+					</li>
+				</ul>
+
+				<h2>6. Prohibited use</h2>
+				<p>
+					You may not use the Service for fraud, to announce fake payments to
+					others, to break the law, or to disrupt our services or anyone else's.
+				</p>
+
+				<h2>7. Limitation of liability</h2>
+				<p>
+					The Service is provided "as is". To the extent permitted by law, we
+					aren't liable for indirect losses, lost revenue, or losses caused by
+					payments that weren't announced, were announced late, or were
+					announced wrongly. Our liability is limited to the amount you paid us
+					for the Service concerned in the last 12 months. Your rights as a
+					consumer under Indonesian law are not affected.
+				</p>
+
+				<h2>8. Changes and termination</h2>
+				<p>
+					We may update the Service and these terms. Changes will be posted on
+					this page with a new "last updated" date. You can stop using the
+					Service at any time by uninstalling the app.
+				</p>
+
+				<h2>9. Governing law</h2>
+				<p>
+					These terms are governed by the laws of the Republic of Indonesia.
+				</p>
+
+				<h2>10. Contact</h2>
+				<p>Email: <a href="mailto:nindita@gmail.com">Nindita</a></p>
+			</main>
+
+			<footer>
+				<p>
+					<a href="./"
+						><span class="id">← Kembali ke beranda</span
+						><span class="en">← Back to home</span></a
+					>
+					·
+					<a href="privacy.html"
+						><span class="id">Kebijakan Privasi</span
+						><span class="en">Privacy Policy</span></a
+					>
+				</p>
+				<p>© <span id="year"></span> QRIS Soundbox</p>
+			</footer>
+		</div>
+
+		<script>
+			(function () {
+				var body = document.body;
+				var saved = null;
+				try {
+					saved = localStorage.getItem("lang");
+				} catch (e) {}
+				var initial =
+					saved ||
+					((navigator.language || "id").toLowerCase().startsWith("id")
+						? "id"
+						: "en");
+				function setLang(l) {
+					body.dataset.lang = l;
+					document.documentElement.lang = l;
+					document.title =
+						(l === "id" ? "Ketentuan Layanan" : "Terms of Service") +
+						" · QRIS Soundbox";
+					document.querySelectorAll("[data-set-lang]").forEach(function (b) {
+						b.setAttribute(
+							"aria-pressed",
+							b.dataset.setLang === l ? "true" : "false",
+						);
+					});
+					try {
+						localStorage.setItem("lang", l);
+					} catch (e) {}
+				}
+				document.querySelectorAll("[data-set-lang]").forEach(function (b) {
+					b.addEventListener("click", function () {
+						setLang(b.dataset.setLang);
+					});
+				});
+				var q = new URLSearchParams(location.search).get("lang");
+				setLang(q === "en" || q === "id" ? q : initial);
+				document.getElementById("year").textContent = new Date().getFullYear();
+			})();
+		</script>
+	</body>
+</html>
