@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>QRIS Soundbox</title>
-  <meta name="description" content="QRIS Soundbox — announce every QRIS payment out loud. Get the SoundboxBridge app and flash the latest firmware right from your browser.">
+  <meta name="description" content="QRIS Soundbox — announce every QRIS payment out loud. Get the SoundboxBridge app and flash your firmware right from your browser.">
   <meta name="theme-color" content="#0f766e">
   <!-- ESP Web Tools: browser flasher (Web Serial) -->
   <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
@@ -19,6 +19,10 @@
       --accent-ink: #ffffff;
       --warn-bg: #fff6e0;
       --warn-text: #7a5300;
+      --ok-bg: #e3f6f1;
+      --ok-text: #0b5b54;
+      --err-bg: #fde8e8;
+      --err-text: #9b1c1c;
       --radius: 14px;
     }
     @media (prefers-color-scheme: dark) {
@@ -32,6 +36,10 @@
         --accent-ink: #062b27;
         --warn-bg: #2e2510;
         --warn-text: #f3cf7a;
+        --ok-bg: #10302b;
+        --ok-text: #8fe6d6;
+        --err-bg: #3a1616;
+        --err-text: #f5a3a3;
       }
     }
     * { box-sizing: border-box; }
@@ -68,6 +76,7 @@
       padding: 11px 18px; border-radius: 10px; border: 1px solid var(--border);
       color: var(--text); background: var(--surface);
     }
+    .btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
 
     section { padding: 32px 0; }
     h2 { font-size: 1.5rem; margin: 0 0 16px; }
@@ -87,12 +96,30 @@
       background: var(--accent); color: var(--accent-ink);
       display: grid; place-items: center; font-weight: 700; font-size: .9rem;
     }
-    .flash-card { display: flex; flex-direction: column; gap: 12px; }
+
+    .flash-card { display: flex; flex-direction: column; gap: 14px; max-width: 560px; }
     .flash-card .meta { font-size: .85rem; color: var(--muted); }
+    .file-pick {
+      display: flex; flex-direction: column; gap: 6px;
+      border: 2px dashed var(--border); border-radius: 12px; padding: 16px;
+      cursor: pointer; transition: border-color .15s;
+    }
+    .file-pick:hover, .file-pick.drag { border-color: var(--accent); }
+    .file-pick b { font-size: 1rem; }
+    .file-pick input { font: inherit; color: var(--muted); max-width: 100%; }
+    .fw-info { border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+    .fw-info:empty { display: none; }
+    .fw-info.ok { background: var(--ok-bg); color: var(--ok-text); }
+    .fw-info.err { background: var(--err-bg); color: var(--err-text); }
+    .fw-info dl { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; margin: 6px 0 0; }
+    .fw-info dt { font-weight: 600; }
+    .fw-info dd { margin: 0; word-break: break-all; }
+
     esp-web-install-button button[slot="activate"] {
       background: var(--accent); color: var(--accent-ink); border: 0;
       padding: 11px 18px; border-radius: 10px; font: inherit; font-weight: 600; cursor: pointer;
     }
+    esp-web-install-button button[slot="activate"]:disabled { opacity: .45; cursor: not-allowed; }
     .notice {
       background: var(--warn-bg); color: var(--warn-text);
       border-radius: 10px; padding: 10px 12px; font-size: .9rem; margin: 0;
@@ -131,9 +158,14 @@
           <img class="id" alt="Temukan di Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/id_badge_web_generic.png">
           <img class="en" alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png">
         </a>
+        <!-- TODO: replace with your lynk.id store / product URL -->
+        <a class="btn primary" href="https://lynk.id/YOUR-STORE" target="_blank" rel="noopener">
+          <span class="id">Beli firmware</span>
+          <span class="en">Buy firmware</span>
+        </a>
         <a class="btn" href="#flash">
-          <span class="id">Perbarui firmware</span>
-          <span class="en">Update firmware</span>
+          <span class="id">Pasang firmware</span>
+          <span class="en">Install firmware</span>
         </a>
       </div>
     </div>
@@ -165,6 +197,10 @@
       <h2><span class="id">Pasang / perbarui firmware</span><span class="en">Install / update firmware</span></h2>
       <ol class="steps">
         <li>
+          <span class="id">Beli firmware untuk model Anda di <a href="https://lynk.id/YOUR-STORE" target="_blank" rel="noopener">toko lynk.id kami</a>, lalu unduh file <b>.bin</b>-nya.</span>
+          <span class="en">Buy the firmware for your model from <a href="https://lynk.id/YOUR-STORE" target="_blank" rel="noopener">our lynk.id store</a> and download the <b>.bin</b> file.</span>
+        </li>
+        <li>
           <span class="id">Buka halaman ini di <b>Chrome</b> atau <b>Edge</b> di komputer (Windows, macOS, Linux, atau Chromebook).</span>
           <span class="en">Open this page in <b>Chrome</b> or <b>Edge</b> on a computer (Windows, macOS, Linux, or Chromebook).</span>
         </li>
@@ -173,8 +209,8 @@
           <span class="en">Connect the soundbox to the computer with a USB-C cable that supports data.</span>
         </li>
         <li>
-          <span class="id">Pilih model Anda di bawah, klik <b>Pasang</b>, lalu pilih port soundbox.</span>
-          <span class="en">Pick your model below, click <b>Install</b>, then choose the soundbox's port.</span>
+          <span class="id">Pilih file firmware di bawah, klik <b>Pasang</b>, lalu pilih port soundbox.</span>
+          <span class="en">Choose the firmware file below, click <b>Install</b>, then pick the soundbox's port.</span>
         </li>
         <li>
           <span class="id">Jika port tidak muncul atau gagal terhubung: tahan tombol <b>BOOT</b>, tekan dan lepas <b>RESET</b> (atau cabut-pasang kabel), lalu lepas BOOT dan coba lagi.</span>
@@ -182,37 +218,32 @@
         </li>
       </ol>
 
-      <div class="grid">
-        <div class="card flash-card">
-          <h3>Soundbox 3.97"</h3>
-          <div class="meta">Waveshare ESP32-S3-ePaper-3.97 · <span id="ver-397">…</span></div>
-          <esp-web-install-button manifest="manifest-397.json">
-            <button slot="activate"><span class="id">Pasang</span><span class="en">Install</span></button>
-            <p slot="unsupported" class="notice">
-              <span class="id">Browser ini tidak mendukung Web Serial. Gunakan Chrome atau Edge di komputer.</span>
-              <span class="en">This browser doesn't support Web Serial. Use Chrome or Edge on a computer.</span>
-            </p>
-            <p slot="not-allowed" class="notice">
-              <span class="id">Halaman harus dibuka lewat HTTPS.</span>
-              <span class="en">This page must be served over HTTPS.</span>
-            </p>
-          </esp-web-install-button>
-        </div>
+      <div class="card flash-card">
+        <h3><span class="id">Flash dari file</span><span class="en">Flash from file</span></h3>
+        <div class="meta">Waveshare ESP32-S3-ePaper-3.97 · ESP32-S3-ePaper-1.54 V2</div>
 
-        <div class="card flash-card">
-          <h3>Soundbox Mini 1.54"</h3>
-          <div class="meta">Waveshare ESP32-S3-ePaper-1.54 V2 · <span id="ver-154">…</span></div>
-          <esp-web-install-button manifest="manifest-154.json">
-            <button slot="activate"><span class="id">Pasang</span><span class="en">Install</span></button>
-            <p slot="unsupported" class="notice">
-              <span class="id">Browser ini tidak mendukung Web Serial. Gunakan Chrome atau Edge di komputer.</span>
-              <span class="en">This browser doesn't support Web Serial. Use Chrome or Edge on a computer.</span>
-            </p>
-            <p slot="not-allowed" class="notice">
-              <span class="id">Halaman harus dibuka lewat HTTPS.</span>
-              <span class="en">This page must be served over HTTPS.</span>
-            </p>
-          </esp-web-install-button>
+        <label class="file-pick" id="drop">
+          <b><span class="id">Pilih atau seret file firmware (.bin)</span><span class="en">Choose or drop the firmware file (.bin)</span></b>
+          <input type="file" id="fw-file" accept=".bin,application/octet-stream">
+        </label>
+
+        <div id="fw-info" class="fw-info" aria-live="polite"></div>
+
+        <esp-web-install-button id="installer">
+          <button slot="activate" id="install-btn" disabled><span class="id">Pasang</span><span class="en">Install</span></button>
+          <p slot="unsupported" class="notice">
+            <span class="id">Browser ini tidak mendukung Web Serial. Gunakan Chrome atau Edge di komputer.</span>
+            <span class="en">This browser doesn't support Web Serial. Use Chrome or Edge on a computer.</span>
+          </p>
+          <p slot="not-allowed" class="notice">
+            <span class="id">Halaman harus dibuka lewat HTTPS.</span>
+            <span class="en">This page must be served over HTTPS.</span>
+          </p>
+        </esp-web-install-button>
+
+        <div class="meta">
+          <span class="id">File diproses langsung di browser Anda dan tidak diunggah ke mana pun.</span>
+          <span class="en">The file is processed right in your browser and is never uploaded anywhere.</span>
         </div>
       </div>
 
@@ -250,13 +281,135 @@
       document.getElementById("year").textContent = new Date().getFullYear();
     })();
 
-    // Show firmware version from each manifest
-    [["manifest-397.json", "ver-397"], ["manifest-154.json", "ver-154"]].forEach(function (p) {
-      fetch(p[0], { cache: "no-store" })
-        .then(function (r) { return r.json(); })
-        .then(function (m) { document.getElementById(p[1]).textContent = "v" + m.version; })
-        .catch(function () { document.getElementById(p[1]).textContent = ""; });
-    });
+    // Flash from a local file
+    (function () {
+      // Map each model to the project_name baked into its firmware
+      // (CMake project() name in ESP-IDF / sketch name in Arduino).
+      // Leave "project" empty to skip the model check.
+      var MODELS = [
+        { label: 'Soundbox 3.97"',      project: "" },
+        { label: 'Soundbox Mini 1.54"', project: "" }
+      ];
+      var MAX_SIZE = 16 * 1024 * 1024;       // 16 MB flash
+      var ESP32S3_CHIP_ID = 9;
+      var APP_DESC_MAGIC = 0xABCD5432;
+
+      var input = document.getElementById("fw-file");
+      var drop = document.getElementById("drop");
+      var info = document.getElementById("fw-info");
+      var installer = document.getElementById("installer");
+      var btn = document.getElementById("install-btn");
+      var blobUrls = [];
+
+      function t(id, en) { return '<span class="id">' + id + '</span><span class="en">' + en + '</span>'; }
+      function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return "&#" + c.charCodeAt(0) + ";"; }); }
+      function u16(b, o) { return b[o] | (b[o + 1] << 8); }
+      function u32(b, o) { return (b[o] | (b[o + 1] << 8) | (b[o + 2] << 16) | (b[o + 3] << 24)) >>> 0; }
+      function cstr(b, o, n) {
+        var s = "";
+        for (var i = 0; i < n && b[o + i]; i++) s += String.fromCharCode(b[o + i]);
+        return s;
+      }
+
+      function reset() {
+        blobUrls.forEach(function (u) { URL.revokeObjectURL(u); });
+        blobUrls = [];
+        btn.disabled = true;
+        installer.manifest = undefined;
+        installer.removeAttribute("manifest");
+      }
+      function fail(html) {
+        info.className = "fw-info err";
+        info.innerHTML = html;
+      }
+
+      // First "app" partition in the partition table at 0x8000
+      function findAppOffset(b) {
+        for (var o = 0x8000; o + 32 <= b.length && o < 0x8C00; o += 32) {
+          if (b[o] !== 0xAA || b[o + 1] !== 0x50) break;
+          if (b[o + 2] === 0x00) return u32(b, o + 4);
+        }
+        return -1;
+      }
+
+      async function handle(file) {
+        reset();
+        info.innerHTML = "";
+        if (!file) return;
+
+        if (file.size > MAX_SIZE) {
+          return fail(t("File terlalu besar untuk soundbox ini.", "The file is too large for this soundbox."));
+        }
+
+        var b = new Uint8Array(await file.arrayBuffer());
+
+        if (b.length < 0x9000 || b[0] !== 0xE9) {
+          return fail(t("Ini bukan file firmware soundbox. Pastikan Anda memilih file .bin yang diunduh dari lynk.id.",
+                        "This isn't a soundbox firmware file. Make sure you picked the .bin downloaded from lynk.id."));
+        }
+        if (u16(b, 12) !== ESP32S3_CHIP_ID) {
+          return fail(t("Firmware ini untuk chip lain, bukan ESP32-S3.", "This firmware is for a different chip, not ESP32-S3."));
+        }
+        if (u32(b, 0x20) === APP_DESC_MAGIC) {
+          return fail(t("File ini hanya berisi aplikasi. Gunakan file firmware lengkap (merged).",
+                        "This file only contains the app. Use the full (merged) firmware file."));
+        }
+
+        var app = findAppOffset(b);
+        if (app < 0 || app + 0x100 > b.length || b[app] !== 0xE9 || u32(b, app + 0x20) !== APP_DESC_MAGIC) {
+          return fail(t("File firmware tidak lengkap atau rusak. Coba unduh ulang dari lynk.id.",
+                        "The firmware file is incomplete or damaged. Try downloading it again from lynk.id."));
+        }
+
+        var d = app + 0x20;                    // esp_app_desc_t
+        var version = cstr(b, d + 16, 32);
+        var project = cstr(b, d + 48, 32);
+        var built = cstr(b, d + 96, 16);
+
+        var checked = MODELS.filter(function (m) { return m.project; });
+        var model = checked.filter(function (m) { return m.project === project; })[0];
+        if (checked.length && !model) {
+          return fail(t("Firmware ini bukan untuk QRIS Soundbox.", "This firmware isn't for QRIS Soundbox."));
+        }
+
+        var fwUrl = URL.createObjectURL(file);
+        var manifest = {
+          name: "QRIS Soundbox" + (model ? " " + model.label : ""),
+          version: version || "custom",
+          new_install_prompt_erase: true,
+          builds: [{ chipFamily: "ESP32-S3", parts: [{ path: fwUrl, offset: 0 }] }]
+        };
+        var manifestUrl = URL.createObjectURL(new Blob([JSON.stringify(manifest)], { type: "application/json" }));
+        blobUrls.push(fwUrl, manifestUrl);
+
+        installer.manifest = manifestUrl;
+        installer.setAttribute("manifest", manifestUrl);
+        btn.disabled = false;
+
+        info.className = "fw-info ok";
+        info.innerHTML = t("Firmware siap dipasang.", "Firmware ready to install.") +
+          "<dl>" +
+          (model ? "<dt>" + t("Model", "Model") + "</dt><dd>" + esc(model.label) + "</dd>" : "") +
+          "<dt>" + t("Versi", "Version") + "</dt><dd>" + esc(version || "-") + "</dd>" +
+          (project && !model ? "<dt>" + t("Proyek", "Project") + "</dt><dd>" + esc(project) + "</dd>" : "") +
+          (built ? "<dt>" + t("Dibuat", "Built") + "</dt><dd>" + esc(built) + "</dd>" : "") +
+          "<dt>File</dt><dd>" + esc(file.name) + "</dd>" +
+          "</dl>";
+      }
+
+      input.addEventListener("change", function () { handle(input.files && input.files[0]); });
+
+      ["dragenter", "dragover"].forEach(function (ev) {
+        drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add("drag"); });
+      });
+      ["dragleave", "drop"].forEach(function (ev) {
+        drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove("drag"); });
+      });
+      drop.addEventListener("drop", function (e) {
+        var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+        if (f) handle(f);
+      });
+    })();
   </script>
 </body>
 </html>
