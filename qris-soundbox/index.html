@@ -111,6 +111,11 @@
     .fw-info:empty { display: none; }
     .fw-info.ok { background: var(--ok-bg); color: var(--ok-text); }
     .fw-info.err { background: var(--err-bg); color: var(--err-text); }
+    .fw-info.warn { background: var(--warn-bg); color: var(--warn-text); }
+    .fw-model { font-size: 1.15rem; font-weight: 700; margin: 0 0 4px; }
+    .fw-connect { margin: 0 0 4px; }
+    .fw-confirm { display: flex; gap: 10px; align-items: flex-start; margin-top: 10px; font-weight: 600; cursor: pointer; }
+    .fw-confirm input { width: 18px; height: 18px; margin-top: 3px; accent-color: var(--accent); flex: none; }
     .fw-info dl { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; margin: 6px 0 0; }
     .fw-info dt { font-weight: 600; }
     .fw-info dd { margin: 0; word-break: break-all; }
@@ -158,6 +163,7 @@
           <img class="id" alt="Temukan di Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/id_badge_web_generic.png">
           <img class="en" alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png">
         </a>
+        <!-- lynk.id store -->
         <a class="btn primary" href="https://lynk.id/nindtz" target="_blank" rel="noopener">
           <span class="id">Beli firmware</span>
           <span class="en">Buy firmware</span>
@@ -208,8 +214,8 @@
           <span class="en">Connect the soundbox to the computer with a USB-C cable that supports data.</span>
         </li>
         <li>
-          <span class="id">Pilih file firmware di bawah, klik <b>Pasang</b>, lalu pilih port soundbox.</span>
-          <span class="en">Choose the firmware file below, click <b>Install</b>, then pick the soundbox's port.</span>
+          <span class="id">Pilih file firmware di bawah. Halaman akan memberi tahu model soundbox yang harus disambungkan. Centang konfirmasi, klik <b>Pasang</b>, lalu pilih port soundbox.</span>
+          <span class="en">Choose the firmware file below. The page tells you which soundbox model to connect. Tick the confirmation, click <b>Install</b>, then pick the soundbox's port.</span>
         </li>
         <li>
           <span class="id">Jika port tidak muncul atau gagal terhubung: tahan tombol <b>BOOT</b>, tekan dan lepas <b>RESET</b> (atau cabut-pasang kabel), lalu lepas BOOT dan coba lagi.</span>
@@ -282,13 +288,12 @@
 
     // Flash from a local file
     (function () {
-      // Map each model to the project_name baked into its firmware
-      // (CMake project() name in ESP-IDF / sketch name in Arduino).
-      // Leave "project" empty to skip the model check.
-      var MODELS = [
-        { label: 'Soundbox 3.97"',      project: "" },
-        { label: 'Soundbox Mini 1.54"', project: "" }
-      ];
+      // Must match FW_MODEL in the firmware ("QRISSB-FW|model=397|ver=1.0.0|")
+      var MODELS = {
+        "397": { label: 'Soundbox 3.97"',      board: "Waveshare ESP32-S3-ePaper-3.97" },
+        "154": { label: 'Soundbox Mini 1.54"', board: "Waveshare ESP32-S3-ePaper-1.54 V2" }
+      };
+      var TAG = "QRISSB-FW|";
       var MAX_SIZE = 16 * 1024 * 1024;       // 16 MB flash
       var ESP32S3_CHIP_ID = 9;
       var APP_DESC_MAGIC = 0xABCD5432;
@@ -304,10 +309,22 @@
       function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return "&#" + c.charCodeAt(0) + ";"; }); }
       function u16(b, o) { return b[o] | (b[o + 1] << 8); }
       function u32(b, o) { return (b[o] | (b[o + 1] << 8) | (b[o + 2] << 16) | (b[o + 3] << 24)) >>> 0; }
-      function cstr(b, o, n) {
-        var s = "";
-        for (var i = 0; i < n && b[o + i]; i++) s += String.fromCharCode(b[o + i]);
-        return s;
+
+      // Find the firmware identity tag and read "key=value|" pairs after it
+      function readTag(b) {
+        var pat = []; for (var i = 0; i < TAG.length; i++) pat.push(TAG.charCodeAt(i));
+        var first = pat[0], n = b.length - pat.length;
+        for (var o = 0; o <= n; o++) {
+          if (b[o] !== first) continue;
+          var j = 1; while (j < pat.length && b[o + j] === pat[j]) j++;
+          if (j < pat.length) continue;
+          var s = "";
+          for (var k = o + pat.length; k < b.length && k < o + 200 && b[k] >= 32 && b[k] < 127; k++) s += String.fromCharCode(b[k]);
+          var out = {};
+          s.split("|").forEach(function (kv) { var e = kv.indexOf("="); if (e > 0) out[kv.slice(0, e)] = kv.slice(e + 1); });
+          return out;
+        }
+        return null;
       }
 
       function reset() {
@@ -353,47 +370,46 @@
           return fail(t("File ini hanya berisi aplikasi. Gunakan file firmware lengkap (merged).",
                         "This file only contains the app. Use the full (merged) firmware file."));
         }
-
         var app = findAppOffset(b);
         if (app < 0 || app + 0x100 > b.length || b[app] !== 0xE9 || u32(b, app + 0x20) !== APP_DESC_MAGIC) {
           return fail(t("File firmware tidak lengkap atau rusak. Coba unduh ulang dari lynk.id.",
                         "The firmware file is incomplete or damaged. Try downloading it again from lynk.id."));
         }
 
-        var d = app + 0x20;                    // esp_app_desc_t
-        var version = cstr(b, d + 16, 32);
-        var project = cstr(b, d + 48, 32);
-        var built = cstr(b, d + 96, 16);
-
-        var checked = MODELS.filter(function (m) { return m.project; });
-        var model = checked.filter(function (m) { return m.project === project; })[0];
-        if (checked.length && !model) {
+        var tag = readTag(b);
+        var model = tag && MODELS[tag.model];
+        if (!model) {
           return fail(t("Firmware ini bukan untuk QRIS Soundbox.", "This firmware isn't for QRIS Soundbox."));
         }
+        var version = tag.ver || "";
 
         var fwUrl = URL.createObjectURL(file);
         var manifest = {
-          name: "QRIS Soundbox" + (model ? " " + model.label : ""),
+          name: "QRIS " + model.label,
           version: version || "custom",
           new_install_prompt_erase: true,
           builds: [{ chipFamily: "ESP32-S3", parts: [{ path: fwUrl, offset: 0 }] }]
         };
         var manifestUrl = URL.createObjectURL(new Blob([JSON.stringify(manifest)], { type: "application/json" }));
         blobUrls.push(fwUrl, manifestUrl);
-
         installer.manifest = manifestUrl;
         installer.setAttribute("manifest", manifestUrl);
-        btn.disabled = false;
 
-        info.className = "fw-info ok";
-        info.innerHTML = t("Firmware siap dipasang.", "Firmware ready to install.") +
-          "<dl>" +
-          (model ? "<dt>" + t("Model", "Model") + "</dt><dd>" + esc(model.label) + "</dd>" : "") +
-          "<dt>" + t("Versi", "Version") + "</dt><dd>" + esc(version || "-") + "</dd>" +
-          (project && !model ? "<dt>" + t("Proyek", "Project") + "</dt><dd>" + esc(project) + "</dd>" : "") +
-          (built ? "<dt>" + t("Dibuat", "Built") + "</dt><dd>" + esc(built) + "</dd>" : "") +
-          "<dt>File</dt><dd>" + esc(file.name) + "</dd>" +
-          "</dl>";
+        // Install stays off until the buyer confirms the right box is plugged in
+        var L = esc(model.label);
+        info.className = "fw-info warn";
+        info.innerHTML =
+          '<p class="fw-model">' + t("Firmware untuk " + L, "Firmware for " + L) + (version ? " · v" + esc(version) : "") + "</p>" +
+          '<p class="fw-connect">' + t(
+            "Sambungkan <b>" + L + "</b> (" + esc(model.board) + ") ke komputer. Jangan pasang firmware ini di model lain — layar dan suara tidak akan berfungsi.",
+            "Connect your <b>" + L + "</b> (" + esc(model.board) + ") to the computer. Don't install this firmware on the other model — the screen and sound won't work.") + "</p>" +
+          '<label class="fw-confirm"><input type="checkbox" id="fw-ok">' +
+          t("Yang tersambung adalah " + L, "The connected box is a " + L) + "</label>" +
+          '<div class="meta" style="margin-top:6px">File: ' + esc(file.name) + "</div>";
+        document.getElementById("fw-ok").addEventListener("change", function (e) {
+          btn.disabled = !e.target.checked;
+          info.className = "fw-info " + (e.target.checked ? "ok" : "warn");
+        });
       }
 
       input.addEventListener("change", function () { handle(input.files && input.files[0]); });
