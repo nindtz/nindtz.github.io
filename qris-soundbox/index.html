@@ -220,8 +220,8 @@
           <span class="en">Connect the soundbox to the computer with a USB-C cable that supports data.</span>
         </li>
         <li>
-          <span class="id">Pilih file firmware di bawah. Halaman akan memberi tahu model soundbox yang harus disambungkan. Centang konfirmasi, klik <b>Pasang</b>, lalu pilih port soundbox.</span>
-          <span class="en">Choose the firmware file below. The page tells you which soundbox model to connect. Tick the confirmation, click <b>Install</b>, then pick the soundbox's port.</span>
+          <span class="id">Pilih file firmware di bawah. Halaman akan memberi tahu perangkat yang harus disambungkan (soundbox 3.97", Mini 1.54", atau hardware custom Anda). Centang konfirmasi, klik <b>Pasang</b>, lalu pilih port perangkat.</span>
+          <span class="en">Choose the firmware file below. The page tells you which device to connect (the 3.97" soundbox, the Mini 1.54", or your custom hardware). Tick the confirmation, click <b>Install</b>, then pick the device's port.</span>
         </li>
         <li>
           <span class="id">Jika port tidak muncul atau gagal terhubung: tahan tombol <b>BOOT</b>, tekan dan lepas <b>RESET</b> (atau cabut-pasang kabel), lalu lepas BOOT dan coba lagi.</span>
@@ -257,6 +257,11 @@
       </div>
 
       <p class="notice" style="margin-top:16px">
+        <span class="id">Pemasangan firmware sepenuhnya menjadi risiko pengguna. Pastikan file firmware sesuai dengan perangkat yang tersambung.</span>
+        <span class="en">You install firmware at your own risk. Make sure the firmware file matches the connected device.</span>
+      </p>
+
+      <p class="notice" style="margin-top:12px">
         <span class="id">Setelah flashing, pengaturan QRIS dan PIN perlu diatur ulang dari aplikasi QRIS Soundbox.</span>
         <span class="en">After flashing, set up your QRIS and PIN again from the QRIS Soundbox app.</span>
       </p>
@@ -292,14 +297,19 @@
 
     // Flash from a local file
     (function () {
-      // Must match FW_MODEL in the firmware ("QRISSB-FW|model=397|ver=1.0.0|")
+      // Must match FW_MODEL in the firmware ("QRISSB-FW|model=397|ver=1.0.0|").
+      // Custom builds: "QRISSB-FW|model=custom|board=<buyer's hardware>|ver=1.0.0|"
       var MODELS = {
-        "397": { label: 'Soundbox 3.97"',      board: "Waveshare ESP32-S3-ePaper-3.97" },
-        "154": { label: 'Soundbox Mini 1.54"', board: "Waveshare ESP32-S3-ePaper-1.54 V2" }
+        "397": { label: 'Soundbox 3.97"',      board: "Waveshare ESP32-S3-ePaper-3.97",    chip: 9 },
+        "154": { label: 'Soundbox Mini 1.54"', board: "Waveshare ESP32-S3-ePaper-1.54 V2", chip: 9 }
+      };
+      // ESP image header chip id -> ESP Web Tools chipFamily
+      var CHIPS = {
+        0: "ESP32", 2: "ESP32-S2", 5: "ESP32-C3", 9: "ESP32-S3",
+        12: "ESP32-C2", 13: "ESP32-C6", 16: "ESP32-H2"
       };
       var TAG = "QRISSB-FW|";
       var MAX_SIZE = 16 * 1024 * 1024;       // 16 MB flash
-      var ESP32S3_CHIP_ID = 9;
       var APP_DESC_MAGIC = 0xABCD5432;
 
       var input = document.getElementById("fw-file");
@@ -358,19 +368,18 @@
         if (!file) return;
 
         if (file.size > MAX_SIZE) {
-          return fail(t("File terlalu besar untuk soundbox ini.", "The file is too large for this soundbox."));
+          return fail(t("File terlalu besar untuk perangkat ini.", "The file is too large for this device."));
         }
 
         var b = new Uint8Array(await file.arrayBuffer());
 
-        if (b.length < 0x9000 || b[0] !== 0xE9) {
+        // Merged image: bootloader at 0x0 (S3, C3, C6...) or 0x1000 (ESP32, S2)
+        var boot = b[0] === 0xE9 ? 0 : (b.length > 0x1010 && b[0x1000] === 0xE9 ? 0x1000 : -1);
+        if (b.length < 0x9000 || boot < 0) {
           return fail(t("Ini bukan file firmware soundbox. Pastikan Anda memilih file .bin yang diunduh dari lynk.id.",
                         "This isn't a soundbox firmware file. Make sure you picked the .bin downloaded from lynk.id."));
         }
-        if (u16(b, 12) !== ESP32S3_CHIP_ID) {
-          return fail(t("Firmware ini untuk chip lain, bukan ESP32-S3.", "This firmware is for a different chip, not ESP32-S3."));
-        }
-        if (u32(b, 0x20) === APP_DESC_MAGIC) {
+        if (u32(b, boot + 0x20) === APP_DESC_MAGIC) {
           return fail(t("File ini hanya berisi aplikasi. Gunakan file firmware lengkap (merged).",
                         "This file only contains the app. Use the full (merged) firmware file."));
         }
@@ -380,36 +389,66 @@
                         "The firmware file is incomplete or damaged. Try downloading it again from lynk.id."));
         }
 
+        var chipId = u16(b, boot + 12);
+        var chipFamily = CHIPS[chipId];
+        if (!chipFamily) {
+          return fail(t("Chip pada firmware ini tidak didukung oleh halaman ini.", "This firmware's chip isn't supported by this page."));
+        }
+
         var tag = readTag(b);
-        var model = tag && MODELS[tag.model];
-        if (!model) {
+        if (!tag) {
           return fail(t("Firmware ini bukan untuk QRIS Soundbox.", "This firmware isn't for QRIS Soundbox."));
         }
         var version = tag.ver || "";
+        var L, board, connectId, connectEn, confirmId, confirmEn;
+
+        if (tag.model === "custom") {
+          board = tag.board || "";
+          L = "Custom firmware";
+          var hw = board ? "<b>" + esc(board) + "</b>" : "<b>hardware custom</b>";
+          var hwEn = board ? "<b>" + esc(board) + "</b>" : "<b>custom hardware</b>";
+          connectId = "Firmware ini dibuat khusus untuk " + hw + " (" + chipFamily + "). Sambungkan perangkat tersebut ke komputer. Jangan pasang di perangkat lain.";
+          connectEn = "This firmware was built for " + hwEn + " (" + chipFamily + "). Connect that device to the computer. Don't install it on any other device.";
+          confirmId = "Saya sudah memastikan perangkat yang tersambung adalah " + (board ? esc(board) : "hardware yang dipesan untuk firmware ini") +
+                      ", dan saya memahami bahwa pemasangan firmware ini sepenuhnya menjadi risiko saya sendiri.";
+          confirmEn = "I've made sure the connected device is " + (board ? esc(board) : "the hardware this firmware was ordered for") +
+                      ", and I understand that I install this firmware entirely at my own risk.";
+        } else {
+          var model = MODELS[tag.model];
+          if (!model) {
+            return fail(t("Firmware ini bukan untuk QRIS Soundbox.", "This firmware isn't for QRIS Soundbox."));
+          }
+          if (chipId !== model.chip) {
+            return fail(t("File firmware rusak: chip tidak cocok dengan model. Coba unduh ulang dari lynk.id.",
+                          "The firmware file is damaged: the chip doesn't match the model. Try downloading it again from lynk.id."));
+          }
+          L = esc(model.label);
+          board = model.board;
+          connectId = "Sambungkan <b>" + L + "</b> (" + esc(board) + ") ke komputer. Jangan pasang firmware ini di model lain — layar dan suara tidak akan berfungsi.";
+          connectEn = "Connect your <b>" + L + "</b> (" + esc(board) + ") to the computer. Don't install this firmware on another model — the screen and sound won't work.";
+          confirmId = "Saya sudah memastikan yang tersambung adalah " + L + ", dan saya memahami bahwa pemasangan firmware ini sepenuhnya menjadi risiko saya sendiri.";
+          confirmEn = "I've made sure the connected box is a " + L + ", and I understand that I install this firmware entirely at my own risk.";
+        }
 
         var fwUrl = URL.createObjectURL(file);
         var manifest = {
-          name: "QRIS " + model.label,
+          name: "QRIS " + (tag.model === "custom" ? "Soundbox Custom" + (board ? " - " + board : "") : MODELS[tag.model].label),
           version: version || "custom",
           new_install_prompt_erase: true,
-          builds: [{ chipFamily: "ESP32-S3", parts: [{ path: fwUrl, offset: 0 }] }]
+          builds: [{ chipFamily: chipFamily, parts: [{ path: fwUrl, offset: 0 }] }]
         };
         var manifestUrl = URL.createObjectURL(new Blob([JSON.stringify(manifest)], { type: "application/json" }));
         blobUrls.push(fwUrl, manifestUrl);
         installer.manifest = manifestUrl;
         installer.setAttribute("manifest", manifestUrl);
 
-        // Install stays off until the buyer confirms the right box is plugged in
-        var L = esc(model.label);
+        // Install stays off until the user confirms the device and accepts the risk
         info.className = "fw-info warn";
         info.innerHTML =
           '<p class="fw-model">' + t("Firmware untuk " + L, "Firmware for " + L) + (version ? " · v" + esc(version) : "") + "</p>" +
-          '<p class="fw-connect">' + t(
-            "Sambungkan <b>" + L + "</b> (" + esc(model.board) + ") ke komputer. Jangan pasang firmware ini di model lain — layar dan suara tidak akan berfungsi.",
-            "Connect your <b>" + L + "</b> (" + esc(model.board) + ") to the computer. Don't install this firmware on the other model — the screen and sound won't work.") + "</p>" +
-          '<label class="fw-confirm"><input type="checkbox" id="fw-ok">' +
-          t("Yang tersambung adalah " + L, "The connected box is a " + L) + "</label>" +
-          '<div class="meta" style="margin-top:6px">File: ' + esc(file.name) + "</div>";
+          '<p class="fw-connect">' + t(connectId, connectEn) + "</p>" +
+          '<label class="fw-confirm"><input type="checkbox" id="fw-ok">' + t(confirmId, confirmEn) + "</label>" +
+          '<div class="meta" style="margin-top:6px">File: ' + esc(file.name) + " · " + chipFamily + "</div>";
         document.getElementById("fw-ok").addEventListener("change", function (e) {
           btn.disabled = !e.target.checked;
           info.className = "fw-info " + (e.target.checked ? "ok" : "warn");
