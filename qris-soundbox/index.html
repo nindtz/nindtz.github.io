@@ -648,8 +648,8 @@
           <span class="en">Open this page in <b>Chrome</b> or <b>Edge</b> on a computer (Windows, macOS, Linux, or Chromebook).</span>
         </li>
         <li>
-          <span class="id">Sambungkan soundbox ke komputer dengan kabel USB-C yang mendukung data.</span>
-          <span class="en">Connect the soundbox to the computer with a USB-C cable that supports data.</span>
+          <span class="id">Sambungkan soundbox ke komputer dengan kabel USB (USB-C atau micro-USB, sesuai perangkat) yang mendukung data.</span>
+          <span class="en">Connect the soundbox to the computer with a USB cable (USB-C or micro-USB, whichever the device has) that supports data.</span>
         </li>
         <li>
           <span class="id">Pilih file firmware di bawah. Halaman akan memberi tahu perangkat yang harus disambungkan (soundbox 3.97", Mini 1.54", atau hardware custom Anda). Centang konfirmasi, klik <b>Pasang</b>, lalu pilih port perangkat.</span>
@@ -725,10 +725,16 @@
     // Flash from a local file
     (function () {
       // Must match FW_MODEL in the firmware ("QRISSB-FW|model=397|ver=1.0.0|").
-      // Custom builds: "QRISSB-FW|model=custom|board=<buyer's hardware>|ver=1.0.0|"
+      // Only 397 and 154 are standard models. ANY other model (custom, cyd, ...) is treated as
+      // custom firmware: "QRISSB-FW|model=<anything>|board=<hardware name>|ver=1.0.0|"
+      // The chip comes from the file itself, so custom builds for any ESP32 family work.
       var MODELS = {
         "397": { label: 'Soundbox 3.97"',      board: "Waveshare ESP32-S3-ePaper-3.97",    chip: 9 },
         "154": { label: 'Soundbox Mini 1.54"', board: "Waveshare ESP32-S3-ePaper-1.54 V2", chip: 9 }
+      };
+      // Hardware names for custom models whose firmware has no board= field
+      var CUSTOM_BOARDS = {
+        "cyd": "ESP32-2432S028 (Cheap Yellow Display)"
       };
       // ESP image header chip id -> ESP Web Tools chipFamily
       var CHIPS = {
@@ -829,8 +835,9 @@
         var version = tag.ver || "";
         var L, board, connectId, connectEn, confirmId, confirmEn;
 
-        if (tag.model === "custom") {
-          board = tag.board || "";
+        var isCustom = !Object.prototype.hasOwnProperty.call(MODELS, tag.model || "");
+        if (isCustom) {
+          board = tag.board || CUSTOM_BOARDS[tag.model] || "";
           L = "Custom firmware";
           var hw = board ? "<b>" + esc(board) + "</b>" : "<b>hardware custom</b>";
           var hwEn = board ? "<b>" + esc(board) + "</b>" : "<b>custom hardware</b>";
@@ -842,9 +849,6 @@
                       ", and I understand that I install this firmware entirely at my own risk.";
         } else {
           var model = MODELS[tag.model];
-          if (!model) {
-            return fail(t("Firmware ini bukan untuk QRIS Soundbox.", "This firmware isn't for QRIS Soundbox."));
-          }
           if (chipId !== model.chip) {
             return fail(t("File firmware rusak: chip tidak cocok dengan model. Coba unduh ulang dari lynk.id.",
                           "The firmware file is damaged: the chip doesn't match the model. Try downloading it again from lynk.id."));
@@ -859,7 +863,7 @@
 
         var fwUrl = URL.createObjectURL(file);
         var manifest = {
-          name: "QRIS " + (tag.model === "custom" ? "Soundbox Custom" + (board ? " - " + board : "") : MODELS[tag.model].label),
+          name: "QRIS " + (isCustom ? "Soundbox Custom" + (board ? " - " + board : "") : MODELS[tag.model].label),
           version: version || "custom",
           new_install_prompt_erase: true,
           builds: [{ chipFamily: chipFamily, parts: [{ path: fwUrl, offset: 0 }] }]
