@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Payment Gateway Integration · QRIS Soundbox</title>
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="theme-color" content="#0f766e">
+  <meta property="og:image" content="https://nindtz.github.io/qris-soundbox/og-image.png">
+  <meta name="description" content="How a payment gateway can act as the Owner for QRIS Soundbox: per-outlet pairing QR, payment events and dynamic QRIS over the merchant's own Telegram bot, with no extra server.">
+  <style>
+    :root {
+      --bg: #f7f8f7;
+      --surface: #ffffff;
+      --text: #14201e;
+      --muted: #5b6b68;
+      --border: #dde3e1;
+      --accent: #0f766e;
+      --accent-ink: #ffffff;
+      --tint: #eef3f1;
+      --code-bg: #f1f4f3;
+      --hl-bg: #e3f6f1;
+      --radius: 14px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0e1513;
+        --surface: #16201e;
+        --text: #e6eeec;
+        --muted: #9aaba7;
+        --border: #26332f;
+        --accent: #2dd4bf;
+        --accent-ink: #062b27;
+        --tint: #1b2724;
+        --code-bg: #111a18;
+        --hl-bg: #10302b;
+      }
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+    a { color: var(--accent); }
+    .wrap { max-width: 860px; margin: 0 auto; padding: 0 16px; }
+
+    header { display: flex; align-items: center; justify-content: space-between; padding: 18px 0; }
+    .brand { font-weight: 700; font-size: 1.1rem; letter-spacing: .2px; color: var(--text); text-decoration: none; }
+    .brand span { color: var(--accent); }
+    .back { font-size: .9rem; }
+
+    .hero { padding: 28px 0 8px; }
+    .eyebrow { color: var(--accent); font-weight: 600; font-size: .85rem; letter-spacing: .6px; text-transform: uppercase; margin: 0 0 6px; }
+    h1 { font-size: clamp(1.7rem, 4.5vw, 2.4rem); line-height: 1.2; margin: 0 0 12px; }
+    .lede { color: var(--muted); font-size: 1.08rem; margin: 0 0 8px; max-width: 680px; }
+    .meta { color: var(--muted); font-size: .85rem; margin: 0; }
+
+    nav.toc {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 14px 18px; margin: 24px 0 8px;
+    }
+    nav.toc b { display: block; margin-bottom: 4px; }
+    nav.toc ol { margin: 0; padding-left: 20px; columns: 2; column-gap: 28px; }
+    @media (max-width: 600px) { nav.toc ol { columns: 1; } }
+
+    section { padding: 24px 0; border-bottom: 1px solid var(--border); }
+    section:last-of-type { border-bottom: 0; }
+    h2 { font-size: 1.45rem; margin: 0 0 12px; scroll-margin-top: 16px; }
+    h3 { font-size: 1.12rem; margin: 26px 0 8px; scroll-margin-top: 16px; }
+    h4 { font-size: 1rem; margin: 18px 0 6px; }
+    p { margin: 0 0 12px; }
+    ul, ol { margin: 0 0 12px; padding-left: 22px; }
+    li { margin: 3px 0; }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: .88em; background: var(--code-bg); border: 1px solid var(--border);
+      border-radius: 5px; padding: 1px 5px;
+    }
+    pre {
+      background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px;
+      padding: 14px 16px; overflow-x: auto; margin: 0 0 14px; font-size: .86rem; line-height: 1.5;
+    }
+    pre code { background: none; border: 0; padding: 0; font-size: inherit; }
+
+    .table { overflow-x: auto; margin: 0 0 14px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); }
+    table { border-collapse: collapse; width: 100%; font-size: .93rem; }
+    th, td { text-align: left; vertical-align: top; padding: 9px 12px; border-bottom: 1px solid var(--border); }
+    tr:last-child td { border-bottom: 0; }
+    th { background: var(--tint); font-weight: 600; white-space: nowrap; }
+
+    .cards { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); margin: 0 0 12px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; }
+    .card h4 { margin: 0 0 6px; }
+    .card ul { margin: 0; }
+
+    .callout { background: var(--hl-bg); border-radius: 10px; padding: 12px 14px; margin: 0 0 14px; }
+    .callout p:last-child { margin: 0; }
+
+    figure.diagram { margin: 8px 0 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; overflow-x: auto; }
+    figure.diagram svg { display: block; width: 100%; min-width: 560px; height: auto; }
+    figure.diagram figcaption { color: var(--muted); font-size: .85rem; margin-top: 6px; }
+    .d-box { fill: none; stroke: var(--muted); stroke-width: 1.25; }
+    .d-life { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 4 4; }
+    .d-msg { fill: none; stroke: var(--muted); stroke-width: 1.25; }
+    .d-band { fill: var(--tint); }
+    .d-note { fill: var(--tint); stroke: var(--muted); stroke-width: 1.25; }
+    .d-hl { fill: var(--hl-bg); stroke: var(--accent); stroke-width: 2; }
+    .d-arrow { fill: var(--muted); }
+    .d-t { fill: var(--text); font-size: 13px; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    .d-s { fill: var(--text); font-size: 11.5px; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    .d-q { fill: var(--muted); font-size: 11.5px; font-weight: 600; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    .d-b { font-weight: 600; }
+
+    .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+    .btn {
+      display: inline-block; text-decoration: none; font-weight: 600;
+      padding: 10px 16px; border-radius: 10px; border: 1px solid var(--border);
+      color: var(--text); background: var(--surface);
+    }
+    .btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+
+    footer { border-top: 1px solid var(--border); padding: 24px 0 40px; color: var(--muted); font-size: .85rem; margin-top: 16px; }
+    footer p { margin: 4px 0; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a class="brand" href="./">QRIS <span>Soundbox</span></a>
+      <a class="back" href="./">← Back to home</a>
+    </header>
+
+    <div class="hero">
+      <p class="eyebrow">For payment gateways</p>
+      <h1>Payment Gateway Owner-Role Integration</h1>
+      <p class="lede">Let your merchants hear every QRIS payment at the counter. Your gateway takes the Owner role; the merchant's phone runs the QRIS Soundbox app as a branch and drives the soundbox.</p>
+      <p class="meta">Proposal draft v0.1 · November 2026</p>
+    </div>
+
+    <nav class="toc" aria-label="Contents">
+      <b>Contents</b>
+      <ol>
+        <li><a href="#summary">Summary</a></li>
+        <li><a href="#background">How QRIS Soundbox works today</a></li>
+        <li><a href="#model">Proposed model: PG as Owner</a></li>
+        <li><a href="#flow">Integration flow</a></li>
+        <li><a href="#spec">Technical specification</a></li>
+        <li><a href="#security">Security and reliability</a></li>
+        <li><a href="#rollout">Responsibilities and rollout</a></li>
+      </ol>
+    </nav>
+
+    <section id="summary">
+      <h2>Summary</h2>
+      <p>We propose that the payment gateway (PG) takes the <b>Owner</b> role in the QRIS Soundbox system, so any PG merchant can pair a QRIS Soundbox phone as a <b>Branch</b> and get instant voice announcements of paid QRIS transactions.</p>
+      <p>In practice, the PG shows each merchant outlet a <b>pairing QR code</b> in its merchant dashboard or app. The merchant scans it with the QRIS Soundbox app. From then on, the PG pushes a small signed message for every successful payment at that outlet, and the app forwards it to the soundbox over Bluetooth or Wi-Fi.</p>
+      <div class="callout"><p>The PG builds no hardware and no app. It provides a pairing QR per outlet and a payment-event push through the merchant's own Telegram bot. The app handles everything after that.</p></div>
+    </section>
+
+    <section id="background">
+      <h2>How QRIS Soundbox works today</h2>
+      <p>QRIS Soundbox is a low-cost e-paper speaker for Indonesian SMEs that announces each QRIS payment out loud. It pairs with the QRIS Soundbox Android app (SoundboxBridge, Google Play package <code>id.nindita.qrissbbridge</code>), which feeds it payment events.</p>
+      <p>A merchant with several outlets runs two kinds of phone:</p>
+      <div class="table"><table>
+        <thead><tr><th>Role</th><th>Who runs it</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td>Owner phone</td><td>Business owner</td><td>Detects incoming QRIS payments and relays them to every branch. Holds the master QRIS and soundbox settings.</td></tr>
+          <tr><td>Branch phone</td><td>Cashier at each outlet</td><td>Paired to the owner by scanning the owner's QR code or tapping an intent link. Receives relayed payments and drives the outlet's soundbox.</td></tr>
+        </tbody>
+      </table></div>
+      <p>Relay runs over Telegram (TDLib in a foreground service) with FCM push as a wake-up. There is no QRIS Soundbox server: the product is sold buy-once.</p>
+      <p>The current model has two weaknesses that a PG can remove:</p>
+      <ul>
+        <li>The owner phone must stay on, online and signed in, or every branch goes silent.</li>
+        <li>All branches hear all payments. Cashiers tell outlets apart by adding a small suffix to the amount (Rp1 for outlet A, Rp2 for outlet B).</li>
+      </ul>
+    </section>
+
+    <section id="model">
+      <h2>Proposed model: PG as Owner</h2>
+      <p>The PG replaces the owner phone. It already knows, server-side, the moment a QRIS payment settles and which outlet (store or terminal ID) it belongs to. So it can notify exactly the right branch, with no owner phone in the middle.</p>
+      <div class="cards">
+        <div class="card">
+          <h4>For merchants</h4>
+          <ul>
+            <li>Per-outlet announcements: each soundbox speaks only its own outlet's payments.</li>
+            <li>Nothing to keep running at head office.</li>
+            <li>Fewer "fake transfer screenshot" losses: confirmation comes from the PG itself.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>For the PG</h4>
+          <ul>
+            <li>A soundbox offering at near-zero cost: no hardware stock, no app to build.</li>
+            <li>Stickier merchants and a visible presence at the counter.</li>
+            <li>A small, standard integration.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>What does not change</h4>
+          <ul>
+            <li>Customers pay the PG's QRIS (static or dynamic) exactly as today.</li>
+            <li>Settlement, refunds and reporting stay with the PG. The soundbox only announces.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="flow">
+      <h2>Integration flow</h2>
+      <p>Pairing happens once per branch phone. After that, every settled payment flows PG → QRIS Soundbox app → soundbox, with no owner phone involved.</p>
+      <figure class="diagram">
+        <svg viewBox="0 0 760 536" role="img" aria-labelledby="d1-title">
+          <title id="d1-title">The PG pairs a phone once, then pushes every payment to it</title>
+          <defs><marker id="d1-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="d-arrow"/></marker></defs>
+          <text x="24" y="30" class="d-t d-b" style="font-size:15px">The PG pairs a phone once, then pushes every payment to it</text>
+          <rect x="24" y="108" width="712" height="184" rx="8" class="d-band"/>
+          <text x="380" y="128" text-anchor="middle" class="d-q">Pairing, once per phone</text>
+          <rect x="24" y="308" width="712" height="196" rx="8" class="d-band"/>
+          <text x="380" y="328" text-anchor="middle" class="d-q">Every payment</text>
+          <rect x="35" y="52" width="150" height="40" rx="8" class="d-box"/><line x1="110" x2="110" y1="92" y2="512" class="d-life"/><text x="110" y="76" text-anchor="middle" class="d-t d-b">Customer</text>
+          <rect x="215" y="52" width="150" height="40" rx="8" class="d-box"/><line x1="290" x2="290" y1="92" y2="512" class="d-life"/><text x="290" y="76" text-anchor="middle" class="d-t d-b">Payment gateway</text>
+          <rect x="395" y="52" width="150" height="40" rx="8" class="d-box"/><line x1="470" x2="470" y1="92" y2="512" class="d-life"/><text x="470" y="76" text-anchor="middle" class="d-t d-b">QRIS Soundbox app</text>
+          <rect x="575" y="52" width="150" height="40" rx="8" class="d-box"/><line x1="650" x2="650" y1="92" y2="456" class="d-life"/><text x="650" y="76" text-anchor="middle" class="d-t d-b">Soundbox</text>
+          <path d="M290 160H470" class="d-msg" marker-end="url(#d1-arrow)"/><text x="380" y="152" text-anchor="middle" class="d-s">1. Cashier scans pairing QR</text>
+          <path d="M470 200H290" class="d-msg" marker-end="url(#d1-arrow)"/><text x="380" y="192" text-anchor="middle" class="d-s">2. Redeem pairing_token</text>
+          <path d="M290 240H470" class="d-msg" marker-end="url(#d1-arrow)"/><text x="380" y="232" text-anchor="middle" class="d-s">3. pairing.ok + hmac_key</text>
+          <path d="M470 272H650" class="d-msg" marker-end="url(#d1-arrow)"/><text x="560" y="264" text-anchor="middle" class="d-s">4. QRIS, PIN, outlet name</text>
+          <path d="M110 360H290" class="d-msg" marker-end="url(#d1-arrow)"/><text x="200" y="352" text-anchor="middle" class="d-s">5. Pays outlet QRIS</text>
+          <path d="M290 400H470" class="d-msg" marker-end="url(#d1-arrow)"/><text x="380" y="392" text-anchor="middle" class="d-s">6. payment.succeeded, signed</text>
+          <path d="M470 440H650" class="d-msg" marker-end="url(#d1-arrow)"/><text x="560" y="432" text-anchor="middle" class="d-s">7. Amount over BLE / Wi-Fi</text>
+          <rect x="564" y="456" width="172" height="36" rx="8" class="d-hl"/><text x="650" y="478" text-anchor="middle" class="d-t d-b">8. Speaks the amount</text>
+        </svg>
+        <figcaption>Steps 1–4 replace today's owner-to-branch pairing. Steps 5–8 replace the owner phone's relay.</figcaption>
+      </figure>
+    </section>
+
+    <section id="spec">
+      <h2>Technical specification (v1 draft)</h2>
+
+      <h3 id="pairing">1. Pairing QR code</h3>
+      <p>The PG shows one pairing QR per outlet, inside its authenticated merchant dashboard or app. The QR encodes a URI that the app opens directly (scanned in-app, or tapped as an intent link on the same phone):</p>
+      <pre><code>qrissoundbox://pair?d=&lt;base64url(JSON)&gt;</code></pre>
+      <p>Decoded JSON:</p>
+<pre><code>{
+  "v": 1,
+  "role": "owner",
+  "provider": "PGCODE",
+  "merchant_name": "Kopi Senja",
+  "outlet_id": "OUT-0012",
+  "outlet_name": "Kopi Senja - Bekasi Timur",
+  "qris": "00020101021126...6304ABCD",
+  "pin": "1234",
+  "transport": { "type": "telegram_bot", "bot": "KopiSenjaKasirBot" },
+  "pairing_token": "pt_8f3c...",
+  "expires_at": "2026-11-09T22:00:00+07:00"
+}</code></pre>
+      <div class="table"><table>
+        <thead><tr><th>Field</th><th>Required</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td><code>v</code></td><td>yes</td><td>Schema version, <code>1</code></td></tr>
+          <tr><td><code>role</code></td><td>yes</td><td>Always <code>owner</code>: tells the app to pair as a branch of this source</td></tr>
+          <tr><td><code>provider</code></td><td>yes</td><td>Short PG code, shown in the app</td></tr>
+          <tr><td><code>merchant_name</code>, <code>outlet_name</code></td><td>yes</td><td>Shown on the phone and the soundbox screen</td></tr>
+          <tr><td><code>outlet_id</code></td><td>yes</td><td>PG's store or terminal ID; every event carries it</td></tr>
+          <tr><td><code>qris</code></td><td>no</td><td>The outlet's static QRIS string, so the soundbox can display it and generate amount-embedded QR</td></tr>
+          <tr><td><code>pin</code></td><td>no</td><td>Soundbox settings PIN, same as an owner phone sends today</td></tr>
+          <tr><td><code>transport</code></td><td>yes</td><td>The merchant's Telegram bot username (section 2)</td></tr>
+          <tr><td><code>pairing_token</code></td><td>yes</td><td>One-time, short-lived (suggest 10 minutes); redeemed for device credentials</td></tr>
+          <tr><td><code>expires_at</code></td><td>yes</td><td>After this the app refuses the QR and asks for a fresh one</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3 id="transport">2. Event transport: the merchant's own Telegram bot</h3>
+      <p>QRIS Soundbox runs no backend, so events always travel over Telegram. Each merchant creates <b>their own bot</b> with @BotFather and submits its token in the PG dashboard. The PG sends payment messages through that bot, and the app receives them through the branch phone's Telegram session (TDLib).</p>
+      <h4>Merchant setup (one time, about 2 minutes)</h4>
+      <ol>
+        <li>In Telegram, open @BotFather, send <code>/newbot</code>, and choose a name and username (for example <code>KopiSenjaKasirBot</code>).</li>
+        <li>Copy the bot token and paste it into the Soundbox settings of the PG dashboard.</li>
+        <li>The PG checks the token with <code>getMe</code>, registers its own webhook for that bot, and shows the bot username.</li>
+        <li>The PG generates the per-outlet pairing QRs (section 1), which carry this bot's username.</li>
+      </ol>
+      <h4>How it runs</h4>
+      <div class="table"><table>
+        <thead><tr><th>Step</th><th>What happens</th></tr></thead>
+        <tbody>
+          <tr><td>Pairing</td><td>The app sends <code>/start &lt;pairing_token&gt;</code> to the merchant's bot. The PG receives it on that bot's webhook, links the chat to the outlet, and replies once with the device credential.</td></tr>
+          <tr><td>Events</td><td>For each settled payment, the PG calls <code>sendMessage</code> with the merchant's token to every branch chat paired to that outlet.</td></tr>
+          <tr><td>Offline catch-up</td><td>Telegram keeps the messages; the app reads them when it reconnects.</td></tr>
+          <tr><td>Merchant needs</td><td>A Telegram account on each branch phone and one bot per merchant. One bot serves all of a merchant's outlets.</td></tr>
+        </tbody>
+      </table></div>
+      <p>On redemption the PG returns, once, a device credential:</p>
+      <pre><code>{ "type": "pairing.ok", "device_id": "dev_51a2", "outlet_id": "OUT-0012", "hmac_key": "base64..." }</code></pre>
+      <h4>Why one bot per merchant</h4>
+      <ul>
+        <li>Telegram rate limits apply per bot (about 1 message per second per chat, 30 per second overall), so load spreads across merchants instead of piling onto one shared PG bot.</li>
+        <li>The merchant owns and names the bot. Revoking the token in @BotFather cuts the channel at once.</li>
+        <li>The PG operates no public bot of its own.</li>
+      </ul>
+      <h4>What the PG must handle</h4>
+      <ul>
+        <li>Store bot tokens encrypted, as secrets, and never display them back in full.</li>
+        <li>Own the bot's update channel. Telegram allows one webhook (or <code>getUpdates</code>) per bot, so the merchant must not connect the same bot to another service. The dashboard should say so.</li>
+        <li>Detect revoked tokens: when <code>sendMessage</code> returns 401 Unauthorized, alert the merchant to submit a new token.</li>
+      </ul>
+      <div class="callout"><p>A leaked token lets someone send messages as the bot, but the app announces only events signed with the device <code>hmac_key</code>, so forged payments are rejected.</p></div>
+
+      <h3 id="dynamic">3. Dynamic QRIS (amount from POS)</h3>
+      <p>The soundbox can capture the order amount from the POS by acting as the receipt printer the POS prints to. For dynamic QRIS, that amount goes up to the PG over the <b>same Telegram bot</b>, and the PG answers with a QRIS for exactly that amount. The branch phone's Telegram session can message the merchant's bot, and the PG already receives that bot's messages on its webhook.</p>
+      <figure class="diagram">
+        <svg viewBox="0 0 760 560" role="img" aria-labelledby="d2-title">
+          <title id="d2-title">Amount goes from POS to the PG, which returns a dynamic QRIS</title>
+          <defs><marker id="d2-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="d-arrow"/></marker></defs>
+          <text x="24" y="30" class="d-t d-b" style="font-size:15px">Amount goes from POS to the PG, which returns a dynamic QRIS</text>
+          <rect x="35" y="52" width="150" height="40" rx="8" class="d-box"/><line x1="110" x2="110" y1="92" y2="540" class="d-life"/><text x="110" y="76" text-anchor="middle" class="d-t d-b">POS</text>
+          <rect x="215" y="52" width="150" height="40" rx="8" class="d-box"/><line x1="290" x2="290" y1="92" y2="316" class="d-life"/><line x1="290" x2="290" y1="348" y2="486" class="d-life"/><text x="290" y="76" text-anchor="middle" class="d-t d-b">Soundbox</text>
+          <rect x="395" y="52" width="150" height="40" rx="8" class="d-box"/><line x1="470" x2="470" y1="92" y2="540" class="d-life"/><text x="470" y="76" text-anchor="middle" class="d-t d-b">QRIS Soundbox app</text>
+          <rect x="575" y="52" width="150" height="40" rx="8" class="d-box"/><line x1="650" x2="650" y1="92" y2="360" class="d-life"/><line x1="650" x2="650" y1="392" y2="540" class="d-life"/><text x="650" y="76" text-anchor="middle" class="d-t d-b">Payment gateway</text>
+          <path d="M110 140H290" class="d-msg" marker-end="url(#d2-arrow)"/><text x="200" y="132" text-anchor="middle" class="d-s">1. Prints order amount</text>
+          <path d="M290 180H470" class="d-msg" marker-end="url(#d2-arrow)"/><text x="380" y="172" text-anchor="middle" class="d-s">2. Amount (BLE / Wi-Fi)</text>
+          <path d="M470 220H650" class="d-msg" marker-end="url(#d2-arrow)"/><text x="560" y="212" text-anchor="middle" class="d-s">3. qr.request, signed</text>
+          <path d="M650 260H470" class="d-msg" marker-end="url(#d2-arrow)"/><text x="560" y="252" text-anchor="middle" class="d-s">4. qr.created + QRIS</text>
+          <path d="M470 300H290" class="d-msg" marker-end="url(#d2-arrow)"/><text x="380" y="292" text-anchor="middle" class="d-s">5. Dynamic QRIS string</text>
+          <rect x="215" y="316" width="150" height="32" rx="8" class="d-note"/><text x="290" y="337" text-anchor="middle" class="d-t">6. Shows the QR</text>
+          <rect x="575" y="360" width="150" height="32" rx="8" class="d-note"/><text x="650" y="381" text-anchor="middle" class="d-t">7. Customer pays</text>
+          <path d="M650 430H470" class="d-msg" marker-end="url(#d2-arrow)"/><text x="560" y="422" text-anchor="middle" class="d-s">8. payment.succeeded</text>
+          <path d="M470 470H290" class="d-msg" marker-end="url(#d2-arrow)"/><text x="380" y="462" text-anchor="middle" class="d-s">9. Paid, matches request_id</text>
+          <rect x="204" y="486" width="172" height="36" rx="8" class="d-hl"/><text x="290" y="508" text-anchor="middle" class="d-t d-b">10. Speaks the amount</text>
+        </svg>
+        <figcaption>Dynamic QRIS: the request and the QR travel over the merchant's bot, then the normal payment event closes the loop.</figcaption>
+      </figure>
+      <h4>Request: app → PG (message to the merchant's bot)</h4>
+<pre><code>{
+  "v": 1,
+  "type": "qr.request",
+  "request_id": "req_7Q2K9M",
+  "device_id": "dev_51a2",
+  "outlet_id": "OUT-0012",
+  "amount": 25000,
+  "currency": "IDR",
+  "pos_ref": "INV-20261109-0042",
+  "ts": 1762737012,
+  "sig": "hex(HMAC-SHA256(hmac_key, canonical body without sig))"
+}</code></pre>
+      <h4>Response: PG → app (bot reply in the same chat)</h4>
+<pre><code>{
+  "v": 1,
+  "type": "qr.created",
+  "request_id": "req_7Q2K9M",
+  "outlet_id": "OUT-0012",
+  "amount": 25000,
+  "qris": "00020101021226...6304E1F2",
+  "expires_at": "2026-11-10T08:45:00+07:00",
+  "ts": 1762737013,
+  "sig": "..."
+}</code></pre>
+      <p>If the PG cannot create the QR, it replies <code>qr.failed</code> with the same <code>request_id</code> and a short <code>reason</code>.</p>
+      <h4>Rules</h4>
+      <ul>
+        <li>The PG accepts a <code>qr.request</code> only from a chat paired to that outlet, with a valid signature and <code>ts</code> within 5 minutes.</li>
+        <li><code>request_id</code> is the idempotency key. A retried request returns the same QR, never a second one.</li>
+        <li>When the order is cancelled, the app sends <code>qr.cancel</code> with the <code>request_id</code>, and the PG voids the QR.</li>
+        <li>The <code>payment.succeeded</code> event for a dynamic QR carries the same <code>request_id</code>, so the soundbox marks that exact order as paid.</li>
+        <li>Suggested target: <code>qr.created</code> within 3 seconds. If nothing arrives within 8 seconds, the app falls back to the outlet's static QRIS with the amount embedded (the soundbox already does this conversion locally), so the cashier is never stuck. Payment still settles and is announced through the static flow.</li>
+      </ul>
+
+      <h3 id="event">4. Payment event</h3>
+      <p>Sent once per <b>settled</b> QRIS payment for the paired outlet, within 3 seconds of settlement where possible.</p>
+<pre><code>{
+  "v": 1,
+  "type": "payment.succeeded",
+  "event_id": "evt_01HZX8...",
+  "device_id": "dev_51a2",
+  "outlet_id": "OUT-0012",
+  "amount": 25000,
+  "currency": "IDR",
+  "paid_at": "2026-11-09T21:35:12+07:00",
+  "issuer": "GoPay",
+  "rrn": "123456789012",
+  "reference": "INV-20261109-0042",
+  "request_id": "req_7Q2K9M",
+  "ts": 1762699112,
+  "sig": "hex(HMAC-SHA256(hmac_key, canonical body without sig))"
+}</code></pre>
+      <ul>
+        <li><code>amount</code> is an integer in rupiah. The soundbox speaks this value.</li>
+        <li><code>issuer</code> and <code>reference</code> are optional and shown on screen only. <code>request_id</code> appears only for dynamic QRIS created through <code>qr.request</code>.</li>
+        <li>Every message text is <code>#QRISSB </code> followed by the JSON, so the app can ignore any other bot chatter.</li>
+      </ul>
+      <h4>Message types</h4>
+      <div class="table"><table>
+        <thead><tr><th>Type</th><th>Direction</th><th>When</th><th>App behaviour</th></tr></thead>
+        <tbody>
+          <tr><td><code>pairing.ok</code></td><td>PG → app</td><td>Pairing token redeemed</td><td>Store credentials</td></tr>
+          <tr><td><code>qr.request</code> / <code>qr.cancel</code></td><td>app → PG</td><td>Dynamic QRIS needed / order cancelled</td><td>—</td></tr>
+          <tr><td><code>qr.created</code> / <code>qr.failed</code></td><td>PG → app</td><td>Answer to a request</td><td>Show the QR, or fall back to static</td></tr>
+          <tr><td><code>payment.succeeded</code></td><td>PG → app</td><td>Payment settled</td><td>Announce and display</td></tr>
+          <tr><td><code>device.revoked</code></td><td>PG → app</td><td>Merchant unpaired the phone in the PG dashboard</td><td>Delete credentials, show "unpaired"</td></tr>
+          <tr><td><code>outlet.updated</code></td><td>PG → app</td><td>QRIS, name or PIN changed</td><td>Update soundbox settings</td></tr>
+          <tr><td><code>ping</code></td><td>PG → app</td><td>Optional, every few minutes</td><td>Liveness only; no sound</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="security">
+      <h2>Security and reliability</h2>
+      <p>A soundbox is only useful if cashiers can trust it, so the event channel must be impossible to fake and must not double-announce.</p>
+      <h4>Security</h4>
+      <ul>
+        <li>The pairing QR is shown only inside the PG's logged-in merchant area. The <code>pairing_token</code> is one-time and expires in about 10 minutes.</li>
+        <li>Every message is signed with HMAC-SHA256 using the per-device <code>hmac_key</code>. The app drops unsigned or wrongly signed messages and anything with <code>ts</code> more than 5 minutes off.</li>
+        <li>One device credential per paired phone. The merchant can see and revoke paired phones in the PG dashboard.</li>
+        <li>Events carry only what the counter needs: amount, time, issuer, reference. No customer name, phone number or account data.</li>
+      </ul>
+      <h4>Reliability</h4>
+      <ul>
+        <li><code>event_id</code> is unique and stable across retries. The app keeps recent IDs and never announces the same one twice.</li>
+        <li>The PG retries delivery until the Telegram Bot API accepts the message, for at least 10 minutes.</li>
+        <li>Late events still display on the phone, but the soundbox does not speak events older than 2 minutes, to avoid confusing the cashier.</li>
+        <li>Suggested delivery target: 95% of events within 3 seconds of settlement.</li>
+      </ul>
+      <h4>Limits</h4>
+      <p>The app does not confirm settlement and is not a source of truth. The PG dashboard remains the record for disputes.</p>
+    </section>
+
+    <section id="rollout">
+      <h2>Responsibilities and rollout</h2>
+      <div class="table"><table>
+        <thead><tr><th>Area</th><th>Payment gateway</th><th>QRIS Soundbox</th></tr></thead>
+        <tbody>
+          <tr><td>Pairing</td><td>Store the merchant's bot token; generate per-outlet pairing QR and one-time token; issue device credentials</td><td>Scan or open the QR, redeem the token, store credentials</td></tr>
+          <tr><td>Dynamic QRIS</td><td>Answer <code>qr.request</code> with a dynamic QRIS; honour <code>qr.cancel</code></td><td>Send the POS amount; show the QR; fall back to static on timeout</td></tr>
+          <tr><td>Events</td><td>Send signed <code>payment.succeeded</code> on settlement; retry until delivered</td><td>Verify, de-duplicate, forward to the soundbox, announce</td></tr>
+          <tr><td>Device management</td><td>Show and revoke paired phones in the dashboard</td><td>Handle <code>device.revoked</code> and <code>outlet.updated</code></td></tr>
+          <tr><td>Hardware</td><td>None</td><td>Soundbox firmware and BLE / Wi-Fi link</td></tr>
+          <tr><td>Merchant support</td><td>Payment, settlement, dashboard issues</td><td>App, soundbox and pairing issues</td></tr>
+        </tbody>
+      </table></div>
+      <h4>Proposed rollout</h4>
+      <ol>
+        <li>Agree on the v1 schema and the bot-token field in the PG dashboard.</li>
+        <li>PG provides a sandbox: test outlet, pairing QR and simulated payments.</li>
+        <li>QRIS Soundbox adds the PG adapter and runs end-to-end tests in sandbox.</li>
+        <li>Pilot with 5–10 PG merchants, then general availability as an opt-in dashboard feature.</li>
+      </ol>
+      <h4>Open questions for the PG</h4>
+      <ul>
+        <li>Can your dashboard store a merchant's bot token securely and call the Telegram Bot API on their behalf?</li>
+        <li>Is your outlet or terminal ID available at settlement time for both static and dynamic QRIS?</li>
+        <li>Can you create a dynamic QRIS per request within about 3 seconds, and what expiry do you use?</li>
+        <li>Can the pairing QR live in your merchant app as well as the web dashboard?</li>
+        <li>Commercial model: free feature for merchants, co-marketing, or bundled soundbox sales?</li>
+      </ul>
+      <div class="cta">
+        <a class="btn primary" href="https://play.google.com/store/apps/details?id=id.nindita.qrissbbridge" target="_blank" rel="noopener">QRIS Soundbox on Google Play</a>
+        <a class="btn" href="./">Product page</a>
+      </div>
+    </section>
+
+    <footer>
+      <p>© <span id="year"></span> QRIS Soundbox · <a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Service</a></p>
+      <p>Telegram is a trademark of Telegram FZ-LLC. Google Play is a trademark of Google LLC.</p>
+    </footer>
+  </div>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>
