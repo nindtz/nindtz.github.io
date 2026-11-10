@@ -140,7 +140,7 @@
       <p class="eyebrow">For payment gateways</p>
       <h1>Payment Gateway Owner-Role Integration</h1>
       <p class="lede">Let your merchants hear every QRIS payment at the counter. Your gateway takes the Owner role; the merchant's phone runs the QRIS Soundbox app as a branch and drives the soundbox.</p>
-      <p class="meta">Proposal draft v0.1 · November 2026</p>
+      <p class="meta">Specification v1 · November 2026</p>
     </div>
 
     <nav class="toc" aria-label="Contents">
@@ -246,7 +246,7 @@
 
       <h3 id="pairing">1. Pairing QR code</h3>
       <p>The PG shows one pairing QR per outlet, inside its authenticated merchant dashboard or app. The QR encodes a URI that the app opens directly (scanned in-app, or tapped as an intent link on the same phone):</p>
-      <pre><code>qrissoundbox://pair?d=&lt;base64url(JSON)&gt;</code></pre>
+      <pre><code>soundboxbridge://pair?d=&lt;base64url(JSON)&gt;</code></pre>
       <p>Decoded JSON:</p>
 <pre><code>{
   "v": 1,
@@ -269,11 +269,11 @@
           <tr><td><code>provider</code></td><td>yes</td><td>Short PG code, shown in the app</td></tr>
           <tr><td><code>merchant_name</code>, <code>outlet_name</code></td><td>yes</td><td>Shown on the phone and the soundbox screen</td></tr>
           <tr><td><code>outlet_id</code></td><td>yes</td><td>PG's store or terminal ID; every event carries it</td></tr>
-          <tr><td><code>qris</code></td><td>no</td><td>The outlet's static QRIS string, so the soundbox can display it and generate amount-embedded QR</td></tr>
+          <tr><td><code>qris</code></td><td>yes</td><td>The outlet's static QRIS string: the soundbox shows it, signs payments with it, and builds a fallback QR from it</td></tr>
           <tr><td><code>pin</code></td><td>no</td><td>Soundbox settings PIN, same as an owner phone sends today</td></tr>
           <tr><td><code>transport</code></td><td>yes</td><td>The merchant's Telegram bot username (section 2)</td></tr>
           <tr><td><code>pairing_token</code></td><td>yes</td><td>One-time, short-lived (suggest 10 minutes); redeemed for device credentials</td></tr>
-          <tr><td><code>expires_at</code></td><td>yes</td><td>After this the app refuses the QR and asks for a fresh one</td></tr>
+          <tr><td><code>expires_at</code></td><td>yes</td><td>After this the app refuses the QR and asks for a fresh one. ISO 8601 with offset, or unix seconds</td></tr>
         </tbody>
       </table></div>
 
@@ -297,7 +297,8 @@
         </tbody>
       </table></div>
       <p>On redemption the PG returns, once, a device credential:</p>
-      <pre><code>{ "type": "pairing.ok", "device_id": "dev_51a2", "outlet_id": "OUT-0012", "hmac_key": "base64..." }</code></pre>
+      <pre><code>{ "type": "pairing.ok", "pairing_token": "pt_8f3c...", "device_id": "dev_51a2", "outlet_id": "OUT-0012", "hmac_key": "base64..." }</code></pre>
+      <div class="callout"><p><b>Message format.</b> Every message, both ways, is one Telegram text: <code>#QRISSB &lt;json&gt;|&lt;sig&gt;</code>. <code>sig</code> is the lowercase hex HMAC-SHA256 of the exact JSON text as sent, keyed with the base64-decoded <code>hmac_key</code>, so no JSON canonicalisation is needed. Only <code>pairing.ok</code> is unsigned (it carries the key) and it echoes the <code>pairing_token</code>. A working reference gateway, <code>pg_sim.py</code>, is available on request.</p></div>
       <h4>Why one bot per merchant</h4>
       <ul>
         <li>Telegram rate limits apply per bot (about 1 message per second per chat, 30 per second overall), so load spreads across merchants instead of piling onto one shared PG bot.</li>
@@ -346,8 +347,7 @@
   "amount": 25000,
   "currency": "IDR",
   "pos_ref": "INV-20261109-0042",
-  "ts": 1762737012,
-  "sig": "hex(HMAC-SHA256(hmac_key, canonical body without sig))"
+  "ts": 1762737012
 }</code></pre>
       <h4>Response: PG → app (bot reply in the same chat)</h4>
 <pre><code>{
@@ -358,8 +358,7 @@
   "amount": 25000,
   "qris": "00020101021226...6304E1F2",
   "expires_at": "2026-11-10T08:45:00+07:00",
-  "ts": 1762737013,
-  "sig": "..."
+  "ts": 1762737013
 }</code></pre>
       <p>If the PG cannot create the QR, it replies <code>qr.failed</code> with the same <code>request_id</code> and a short <code>reason</code>.</p>
       <h4>Rules</h4>
@@ -368,6 +367,8 @@
         <li><code>request_id</code> is the idempotency key. A retried request returns the same QR, never a second one.</li>
         <li>When the order is cancelled, the app sends <code>qr.cancel</code> with the <code>request_id</code>, and the PG voids the QR.</li>
         <li>The <code>payment.succeeded</code> event for a dynamic QR carries the same <code>request_id</code>, so the soundbox marks that exact order as paid.</li>
+        <li><b>The PG sets the QR's validity:</b> <code>expires_at</code> in <code>qr.created</code> decides how long the soundbox shows that QR (10–900 s; 60 s if missing). When it ends unpaid, the box returns to the static QRIS.</li>
+        <li>QRIS Soundbox uses <code>request_id</code> = <code>sb_&lt;8 hex digits&gt;</code>. An answer that arrives after the box stopped waiting is cancelled with <code>qr.cancel</code>.</li>
         <li>Suggested target: <code>qr.created</code> within 3 seconds. If nothing arrives within 8 seconds, the app falls back to the outlet's static QRIS with the amount embedded (the soundbox already does this conversion locally), so the cashier is never stuck. Payment still settles and is announced through the static flow.</li>
       </ul>
 
@@ -386,13 +387,12 @@
   "rrn": "123456789012",
   "reference": "INV-20261109-0042",
   "request_id": "req_7Q2K9M",
-  "ts": 1762699112,
-  "sig": "hex(HMAC-SHA256(hmac_key, canonical body without sig))"
+  "ts": 1762699112
 }</code></pre>
       <ul>
         <li><code>amount</code> is an integer in rupiah. The soundbox speaks this value.</li>
         <li><code>issuer</code> and <code>reference</code> are optional and shown on screen only. <code>request_id</code> appears only for dynamic QRIS created through <code>qr.request</code>.</li>
-        <li>Every message text is <code>#QRISSB </code> followed by the JSON, so the app can ignore any other bot chatter.</li>
+        <li>Every message starts with <code>#QRISSB </code>, so the app ignores any other bot chatter.</li>
       </ul>
       <h4>Message types</h4>
       <div class="table"><table>
@@ -456,6 +456,7 @@
       </ul>
       <div class="cta">
         <a class="btn primary" href="https://play.google.com/store/apps/details?id=id.nindita.qrissbbridge" target="_blank" rel="noopener">QRIS Soundbox on Google Play</a>
+        <a class="btn" href="./">Product page</a>
       </div>
     </section>
 
