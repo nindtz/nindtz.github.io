@@ -368,6 +368,17 @@
         <li>When the order is cancelled, the app sends <code>qr.cancel</code> with the <code>request_id</code>, and the PG voids the QR.</li>
         <li>The <code>payment.succeeded</code> event for a dynamic QR carries the same <code>request_id</code>, so the soundbox marks that exact order as paid.</li>
         <li><b>The PG sets the QR's validity:</b> <code>expires_at</code> in <code>qr.created</code> decides how long the soundbox shows that QR (10–900 s; 60 s if missing). When it ends unpaid, the box returns to the static QRIS.</li>
+      </ul>
+      <h4>Order number (<code>pos_ref</code>)</h4>
+      <p>When the POS receipt shows an order number, the soundbox reads it and <code>qr.request</code> carries it as <code>pos_ref</code>, for example <code>SO/00/6BA/046/00008</code>. It is at most 25 characters and never contains <code>:</code> <code>|</code> <code>"</code> or <code>\</code>. The PG should:</p>
+      <ul>
+        <li>put it in the dynamic QRIS as the bill number (tag 62, sub-tag 01), so it shows in the customer's e-wallet receipt and in settlement reports;</li>
+        <li>store it with the transaction, so the merchant can find the payment by order number in the dashboard;</li>
+        <li>echo it as <code>reference</code> in <code>payment.succeeded</code>.</li>
+      </ul>
+      <p>The box finds the number after common labels (No. Order, Nota, Invoice, No. Transaksi, Struk…) or after a label the merchant sets in the app. If the POS prints its own QRIS on the receipt, its bill number is used first. <code>pos_ref</code> is missing when the receipt has no order number, or when the POS prints the receipt as an image.</p>
+      <h4>More rules</h4>
+      <ul>
         <li>QRIS Soundbox uses <code>request_id</code> = <code>sb_&lt;8 hex digits&gt;</code>. An answer that arrives after the box stopped waiting is cancelled with <code>qr.cancel</code>.</li>
         <li>Suggested target: <code>qr.created</code> within 3 seconds. If nothing arrives within 8 seconds, the app falls back to the outlet's static QRIS with the amount embedded (the soundbox already does this conversion locally), so the cashier is never stuck. Payment still settles and is announced through the static flow.</li>
       </ul>
@@ -436,7 +447,7 @@
         <thead><tr><th>Area</th><th>Payment gateway</th><th>QRIS Soundbox</th></tr></thead>
         <tbody>
           <tr><td>Pairing</td><td>Store the merchant's bot token; generate per-outlet pairing QR and one-time token; issue device credentials</td><td>Scan or open the QR, redeem the token, store credentials</td></tr>
-          <tr><td>Dynamic QRIS</td><td>Answer <code>qr.request</code> with a dynamic QRIS; honour <code>qr.cancel</code></td><td>Send the POS amount; show the QR; fall back to static on timeout</td></tr>
+          <tr><td>Dynamic QRIS</td><td>Answer <code>qr.request</code> with a dynamic QRIS carrying <code>pos_ref</code> as its bill number; honour <code>qr.cancel</code></td><td>Read the amount and order number from the POS receipt; show the QR; fall back to static on timeout</td></tr>
           <tr><td>Events</td><td>Send signed <code>payment.succeeded</code> on settlement; retry until delivered</td><td>Verify, de-duplicate, forward to the soundbox, announce</td></tr>
           <tr><td>Device management</td><td>Show and revoke paired phones in the dashboard</td><td>Handle <code>device.revoked</code> and <code>outlet.updated</code></td></tr>
           <tr><td>Hardware</td><td>None</td><td>Soundbox firmware and BLE / Wi-Fi link</td></tr>
