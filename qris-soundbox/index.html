@@ -77,6 +77,8 @@
     .hero p { color: var(--muted); font-size: 1.1rem; max-width: 620px; margin: 0 0 24px; }
     .cta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
     .play-badge img { height: 64px; width: auto; display: block; margin: -10px; } /* official badge has built-in padding */
+    .appstore-badge img { height: 44px; width: auto; display: block; } /* Apple badge has no padding; 44px matches the visible Play badge */
+    .cta-note { margin: 14px 0 0; color: var(--muted); font-size: .85rem; }
     .btn {
       display: inline-block; text-decoration: none; font-weight: 600;
       padding: 11px 18px; border-radius: 10px; border: 1px solid var(--border);
@@ -182,6 +184,11 @@
           <img class="id" alt="Temukan di Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/id_badge_web_generic.png">
           <img class="en" alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png">
         </a>
+        <!-- App Store: placeholder link until the iOS app is published -->
+        <a class="appstore-badge" href="#" aria-label="App Store">
+          <img class="id" alt="Download di App Store" src="https://tools.applemarketingtools.com/api/badges/download-on-the-app-store/black/id-id?size=250x83">
+          <img class="en" alt="Download on the App Store" src="https://tools.applemarketingtools.com/api/badges/download-on-the-app-store/black/en-us?size=250x83">
+        </a>
         <!-- lynk.id store -->
         <a class="btn primary" href="https://lynk.id/nindtz" target="_blank" rel="noopener">
           <span class="id">Beli firmware</span>
@@ -192,6 +199,10 @@
           <span class="en">Install firmware</span>
         </a>
       </div>
+      <p class="cta-note">
+        <span class="id">* Aplikasi versi iOS hanya untuk cabang.</span>
+        <span class="en">* The iOS app is for branches only.</span>
+      </p>
       <!-- Hero illustration: café counter with Soundbox 3.97" and Mini 1.54" -->
       <figure class="hero-art" style="margin-left:0;margin-right:0;margin-bottom:0">
 <svg class="art-light" viewBox="220 60 900 540" xmlns="http://www.w3.org/2000/svg" role="img" preserveAspectRatio="xMidYMid slice" aria-labelledby="hero-art-title">
@@ -696,7 +707,7 @@
 
     <footer>
       <p>© <span id="year"></span> QRIS Soundbox · <a href="privacy.html"><span class="id">Kebijakan Privasi</span><span class="en">Privacy Policy</span></a> · <a href="terms.html"><span class="id">Ketentuan Layanan</span><span class="en">Terms of Service</span></a> · <a href="payment-gateway.html"><span class="id">Integrasi Payment Gateway</span><span class="en">Payment Gateway Integration</span></a></p>
-      <p>Google Play and the Google Play logo are trademarks of Google LLC.</p>
+      <p>Google Play and the Google Play logo are trademarks of Google LLC. App Store and the Apple logo are trademarks of Apple Inc.</p>
     </footer>
   </div>
 
