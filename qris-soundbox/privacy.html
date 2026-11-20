@@ -6,7 +6,7 @@
 		<title>Privacy Policy · QRIS Soundbox</title>
 		<meta
 			name="description"
-			content="Privacy policy for QRIS Soundbox and the QRIS Soundbox Android app."
+			content="Privacy policy for QRIS Soundbox and the QRIS Soundbox apps for Android and iOS."
 		/>
 		<meta name="theme-color" content="#0f766e" />
 		<style>
@@ -150,12 +150,13 @@
 			<!-- ===================== BAHASA INDONESIA ===================== -->
 			<main class="id">
 				<h1>Kebijakan Privasi</h1>
-				<p class="updated">Terakhir diperbarui: 4 November 2026</p>
+				<p class="updated">Terakhir diperbarui: 20 November 2026</p>
 
 				<p>
 					Kebijakan ini menjelaskan bagaimana perangkat QRIS Soundbox, aplikasi
-					Android QRIS Soundbox (<code>id.nindita.qrissbbridge</code>), dan
-					situs web ini menangani data Anda. Singkatnya:
+					QRIS Soundbox untuk Android dan iOS
+					(<code>id.nindita.qrissbbridge</code>), dan situs web ini menangani
+					data Anda. Singkatnya:
 					<b
 						>kami tidak mengoperasikan server sendiri dan tidak mengumpulkan
 						data transaksi Anda.</b
@@ -164,13 +165,21 @@
 				</p>
 
 				<h2>1. Data yang diproses aplikasi QRIS Soundbox</h2>
+				<p>
+					Aplikasi tersedia untuk Android dan iOS. Versi iOS hanya berfungsi
+					sebagai perangkat cabang: aplikasi ini tidak membaca notifikasi dan
+					hanya menerima nominal pembayaran yang diteruskan kepadanya. Bila
+					suatu poin hanya berlaku untuk satu platform, hal itu disebutkan di
+					bawah.
+				</p>
 				<ul>
 					<li>
-						<b>Notifikasi pembayaran.</b> Dengan izin Akses Notifikasi yang Anda
+						<b>Notifikasi pembayaran (Android).</b> Dengan izin Akses Notifikasi yang Anda
 						berikan, aplikasi membaca notifikasi pembayaran QRIS untuk mengambil
 						nominal transaksi. Notifikasi lain diabaikan. Data ini diproses di
 						HP dan dikirim hanya ke soundbox Anda serta ke perangkat cabang yang
-						Anda hubungkan.
+						Anda hubungkan. Versi iOS tidak meminta izin ini dan tidak membaca
+						notifikasi apa pun.
 					</li>
 					<li>
 						<b>Pengaturan soundbox.</b> Kode QRIS dan PIN disimpan di HP Anda
@@ -180,12 +189,13 @@
 					<li>
 						<b>Bluetooth.</b> Izin Bluetooth (dan, pada versi Android tertentu,
 						izin lokasi/perangkat sekitar) dipakai hanya untuk menemukan dan
-						terhubung ke soundbox. Kami tidak memakai data lokasi.
+						terhubung ke soundbox. Di iOS, aplikasi hanya meminta izin
+						Bluetooth. Kami tidak memakai data lokasi.
 					</li>
 					<li>
 						<b>Penerusan antar cabang (Telegram).</b> Jika Anda memakai fitur
-						multi-cabang, nominal pembayaran diteruskan antar perangkat melalui
-						akun Telegram Anda sendiri. Nomor telepon dan proses login ditangani
+						multi-cabang (Android dan iOS), nominal pembayaran diteruskan antar
+						perangkat melalui akun Telegram Anda sendiri. Nomor telepon dan proses login ditangani
 						langsung oleh Telegram dan tunduk pada
 						<a
 							href="https://telegram.org/privacy"
@@ -195,20 +205,30 @@
 						>.
 					</li>
 					<li>
-						<b>Notifikasi push (Firebase Cloud Messaging).</b> Aplikasi memakai
-						layanan Google Firebase Cloud Messaging untuk menjaga penerusan
-						tetap berjalan. Google memproses token perangkat sesuai
+						<b>Notifikasi push.</b> Untuk menjaga penerusan tetap berjalan,
+						aplikasi Android memakai Google Firebase Cloud Messaging dan
+						aplikasi iOS memakai Apple Push Notification service. Google dan
+						Apple memproses token perangkat sesuai
 						<a
 							href="https://policies.google.com/privacy"
 							target="_blank"
 							rel="noopener"
 							>Kebijakan Privasi Google</a
+						>
+						dan
+						<a
+							href="https://www.apple.com/legal/privacy/"
+							target="_blank"
+							rel="noopener"
+							>Kebijakan Privasi Apple</a
 						>.
 					</li>
 					<li>
-						<b>Pembelian dalam aplikasi.</b> Pembelian Premium diproses oleh
-						Google Play. Kami tidak menerima data kartu atau pembayaran Anda;
-						aplikasi hanya memeriksa status pembelian dari Google Play.
+						<b>Pembelian dalam aplikasi (Android).</b> Pembelian Premium
+						diproses oleh Google Play. Kami tidak menerima data kartu atau
+						pembayaran Anda; aplikasi hanya memeriksa status pembelian dari
+						Google Play. Aplikasi iOS gratis dan tidak memiliki pembelian dalam
+						aplikasi.
 					</li>
 				</ul>
 
@@ -252,8 +272,8 @@
 				<p>
 					Data aplikasi tersimpan di HP Anda dan terhapus saat Anda menghapus
 					data aplikasi atau mencopot pemasangannya. Data di soundbox terhapus
-					saat perangkat dimatikan atau baterai dilepas. Untuk data di Telegram
-					atau Google, gunakan pengaturan masing-masing layanan.
+					saat perangkat dimatikan atau baterai dilepas. Untuk data di Telegram,
+					Google, atau Apple, gunakan pengaturan masing-masing layanan.
 				</p>
 
 				<h2>5. Hak Anda</h2>
@@ -284,12 +304,12 @@
 			<!-- ========================= ENGLISH ========================= -->
 			<main class="en">
 				<h1>Privacy Policy</h1>
-				<p class="updated">Last updated: November 4, 2026</p>
+				<p class="updated">Last updated: November 20, 2026</p>
 
 				<p>
 					This policy explains how the QRIS Soundbox device, the QRIS Soundbox
-					Android app (<code>id.nindita.qrissbbridge</code>), and this website
-					handle your data. In short:
+					apps for Android and iOS (<code>id.nindita.qrissbbridge</code>), and
+					this website handle your data. In short:
 					<b
 						>we don't run our own servers and we don't collect your transaction
 						data.</b
@@ -298,13 +318,20 @@
 				</p>
 
 				<h2>1. Data processed by the QRIS Soundbox app</h2>
+				<p>
+					The app is available for Android and iOS. The iOS version works as a
+					branch device only: it doesn't read notifications and only receives
+					payment amounts forwarded to it. Where a point applies to just one
+					platform, it says so below.
+				</p>
 				<ul>
 					<li>
-						<b>Payment notifications.</b> With the Notification Access
+						<b>Payment notifications (Android).</b> With the Notification Access
 						permission you grant, the app reads QRIS payment notifications to
 						extract the transaction amount. Other notifications are ignored.
 						This data is processed on your phone and sent only to your soundbox
-						and to branch devices you link.
+						and to branch devices you link. The iOS version doesn't request this
+						permission and doesn't read any notifications.
 					</li>
 					<li>
 						<b>Soundbox settings.</b> Your QRIS code and PIN are stored on your
@@ -314,11 +341,12 @@
 					<li>
 						<b>Bluetooth.</b> Bluetooth permissions (and, on some Android
 						versions, location/nearby-devices permission) are used only to find
-						and connect to the soundbox. We don't use your location.
+						and connect to the soundbox. On iOS, the app asks only for Bluetooth
+						permission. We don't use your location.
 					</li>
 					<li>
 						<b>Branch forwarding (Telegram).</b> If you use multi-branch
-						forwarding, payment amounts are relayed between devices through your
+						forwarding (Android and iOS), payment amounts are relayed between devices through your
 						own Telegram account. Your phone number and sign-in are handled
 						directly by Telegram under the
 						<a
@@ -329,20 +357,29 @@
 						>.
 					</li>
 					<li>
-						<b>Push messaging (Firebase Cloud Messaging).</b> The app uses
-						Google's Firebase Cloud Messaging to keep forwarding running. Google
-						processes a device token under the
+						<b>Push messaging.</b> To keep forwarding running, the Android app
+						uses Google's Firebase Cloud Messaging and the iOS app uses the
+						Apple Push Notification service. Google and Apple process a device
+						token under the
 						<a
 							href="https://policies.google.com/privacy"
 							target="_blank"
 							rel="noopener"
 							>Google Privacy Policy</a
+						>
+						and the
+						<a
+							href="https://www.apple.com/legal/privacy/"
+							target="_blank"
+							rel="noopener"
+							>Apple Privacy Policy</a
 						>.
 					</li>
 					<li>
-						<b>In-app purchases.</b> Premium purchases are handled by Google
-						Play. We never receive your card or payment details; the app only
-						checks your purchase status with Google Play.
+						<b>In-app purchases (Android).</b> Premium purchases are handled by
+						Google Play. We never receive your card or payment details; the app
+						only checks your purchase status with Google Play. The iOS app is
+						free and has no in-app purchases.
 					</li>
 				</ul>
 
@@ -383,8 +420,8 @@
 				<p>
 					App data stays on your phone and is deleted when you clear the app's
 					data or uninstall it. Data on the soundbox is cleared when it powers
-					off or the battery is removed. For data held by Telegram or Google,
-					use those services' own settings.
+					off or the battery is removed. For data held by Telegram, Google, or
+					Apple, use those services' own settings.
 				</p>
 
 				<h2>5. Your rights</h2>
